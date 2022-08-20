@@ -100,7 +100,29 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="applogin\login.aspx" />
+    <Content Include="app\appsettings.aspx" />
+    <Content Include="app\customerdetails.aspx" />
+    <Content Include="app\customers.aspx" />
     <Content Include="app\dashboard.aspx" />
+    <Content Include="app\product.aspx" />
+    <Content Include="app\productdetails.aspx" />
+    <Content Include="app\purchasedetails.aspx" />
+    <Content Include="app\purchaseorder.aspx" />
+    <Content Include="app\purchases.aspx" />
+    <Content Include="app\report\creditreport.aspx" />
+    <Content Include="app\report\dailysalesreport.aspx" />
+    <Content Include="app\report\inventorySummary.aspx" />
+    <Content Include="app\report\payablereport.aspx" />
+    <Content Include="app\report\purchasereport.aspx" />
+    <Content Include="app\report\refundreport.aspx" />
+    <Content Include="app\report\salesreport.aspx" />
+    <Content Include="app\report\storereports.aspx" />
+    <Content Include="app\sales.aspx" />
+    <Content Include="app\salesdetails.aspx" />
+    <Content Include="app\salesorder.aspx" />
+    <Content Include="app\userprofile.aspx" />
+    <Content Include="app\vendordetails.aspx" />
+    <Content Include="app\vendors.aspx" />
     <Content Include="asset\css\sb-admin-2.css" />
     <Content Include="asset\css\timeline\timeline.css" />
     <Content Include="asset\css\timeline\timeline.js" />
@@ -156,6 +178,34 @@
     <Compile Include="app\app.Master.designer.cs">
       <DependentUpon>app.Master</DependentUpon>
     </Compile>
+    <Compile Include="app\appsettings.aspx.cs">
+      <DependentUpon>appsettings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\appsettings.aspx.designer.cs">
+      <DependentUpon>appsettings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\classes\CustomerOperation.cs" />
+    <Compile Include="app\classes\Dashboard.cs" />
+    <Compile Include="app\classes\PurchaseOperation.cs" />
+    <Compile Include="app\classes\SalesOperation.cs" />
+    <Compile Include="app\classes\SQLOperation.cs" />
+    <Compile Include="app\classes\StoreOperation.cs" />
+    <Compile Include="app\classes\VendorOperation.cs" />
+    <Compile Include="app\customerdetails.aspx.cs">
+      <DependentUpon>customerdetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\customerdetails.aspx.designer.cs">
+      <DependentUpon>customerdetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\customers.aspx.cs">
+      <DependentUpon>customers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\customers.aspx.designer.cs">
+      <DependentUpon>customers.aspx</DependentUpon>
+    </Compile>
     <Compile Include="app\dashboard.aspx.cs">
       <DependentUpon>dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -163,10 +213,144 @@
     <Compile Include="app\dashboard.aspx.designer.cs">
       <DependentUpon>dashboard.aspx</DependentUpon>
     </Compile>
+    <Compile Include="app\product.aspx.cs">
+      <DependentUpon>product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\product.aspx.designer.cs">
+      <DependentUpon>product.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\productdetails.aspx.cs">
+      <DependentUpon>productdetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\productdetails.aspx.designer.cs">
+      <DependentUpon>productdetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\purchasedetails.aspx.cs">
+      <DependentUpon>purchasedetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\purchasedetails.aspx.designer.cs">
+      <DependentUpon>purchasedetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\purchaseorder.aspx.cs">
+      <DependentUpon>purchaseorder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\purchaseorder.aspx.designer.cs">
+      <DependentUpon>purchaseorder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\purchases.aspx.cs">
+      <DependentUpon>purchases.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\purchases.aspx.designer.cs">
+      <DependentUpon>purchases.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\creditreport.aspx.cs">
+      <DependentUpon>creditreport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\creditreport.aspx.designer.cs">
+      <DependentUpon>creditreport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\dailysalesreport.aspx.cs">
+      <DependentUpon>dailysalesreport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\dailysalesreport.aspx.designer.cs">
+      <DependentUpon>dailysalesreport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\inventorySummary.aspx.cs">
+      <DependentUpon>inventorySummary.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\inventorySummary.aspx.designer.cs">
+      <DependentUpon>inventorySummary.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\payablereport.aspx.cs">
+      <DependentUpon>payablereport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\payablereport.aspx.designer.cs">
+      <DependentUpon>payablereport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\purchasereport.aspx.cs">
+      <DependentUpon>purchasereport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\purchasereport.aspx.designer.cs">
+      <DependentUpon>purchasereport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\refundreport.aspx.cs">
+      <DependentUpon>refundreport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\refundreport.aspx.designer.cs">
+      <DependentUpon>refundreport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\salesreport.aspx.cs">
+      <DependentUpon>salesreport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\salesreport.aspx.designer.cs">
+      <DependentUpon>salesreport.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\report\storereports.aspx.cs">
+      <DependentUpon>storereports.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\report\storereports.aspx.designer.cs">
+      <DependentUpon>storereports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\sales.aspx.cs">
+      <DependentUpon>sales.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\sales.aspx.designer.cs">
+      <DependentUpon>sales.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\salesdetails.aspx.cs">
+      <DependentUpon>salesdetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\salesdetails.aspx.designer.cs">
+      <DependentUpon>salesdetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\salesorder.aspx.cs">
+      <DependentUpon>salesorder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\salesorder.aspx.designer.cs">
+      <DependentUpon>salesorder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\userprofile.aspx.cs">
+      <DependentUpon>userprofile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\userprofile.aspx.designer.cs">
+      <DependentUpon>userprofile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\vendordetails.aspx.cs">
+      <DependentUpon>vendordetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\vendordetails.aspx.designer.cs">
+      <DependentUpon>vendordetails.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\vendors.aspx.cs">
+      <DependentUpon>vendors.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\vendors.aspx.designer.cs">
+      <DependentUpon>vendors.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.Master" />
+    <Content Include="app\database\inventorydb.db" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -176,8 +360,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\classes\" />
-    <Folder Include="app\database\" />
     <Folder Include="asset\images\logo\" />
     <Folder Include="asset\images\profile\" />
   </ItemGroup>
