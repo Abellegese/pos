@@ -49,5 +49,6 @@ HTML Design details
 -> The master page
 -> Table style
 
--> 
+Network Synchronization
+POS Capabililty
 

@@ -123,6 +123,7 @@
     <Content Include="app\userprofile.aspx" />
     <Content Include="app\vendordetails.aspx" />
     <Content Include="app\vendors.aspx" />
+    <Content Include="app\warehouses.aspx" />
     <Content Include="asset\css\sb-admin-2.css" />
     <Content Include="asset\css\timeline\timeline.css" />
     <Content Include="asset\css\timeline\timeline.js" />
@@ -187,6 +188,9 @@
     </Compile>
     <Compile Include="app\classes\CustomerOperation.cs" />
     <Compile Include="app\classes\Dashboard.cs" />
+    <Compile Include="app\classes\IPurchase.cs" />
+    <Compile Include="app\classes\ISale.cs" />
+    <Compile Include="app\classes\IStore.cs" />
     <Compile Include="app\classes\PurchaseOperation.cs" />
     <Compile Include="app\classes\SalesOperation.cs" />
     <Compile Include="app\classes\SQLOperation.cs" />
@@ -345,6 +349,13 @@
     </Compile>
     <Compile Include="app\vendors.aspx.designer.cs">
       <DependentUpon>vendors.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="app\warehouses.aspx.cs">
+      <DependentUpon>warehouses.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\warehouses.aspx.designer.cs">
+      <DependentUpon>warehouses.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

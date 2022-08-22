@@ -5,7 +5,7 @@ using System.Web;
 
 namespace pos.app.classes
 {
-    public class CustomerOperation
+    public class IStore
     {
 
     }
