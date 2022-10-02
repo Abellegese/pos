@@ -37,7 +37,7 @@ page needed
 6) Vendor and Customer detail page
 7) Bank Page => Detail Page
 8) Ledger Page
-9) Setting
+9) Setting => Tax rate settings
 --------------------------------
 Purchase Page
 --------------------------------
@@ -51,4 +51,10 @@ HTML Design details
 
 Network Synchronization
 POS Capabililty
+
+-------------------------------
+The user must select the necessary module by the user
+-Purchase
+-Sales
+-Pharmacy feature
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace pos.app.classes
 {
-    interface IPurchase
+    public interface IPurchase
     {
 
     }
