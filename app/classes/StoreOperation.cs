@@ -28,6 +28,7 @@ namespace pos.app.classes
         public string ReorderPoint { get; set; }
         public string TaxRate { get; set; }
         public string Category { get; set; }
+        public string CreatedSource { get; set; }
         public StoreOperation() { }
         public StoreOperation(string ProductName, string cmdText) : base(cmdText) => this.ItemName = ProductName;
         public StoreOperation(string ProductName) => this.ItemName = ProductName;
@@ -36,14 +37,15 @@ namespace pos.app.classes
             string tableColumns = "";
             tableColumns += "(item_name,item_code,item_category,shelf_no,barcode";
             tableColumns += ",detail_description,purchase_price,sale_price,unit";
-            tableColumns += ",sku,manufacturer,reorder_point,tax)";
+            tableColumns += ",sku,manufacturer,reorder_point,tax,created_source,warehouse,opening_stock)";
             base.cmdText = "insert into tblstock_details "+tableColumns+" values('" + ItemName+"','"+ItemCode+"','"+ItemCategory+"'" +
                 ",'"+ShelfNo+"','"+Barcode+"','"+Description+"','"+PurchasePrice+"','"+SalePrice+"'" +
-                ",'"+Unit+"','"+SKU+"','"+Manufacturer+"','"+ReorderPoint+"','"+TaxRate+"')";
+                ",'"+Unit+"','"+SKU+"','"+Manufacturer+"','"+ReorderPoint+"','"+TaxRate+"','"+CreatedSource+"','"+Warehouse+ "','" + Quantity + "')";
             //Inserting the updated quantity to the database
             base.MakeCUD();
             //Adding Item to Stock
             AddItemToStock();
+            AddiItemsAccount();
         }
         public void AddItemToStock()
         {
@@ -107,6 +109,18 @@ namespace pos.app.classes
         {
             base.cmdText = "select * from tblstock where item_name='" + this.ItemName + "' order by id desc";
             return base.ReadTable();
+        }
+        public void AddiItemsAccount()
+        {
+            string tableItemsAccountColumn = "(item_name, sales_account,purchase_account,inventory_account)";
+            base.cmdText = "insert into tblitems_account " + tableItemsAccountColumn + " values('" + ItemName + "','Sales','Cost of Goods Sold','Inventory Asset')";
+            base.MakeCUD();
+        }
+        public void AddProductHistory()
+        {
+            string tableProductHistory = "(item_name, description)";
+            base.cmdText = "insert into tblproduct_history " + tableProductHistory + " values('" + ItemName + "','" + Description + "')";
+            base.MakeCUD();
         }
     }
 }

@@ -27,5 +27,6 @@ namespace pos.app.classes
         string Manufacturer { get; set; }
         string ReorderPoint { get; set; }
         string TaxRate { get; set; }
+        string CreatedSource { get; set; }
     }
 }

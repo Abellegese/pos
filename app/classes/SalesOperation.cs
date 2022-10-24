@@ -29,6 +29,8 @@ namespace pos.app.classes
         public string DiscountType { get; set; }
         public string IsDiscounted { get; set; }
         public string Warehouse { get; set; }
+        public string SalesOrderNumber { get; set; }
+
         public SalesOperation() { }
         public void CreateSales()
         {
@@ -71,19 +73,46 @@ namespace pos.app.classes
                 co.CreateCredit();
             }
         }
-        public string FSnumberCounter()
-        {
-            base.cmdText = "select * from tblsale_and_invoice order by id desc LIMIT 1";
-            if (base.ReadTable().Rows.Count == 0)
-                return "";
-            return (Convert.ToInt64(Int64.Parse(base.ReadTable().Rows[0]["fsno"].ToString())) + 1).ToString();
-        }
-        public Int64 InvoiceNumberCounter()
+        public Int64 FSnumberCounter()
         {
             base.cmdText = "select * from tblsale_and_invoice order by id desc LIMIT 1";
             if (base.ReadTable().Rows.Count == 0)
                 return 1;
+            return Convert.ToInt64(base.ReadTable().Rows[0]["fsno"].ToString()) + 1;
+        }
+        public Int64 InvoiceNumberCounter()
+        {
+            base.cmdText = "select * from tblinvoice order by id desc LIMIT 1";
+            if (base.ReadTable().Rows.Count == 0)
+                return 1;
             return Convert.ToInt64(base.ReadTable().Rows[0]["invoice_number"].ToString()) + 1;
+        }
+        /// <summary>
+        /// Sales Order Methods
+        /// 
+        /// </summary>
+        public void CreateSalesOrder()
+        {
+            //Insert into the main tables
+            string tableSOColumn = "(customer_name,date,invoice_status,invoice_number,shipment_status,amount,customer_address,customer_tin,order_number)";
+            base.cmdText = "insert into tblsales_order_main " + tableSOColumn + " values ('" + CustomerName + "','" + Date + "','Unconfirmed','','Unconfirmed','" + TotalAmount + "','"+Address+"','"+TIN+"','"+SalesOrderNumber+"')";
+            base.MakeCUD();
+        }
+        public void CreateSalesOrderDetails()
+        {
+            //Insert into details of the item
+
+            string tableSODetailColumn = "(customer_name,item_name,date,unit_price,description,quantity,total_amount,order_number)";
+            base.cmdText = "insert into tblsales_order " + tableSODetailColumn + " values ('" + CustomerName + "','" + ItemName + "','" + Date + "','" + SalePrice + "'" +
+                ",'" + SalesDescription + "','" + SalesQuantity + "','" + TotalAmount + "','" + SalesOrderNumber + "')";
+            base.MakeCUD();
+        }
+        public Int64 SalesOrderNumberCounter()
+        {
+            base.cmdText = "select * from tblsales_order_main order by id desc LIMIT 1";
+            if (base.ReadTable().Rows.Count == 0)
+                return 1;
+            return Convert.ToInt64(base.ReadTable().Rows[0]["id"].ToString()) + 1;
         }
     }
 }

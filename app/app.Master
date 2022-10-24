@@ -264,13 +264,13 @@
                                         <a class="collapse-item text-gray-700 " href="sales.aspx">
                                             <img src="../asset/icons/feather/dollar-sign.svg" class="mr-2" />Sales</a>
 
-                                        <a class="collapse-item text-gray-700" href="creditnote.aspx">
+                                        <a class="collapse-item text-gray-700" href="creditnotes.aspx">
                                             <img src="../asset/icons/feather/file-plus.svg" class="mr-2" />Credit Note</a>
                                         <a class="collapse-item text-gray-700 " href="rentreport.aspx">
                                             <img src="../asset/icons/feather/activity.svg" class="mr-2" />Sales Report</a>
-                                        <a class="collapse-item text-gray-700" href="addshop.aspx">
+                                        <a class="collapse-item text-gray-700" href="salesorder.aspx">
                                             <img src="../asset/icons/feather/tool.svg" class="mr-2" />Sales Order</a>
-                                        <a class="collapse-item text-gray-700" href="NoticeLetter.aspx">
+                                        <a class="collapse-item text-gray-700" href="customers.aspx">
                                             <img src="../asset/icons/feather/user-check.svg" class="mr-2" />Customers</a>
                                     </div>
                                 </div>
@@ -284,17 +284,17 @@
                                 <div id="Div7" class="collapse " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                                     <div class="bg-white py-2 collapse-inner rounded">
                                         <h6 class="collapse-header">status</h6>
-                                        <a class="collapse-item" href="BillList.aspx">Bills</a>
+                                        <a class="collapse-item" href="purchases.aspx">Bills</a>
                                         <a class="collapse-item" href="bills.aspx" visible="false" id="createbills" runat="server">Create Bills</a>
 
-                                        <a class="collapse-item " href="PurchaseOrderStatus.aspx">Purchase Order</a>
+                                        <a class="collapse-item " href="purchaseorder.aspx">Purchase Order</a>
                                         <a class="collapse-item " href="vendor.aspx">Vendor</a>
                                     </div>
                                 </div>
                             </li>
                             <li class="nav-item" id="Li2" runat="server" data-toggle="tooltip" data-placement="right" title="Inventory">
                                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Div4" aria-expanded="true" aria-controls="Div4">
-                                    <img src="../asset/icons/dashbordicon/trending-up.svg" />
+                                    <img src="../asset/icons/dashbordicon/activity.svg" />
 
                                 </a>
                                 <div id="Div4" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -406,7 +406,7 @@
                                     <li class="nav-item dropdown no-arrow w-100" id="Li1" runat="server">
                                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <img src="../asset/icons/feather/settings.svg" />
+                                            <img src="../asset/icons/feather/table.svg" />
                                         </a>
                                         <!-- Dropdown - User Information -->
                                         <div class="dropdown-menu dropdown-menu-left w-100 shadow animated--grow-in"
@@ -475,17 +475,45 @@
                                     <div class="nav-item dropdown no-arrow mx-1" id="Div3" runat="server">
                                         <div id="status"></div>
                                     </div>
-                                    <li class="nav-item dropdown no-arrow mx-1" id="Customerbar3" runat="server">
-                                        <a class="nav-link" href="rentstatus1.aspx" data-toggle="tooltip" data-placement="top" title="Number of customer(s) whose due date less or equals to 15 Days">
-                                            <img src="../asset/icons/feather/info.svg" />
-                                            <span id="Span13" runat="server" class=" badge-counter badge-pill badge badge-danger ">0</span>
+                                    <li class="nav-item dropdown no-arrow mx-1" id="Li3" runat="server" data-toggle="tooltip" data-placement="right" title="Manage Fiscal Printers">
+                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="../asset/icons/dashbordicon/monitor.svg" />
                                         </a>
-                                    </li>
-                                    <li class="nav-item dropdown no-arrow mx-1" id="Customerbar" runat="server">
-                                        <a class="nav-link" href="rentstatus1.aspx" data-toggle="tooltip" data-placement="top" title="Number of customer(s) whose due date less or equals to 15 Days">
-                                            <img src="../asset/icons/feather/info.svg" />
-                                            <span id="Span1" runat="server" class=" badge-counter badge-pill badge badge-danger ">0</span>
-                                        </a>
+                                        <!-- Dropdown - User Information -->
+                                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                            aria-labelledby="userDropdown3">
+                                
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#managePosModal">
+                                                <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Manage Fiscal Printers
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#listOfPosModal">
+                                                <i class="fas fa-print fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Active Fiscal Devices Details
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#posStatusPosModal">
+                                                <i class="fas fa-wifi fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Fiscal Devices Status
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addPosDeviceModal">
+                                                <i class="fas fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Add Default Fiscal Device
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addPosDeviceTypeModal">
+                                                <i class="fas fa-arrow-right fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Add Fiscal Device Type
+                                            </a>
+                                            <hr />
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addPosDeviceCommandsModal">
+                                                <i class="fas fa-terminal fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Create Custom Command
+                                            </a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addPosDeviceModal">
+                                                <i class="fas fa-terminal fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                Fiscal Commands
+                                            </a>
+                                        </div>
                                     </li>
                                     <li class="nav-item dropdown no-arrow mx-1" id="Settingbar" runat="server">
                                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button"
@@ -516,10 +544,7 @@
                                                 Download backup database
                                             </asp:LinkButton>
 
-                                            <a class="dropdown-item" href="app/jspm4-4.0.22.512-win.exe">
-                                                <i class="fas fa-print fa-sm fa-fw mr-2 text-gray-400"></i>
-                                                Download POS print app
-                                            </a>
+                      
                                             <a class="dropdown-item" href="https://metaappz.com/" target="_blank">
                                                 <i class="fas fa-calendar-check fa-sm fa-fw mr-2 text-gray-400"></i>
                                                 Ethiopian to GC Converter
@@ -657,6 +682,7 @@
                 <a class="scroll-to-top rounded" href="#page-top">
                     <i class="fas fa-angle-up"></i>
                 </a>
+
                 <!-- Logout Modal-->
                 <div class="modal fade " id="logoutModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-md" role="document">
@@ -792,7 +818,390 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade " id="addPosDeviceTypeModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-plus mr-2" style="color: #ff00bb"></span>
+                                    Add Fiscal Printer Type
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                  
+                                    <div class="col-12">
+                                        <asp:TextBox ID="txtFiscalPrinterType" class="form-control form-control-sm" placeholder="Printer Type" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <center>
+                                    <asp:LinkButton ID="btnSaveDeviceType" class="btn btn-sm  text-white" Style="background-color: #d46fe8" runat="server" OnClick="btnSaveDeviceType_Click"><span class="fas fa-save text-white mr-2"></span>Save</asp:LinkButton>
+
+                                </center>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="addPosDeviceCommandsModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-terminal mr-2" style="color: #ff00bb"></span>
+                                    Fiscal Command
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+
+                                    <div class="col-6">
+                                        <label class="small text-gray-500 mb-1">Command Function</label>
+                                        <asp:DropDownList ID="ddlComandType" class="form-control mb-3 form-control-sm" runat="server">
+
+                                            <asp:ListItem>Set date and time</asp:ListItem>
+                                            <asp:ListItem>Logo print</asp:ListItem>
+                                            <asp:ListItem>Header and print options</asp:ListItem>
+                                            <asp:ListItem>Start of fiscal receipt</asp:ListItem>
+                                            <asp:ListItem>Sale</asp:ListItem>
+                                            <asp:ListItem>Sale by department</asp:ListItem>
+                                            <asp:ListItem>Sub Total</asp:ListItem>
+                                            <asp:ListItem>Total sum(TOTAL)</asp:ListItem>
+                                            <asp:ListItem>Print of fiscal text</asp:ListItem>
+                                            <asp:ListItem>Start of fiscal receipt without printing</asp:ListItem>
+                                            <asp:ListItem>Cancel a receipt</asp:ListItem>
+                                            <asp:ListItem>End of fiscal receipt</asp:ListItem>
+                                            <asp:ListItem>Barcode print</asp:ListItem>
+                                            <asp:ListItem>Print duplicate receipt</asp:ListItem>
+                                            <asp:ListItem>----Information----</asp:ListItem>
+                                            <asp:ListItem>Date and time information</asp:ListItem>
+                                            <asp:ListItem>Current tax rates</asp:ListItem>
+                                            <asp:ListItem>Information for the receipt</asp:ListItem>
+                                            <asp:ListItem>Terminal test and information</asp:ListItem>
+                                        </asp:DropDownList>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="small text-gray-500 mb-1">Code(Hex)</label>
+
+                                        <asp:TextBox ID="txtHexCommand" class="form-control form-control-sm" placeholder="eg. 56" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:LinkButton ID="btnSaveCommandType" class="btn btn-sm  text-white" Style="background-color: #d46fe8" runat="server" OnClick="btnSaveCommandType_Click"><span class="fas fa-save text-white mr-2"></span>Save</asp:LinkButton>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade " id="addPosDeviceModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-plus mr-2" style="color: #ff00bb"></span>
+                                    Add Default Fiscal Printer
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <asp:DropDownList ID="ddlFiscalTypes" class="form-control mb-3 form-control-sm" runat="server"></asp:DropDownList>
+                                    </div>
+                                    <div class="col-12">
+                                        <asp:TextBox ID="txtPrinterID" class="form-control form-control-sm" placeholder="printer id" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <center>
+                                    <asp:LinkButton ID="btnSaveFiscalName" class="btn btn-sm  text-white" Style="background-color: #d46fe8" runat="server"><span class="fas fa-save text-white mr-2"></span>Save</asp:LinkButton>
+
+                                </center>
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="posStatusPosModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-wifi mr-2" style="color: #ff00bb"></span>
+                                     Fiscal Printer Status
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-1">
+                                    <table class="table table-sm mx-2">
+                                        <thead>
+                                            <tr>
+                                               
+                                                <th class="text-gray-500 small text-uppercase">Info</th>
+                                                <th class="text-gray-500 small text-right">Value</th>
+                                            </tr>
+          
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-700">
+                                                    Printer ID
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-600" id="printerID" runat="server">dt525860</span>
+                                                    
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-700">STATUS
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class=" badge badge-success">Active</span>
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-700 text-uppercase">Cash Amount
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class=" text-gray-600">2,546</span>
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-700 text-uppercase">Date & Time
+                                                </td>
+                                                <td class=" text-right">
+                                                    <span class="small text-gray-600">2019-05-31T18:11:55</span>
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
   
+                                </div>
+                                <div class="row mb-3 border-bottom border-top">
+                                    <span class="text-gray-600 mx-3 mt-1 mb-1 text-uppercase small">messages</span>
+
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="managePosModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-cogs mr-2" style="color: #ff00bb"></span>
+                                    Manage Fiscal Printer
+
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3 align-items-center">
+                           
+
+                                        <button class="btn btn-sm mx-2 mr-2 btn-outline-primary">Print Z Report</button>
+                                        <button class="btn btn-sm mr-2  btn-outline-primary">Print X Report</button>
+                                        <button class="btn btn-sm mr-2  btn-outline-primary" data-toggle="tooltip" title="Reset Printer Info">Reset</button>
+                                        <button class="btn btn-sm mr-2  btn-outline-primary" data-toggle="tooltip" title="Duplicate Last Receipt">Duplicate</button>
+                                        <button class="btn btn-sm mr-2  btn-outline-primary" data-toggle="tooltip" title="Set Printer Date Time">DateTime</button>
+                                  
+                                </div>
+
+                                <div class="row mb-2 border-top">
+                                    <div class="col-12 border-bottom">
+                                        <label class="small text-gray-600">Discount Settings</label>
+
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+
+                                            <input type="checkbox" id="discount" name="customRadioInline2" class="custom-control-input" checked="true" runat="server" clientidmode="Static" />
+                                            <label class="custom-control-label text-gray-700 small " for="discount">Apply Discount</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input type="checkbox" id="surcharge" name="customRadioInline2" class="custom-control-input" runat="server" clientidmode="Static" />
+                                            <label class="custom-control-label text-gray-700 small " for="surcharge">Apply Surcharge</label>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                                <div class="row mb-2 border-top">
+                                    <div class="col-12 border-bottom">
+                                        <label class="small text-gray-600">Logo Display</label>
+
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="custom-control custom-radio custom-control-inline">
+
+                                            <input type="radio" id="logoAllow" name="logoSetting" class="custom-control-input" checked="true" runat="server" clientidmode="Static" />
+                                            <label class="custom-control-label text-gray-700 small " for="logoAllow">Allow</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="logoDisallow" name="logoSetting" class="custom-control-input" runat="server" clientidmode="Static" />
+                                            <label class="custom-control-label text-gray-700 small " for="logoDisallow">Disallow</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <asp:LinkButton ID="btnSaveFiscalSettings" class="btn btn-sm mx-2 mr-2 btn-primary" OnClick="btnSaveFiscalSettings_Click" runat="server"><span class="fas fa-save mr-2"></span>Save Changes</asp:LinkButton>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="listOfPosModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-lightbulb mr-2" style="color: #ff00bb"></span>
+                                     Fiscal Printer Details
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <table class="table table-sm table-bordered mx-2">
+                                        <thead>
+                                            <tr>
+
+                                                <th class="text-gray-500 small text-uppercase">Info</th>
+                                                <th class="text-gray-500 small text-right">Value</th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600">Uri
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerUri" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600">Serial#
+                                                </td>
+                                                <td class=" text-right">
+                                                    <span class="small text-gray-900" id="printerSerial" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Fiscal Memory Serial#
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerFiscalSerial" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Manufacturer
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerManufacturer" runat="server"></span>
+
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Model
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerModel" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Firmware Version
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerFirmVersion" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Item Text Max Length
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerItemTextMaxLen" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Comment Text Max Length
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerCommentTextMaxLen" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Operator Password Max Length
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerOpPasswordTextMaxLen" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">TIN#
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="taxIdentificationNumber" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="small text-gray-600 text-uppercase">Supported Payment Types
+                                                </td>
+                                                <td class="small text-right">
+                                                    <span class="small text-gray-900" id="printerSupportedPaymentTypes" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
         </div>
 
     </form>
@@ -832,87 +1241,6 @@
     <script src="../asset/js/jquery.easing.min.js"></script>
     <script src="../asset/js/sb-admin-2.js"></script>
 
-    <script type="text/javascript">
-        $(function () {
-            $("#mssg [id*=chkHeader1]").click(function () {
-                if ($(this).is(":checked")) {
-                    $("#mssg [id*=chkRow1]").attr("checked", "checked");
-                    $("#mssg [id*=customCheck1]").attr("checked", "checked");
-                } else {
-                    $("#mssg [id*=chkRow1]").removeAttr("checked");
-                    $("#mssg [id*=customCheck1]").removeAttr("checked", "checked");
-                }
-            });
-            $("#mssg [id*=chkRow1]").click(function () {
-                if ($("#mssg [id*=chkRow1]").length == $("#mssg [id*=chkRow1]:checked").length) {
-                    $("#mssg [id*=chkHeader1]").attr("checked", "checked");
-                } else {
-                    $("#mssg [id*=chkHeader1]").removeAttr("checked");
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $("#tblCustomers [id*=chkHeader]").click(function () {
-                if ($(this).is(":checked")) {
-                    $("#tblCustomers [id*=chkRow]").attr("checked", "checked");
-                    $("#tblCustomers [id*=customCheck1]").attr("checked", "checked");
-                } else {
-                    $("#tblCustomers [id*=chkRow]").removeAttr("checked");
-                    $("#tblCustomers [id*=customCheck1]").removeAttr("checked", "checked");
-                }
-            });
-            $("#tblCustomers [id*=chkRow]").click(function () {
-                if ($("#tblCustomers [id*=chkRow]").length == $("#tblCustomers [id*=chkRow]:checked").length) {
-                    $("#tblCustomers [id*=chkHeader]").attr("checked", "checked");
-                } else {
-                    $("#tblCustomers [id*=chkHeader]").removeAttr("checked");
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $("#tblCustomerss [id*=chkHeader3]").click(function () {
-                if ($(this).is(":checked")) {
-                    $("#tblCustomerss [id*=chkRow3]").attr("checked", "checked");
-                    $("#tblCustomerss [id*=customCheck1]").attr("checked", "checked");
-                } else {
-                    $("#tblCustomerss [id*=chkRow3]").removeAttr("checked");
-                    $("#tblCustomerss [id*=customCheck1]").removeAttr("checked", "checked");
-                }
-            });
-            $("#tblCustomerss [id*=chkRow3]").click(function () {
-                if ($("#tblCustomerss [id*=chkRow3]").length == $("#tblCustomerss [id*=chkRow3]:checked").length) {
-                    $("#tblCustomerss [id*=chkHeader3]").attr("checked", "checked");
-                } else {
-                    $("#tblCustomerss [id*=chkHeader3]").removeAttr("checked");
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $("#shop [id*=chkHeaders]").click(function () {
-                if ($(this).is(":checked")) {
-                    $("#shop [id*=chkRows]").attr("checked", "checked");
-                    $("#shop [id*=customCheck1]").attr("checked", "checked");
-                } else {
-                    $("#shop [id*=chkRows]").removeAttr("checked");
-                    $("#shop [id*=customCheck1]").removeAttr("checked", "checked");
-                }
-            });
-            $("#shop [id*=chkRows]").click(function () {
-                if ($("#shop [id*=chkRows]").length == $("#shop [id*=chkRows]:checked").length) {
-                    $("#shop [id*=chkHeaders]").attr("checked", "checked");
-                } else {
-                    $("#shop [id*=chkHeaders]").removeAttr("checked");
-                }
-            });
-        });
-    </script>
-
     <script>
         $(document).ready(function () {
             $("#mytoast").toast({
@@ -920,6 +1248,114 @@
             });
         })
     </script>
+
+    <script>
+        $(document).ready(function () {
+            var uri = 'http://localhost:8001/printers';
+            function formatItem1(item) {
+                return item.uri;
+            }
+            function formatItem2(item) {
+                return item.serialNumber;
+            }
+            function formatItem3(item) {
+                return item.fiscalMemorySerialNumber;
+            }
+            function formatItem4(item) {
+                return item.manufacturer;
+            }
+            function formatItem5(item) {
+                return item.model;
+            }
+            function formatItem6(item) {
+                return item.firmwareVersion;
+            }
+            function formatItem7(item) {
+                return item.itemTextMaxLength;
+            }
+            function formatItem8(item) {
+                return item.commentTextMaxLength;
+            }
+            function formatItem9(item) {
+                return item.operatorPasswordMaxLength;
+            }
+            function formatItem10(item) {
+                return item.taxIdentificationNumber;
+            }
+            function formatItem11(item) {
+                return item.supportedPaymentTypes;
+            }
+            var printerId = document.getElementById("<%=printerID.ClientID %>").innerHTML;
+
+            var uri = document.getElementById("<%=printerUri.ClientID %>").innerHTML;
+            var serialNumber = document.getElementById("<%=printerSerial.ClientID %>").innerHTML;
+            var fiscalMemorySerialNumber = document.getElementById("<%=printerFiscalSerial.ClientID %>").innerHTML;
+            var manufacturer = document.getElementById("<%=printerManufacturer.ClientID %>").innerHTML;
+            var model = document.getElementById("<%=printerModel.ClientID %>").innerHTML;
+            var firmwareVersion = document.getElementById("<%=printerFirmVersion.ClientID %>").innerHTML;
+            var itemTextMaxLength = document.getElementById("<%=printerItemTextMaxLen.ClientID %>").innerHTML;
+            var commentTextMaxLength = document.getElementById("<%=printerCommentTextMaxLen.ClientID %>").innerHTML;
+            var operatorPasswordMaxLength = document.getElementById("<%=printerOpPasswordTextMaxLen.ClientID %>").innerHTML;
+            var taxIdentificationNumber = document.getElementById("<%=taxIdentificationNumber.ClientID %>").innerHTML;
+            var supportedPaymentTypes = document.getElementById("<%=printerSupportedPaymentTypes.ClientID %>").innerHTML;
+
+
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    uri = formatItem1(data);
+                    serialNumber = formatItem2(data);
+                    fiscalMemorySerialNumber = formatItem3(data);
+                    manufacturer = formatItem4(data);
+                    model = formatItem5(data);
+                    firmwareVersion = formatItem6(data);
+                    itemTextMaxLength = formatItem7(data);
+                    commentTextMaxLength = formatItem8(data);
+                    operatorPasswordMaxLength = formatItem9(data);
+                    taxIdentificationNumber = formatItem10(data);
+                    supportedPaymentTypes = formatItem11(data);
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#product').text('Error: ' + err);
+                });
+        });
+    </script>
+
+    <script type="text/javascript">
+        function PrintZreport() {
+
+        }
+        function PrintXreport() {
+
+        }
+        function PrintDuplicate() {
+
+        }
+        function PrintDuplicate() {
+
+        }
+    </script>
+    <script>
+// Attach a submit handler to the form
+        $("#searchForm").submit(function (event) {
+
+            // Stop form from submitting normally
+            event.preventDefault();
+
+            var $form = $(this),
+                term = $form.find("input[name='s']").val(),
+                url = $form.attr("action");
+
+            // Send the data using post
+            var posting = $.post(url, { s: term });
+
+            // Put the results in a div
+            posting.done(function (data) {
+                var content = $(data).find("#content");
+                $("#result").empty().append(content);
+            });
+        });
+</script>
+
     <script type="text/javascript">
         $(document).ready(function () {
 

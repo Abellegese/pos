@@ -11,7 +11,7 @@ namespace pos.app
 {
 
 
-    public partial class customers
+    public partial class creditnotes
     {
 
         /// <summary>
@@ -42,67 +42,49 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlAnchor buttonback;
 
         /// <summary>
-        /// invoiceDetailSpan control.
+        /// creditDetailSpan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invoiceDetailSpan;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl creditDetailSpan;
 
         /// <summary>
-        /// salesIconSpan control.
+        /// creditStatusSpan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl salesIconSpan;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl creditStatusSpan;
 
         /// <summary>
-        /// salesSpan control.
+        /// creditIconSpan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl salesSpan;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl creditIconSpan;
 
         /// <summary>
-        /// selectSpan control.
+        /// creditsSpan control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl selectSpan;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl creditsSpan;
 
         /// <summary>
-        /// itemNumber control.
+        /// btnReceiveCredits control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl itemNumber;
-
-        /// <summary>
-        /// btnEditLine control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnEditLine;
-
-        /// <summary>
-        /// btnCustomize control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnCustomize;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnReceiveCredits;
 
         /// <summary>
         /// btnSendEmail control.
@@ -123,15 +105,6 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlButton btnDelete;
 
         /// <summary>
-        /// btnDuplicate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton btnDuplicate;
-
-        /// <summary>
         /// btnEdit control.
         /// </summary>
         /// <remarks>
@@ -139,15 +112,6 @@ namespace pos.app
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton btnEdit;
-
-        /// <summary>
-        /// Sp2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlButton Sp2;
 
         /// <summary>
         /// A2 control.
@@ -177,147 +141,210 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlAnchor creditLink;
 
         /// <summary>
-        /// InvoiceDiv control.
+        /// creditDiv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl InvoiceDiv;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl creditDiv;
 
         /// <summary>
-        /// rptrCustomer control.
+        /// rptrCredit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptrCustomer;
+        protected global::System.Web.UI.WebControls.Repeater rptrCredit;
 
         /// <summary>
-        /// invoiceDetailDiv control.
+        /// creditDetailDiv control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl invoiceDetailDiv;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl creditDetailDiv;
 
         /// <summary>
-        /// rptInvoiceShort control.
+        /// rptCreditNotesDetail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptInvoiceShort;
+        protected global::System.Web.UI.WebControls.Repeater rptCreditNotesDetail;
 
         /// <summary>
-        /// mainb control.
+        /// rptrLogo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl mainb;
+        protected global::System.Web.UI.WebControls.Repeater rptrLogo;
 
         /// <summary>
-        /// txtBusinessType control.
+        /// oname control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBusinessType;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl oname;
 
         /// <summary>
-        /// txtCustomerName control.
+        /// oAddress control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCustomerName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl oAddress;
 
         /// <summary>
-        /// txtCompanyName control.
+        /// datecurrent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCompanyName;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl datecurrent;
 
         /// <summary>
-        /// txtEmail control.
+        /// Name control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Name;
 
         /// <summary>
-        /// txtPhone control.
+        /// CNNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPhone;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl CNNumber;
 
         /// <summary>
-        /// txtWebsite control.
+        /// INVNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtWebsite;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl INVNumber;
 
         /// <summary>
-        /// txtCreditLimit control.
+        /// dueAmount control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCreditLimit;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl dueAmount;
 
         /// <summary>
-        /// txtAddress control.
+        /// CreditTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddress;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreditTitle;
 
         /// <summary>
-        /// txtTinNumber control.
+        /// rptrAttachment control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtTinNumber;
+        protected global::System.Web.UI.WebControls.Repeater rptrAttachment;
 
         /// <summary>
-        /// txtVatRegNumber control.
+        /// TotalRow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtVatRegNumber;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TotalRow;
 
         /// <summary>
-        /// btnCreateCustomer control.
+        /// subTotal control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnCreateCustomer;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl subTotal;
+
+        /// <summary>
+        /// vatAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl vatAmount;
+
+        /// <summary>
+        /// Total control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Total;
+
+        /// <summary>
+        /// btnDeleteInvoice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnDeleteInvoice;
+
+        /// <summary>
+        /// txtEditCreditAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEditCreditAmount;
+
+        /// <summary>
+        /// btnSaveEditCreditAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnSaveEditCreditAmount;
+
+        /// <summary>
+        /// txtCreditAmount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCreditAmount;
+
+        /// <summary>
+        /// btnReceiveCredit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnReceiveCredit;
     }
 }

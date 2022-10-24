@@ -4,6 +4,7 @@
     <title>Sales</title>
     <script language="javascript">
         function printdiv(printpage) {
+            document.getElementById("colTen").className = "col-10";
 
             var headstr = "<html><head><title></title></head><body>";
             var footstr = "</body>";
@@ -12,6 +13,7 @@
             document.body.innerHTML = headstr + newstr + footstr;
             window.print();
             document.body.innerHTML = oldstr;
+            document.getElementById("colTen").className = "col-10 shadow-sm";
 
             return false;
         }
@@ -62,8 +64,7 @@
             opacity: 0.5;
             z-index: 1;
             transform: rotate(-45deg);
-            position:absolute;
-            
+            position: absolute;
         }
     </style>
 </asp:Content>
@@ -84,57 +85,57 @@
                                     <span class="fa fa-arrow-left text-gray-600"></span>
 
                                 </a>
-                                <span class="badge mr-2 text-white badge-light text-gray-600 font-weight-bold" visible="false" id="invoiceDetailSpan"  runat="server"></span>
+                                <span class="badge mr-2 text-white badge-light text-gray-600 font-weight-bold" visible="false" id="invoiceDetailSpan" runat="server"></span>
                                 <span class="fas fa-cart-plus mr-2" style="color: #d46fe8" id="salesIconSpan" runat="server"></span><span id="salesSpan" class="small text-gray-900 font-weight-bold text-uppercase" runat="server">Sales</span>
 
                             </div>
                             <div class="col-md-8 text-right">
                                 <div class="dropdown no-arrow">
-                                    <span class="badge text-white" style="background-color:#d46fe8" visible="false" id="selectSpan" runat="server">ITEM#<span id="itemNumber" runat="server"></span> SELECTED</span>
+                                    <span class="badge text-white" style="background-color: #d46fe8" visible="false" id="selectSpan" runat="server">ITEM#<span id="itemNumber" runat="server"></span> SELECTED</span>
                                     <button type="button" runat="server" id="btnEditLine" visible="false" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditLineModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Edit Line Item" class="fas fa-pencil-alt text-gray-600 font-weight-bold"></i>
+                                            Edit
                                             <span></span>
                                         </div>
                                     </button>
-                                        <button type="button" visible="false" runat="server" id="btnCustomize" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#CustomizeInvoiceModal">
-                                            <div>
-                                                <i data-toggle="tooltip" title="Customize Template" class="fas fa-cog text-gray-600 font-weight-bold"></i>
-                                                <span></span>
-                                            </div>
-                                        </button>
-                                        <button type="button" visible="false" runat="server" id="btnSendEmail" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
-                                            <div>
-                                                <i data-toggle="tooltip" title="Send Email" class="fas fa-envelope text-gray-600 font-weight-bold"></i>
-                                                <span></span>
-                                            </div>
-                                        </button>
-                                        <button type="button" visible="false" runat="server" id="btnDelete" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#DeletInvoiceModal">
-                                            <div>
-                                                <i data-toggle="tooltip" title="Delete Invoice" class="fas fa-trash text-gray-600 font-weight-bold"></i>
-                                                <span></span>
-                                            </div>
-                                        </button>
-                                        <button type="button" visible="false" runat="server" id="btnDuplicate" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
-                                            <div>
-                                                <i data-toggle="tooltip" title="Duplicate" class="fas fa-copy text-gray-600 font-weight-bold"></i>
-                                                <span></span>
-                                            </div>
-                                        </button>
-                                        <button type="button" visible="false" runat="server" id="btnEdit" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditInvoiceModal">
-                                            <div>
-                                                <i data-toggle="tooltip" title="Edit Info" class="fas fa-edit text-gray-600 font-weight-bold"></i>
-                                                <span></span>
-                                            </div>
-                                        </button>
-                                        <button name="b_print" onclick="printdiv('div_print');" class="mr-1 btn btn-light btn-sm">
-                                            <div>
-                                                <i class="fas fa-print text-gray-600 font-weight-bold"></i>
-                                                <span></span>
-                                            </div>
-                                        </button>
-                                        <div class="vr">
+                                    <button type="button" visible="false" runat="server" id="btnCustomize" class="mr-2 btn btn-outline-secondary btn-circle btn-sm" data-toggle="modal" data-target="#CustomizeInvoiceModal">
+                                        <div>
+                                            <i data-toggle="tooltip" title="Customize Template" class="fas fa-cog  font-weight-bold"></i>
+                                            <span></span>
                                         </div>
+                                    </button>
+                                    <button type="button" visible="false" runat="server" id="btnSendEmail" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                        <div>
+                                            <i data-toggle="tooltip" title="Send Email" class="fas fa-envelope  font-weight-bold"></i>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    <button type="button" visible="false" runat="server" id="btnDelete" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#DeletInvoiceModal">
+                                        <div>
+                                            <i data-toggle="tooltip" title="Delete Invoice" class="fas fa-trash  font-weight-bold"></i>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    <button type="button" visible="false" runat="server" id="btnDuplicate" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                        <div>
+                                            <i data-toggle="tooltip" title="Duplicate" class="fas fa-copy  font-weight-bold"></i>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    <button type="button" visible="false" runat="server" id="btnEdit" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#EditInvoiceModal">
+                                        <div>
+                                            <i data-toggle="tooltip" title="Edit Info" class="fas fa-edit  font-weight-bold"></i>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    <button name="b_print" onclick="printdiv('div_print');" class="mr-2 btn btn-circle btn-outline-secondary btn-sm">
+                                        <div>
+                                            <i class="fas fa-print font-weight-bold"></i>
+                                            <span></span>
+                                        </div>
+                                    </button>
+                                    <div class="vr">
+                                    </div>
 
 
                                     <button type="button" runat="server" id="Sp2" class="mr-1 btn btn-sm btn-circle" style="background-color: #d46fe8" data-toggle="modal" data-target="#ModalCreateInvoice">
@@ -160,8 +161,10 @@
                                         <div class="dropdown-header text-gray-900">Option:</div>
                                         <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#DiscountModal" id="A2" runat="server"><span class="fas fa-cog mr-2 " style="color: #d46fe8"></span>Manage Discount</a>
                                         <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#createNewBankModal" id="LR" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Bank Account</a>
-                         
-                                        <a href="#" class="dropdown-item border-top  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="creditLink" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Credit</a>
+
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="creditLink" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Credit</a>
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="commentLink" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Comment</a>
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="refundLink" runat="server"><span class="fas fa-reply mr-2" style="color: #d46fe8"></span>Refund Invoice</a>
                                     </div>
                                 </div>
 
@@ -169,27 +172,26 @@
                         </div>
 
                     </div>
-                    <div class="card-body small text-gray-900" id="InvoiceDiv" runat="server">
+                    <div class="card-body small text-gray-900" id="InvoiceDiv" style="margin-top: -21px" runat="server">
                         <asp:Repeater ID="rptrInvoice" runat="server">
 
                             <HeaderTemplate>
-                                <div class="table-responsive">
-                                    <table class="table align-items-center table-hover table-sm ">
-                                        <thead>
-                                            <tr>
+                                <table class="table align-items-center table-hover table-sm ">
+                                    <thead>
+                                        <tr>
 
-                                                <th scope="col" class="text-gray-900 text-uppercase text-left">Date</th>
-                                                <th scope="col" class="text-gray-900 text-uppercase ">Customer </th>
-                                                <th scope="col" class="text-primary text-uppercase ">Invoice#</th>
-                                                <th scope="col" class="text-gray-900 text-uppercase ">Amount</th>
-                                                <th scope="col" class="text-gray-900 text-uppercase ">Balance</th>
-                                                <th scope="col" class="text-gray-900 text-uppercase  text-right">Status</th>
-
+                                            <th scope="col" class="text-gray-900 text-uppercase text-left">Date</th>
+                                            <th scope="col" class="text-gray-900 text-uppercase ">Invoice#</th>
+                                            <th scope="col" class="text-gray-900 text-uppercase ">Customer </th>
+                                            <th scope="col" class="text-gray-900 text-uppercase ">Amount</th>
+                                            <th scope="col" class="text-gray-900 text-uppercase ">Balance</th>
+                                            <th scope="col" class="text-gray-900 text-uppercase  text-right">Status</th>
 
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                             </HeaderTemplate>
                             <ItemTemplate>
                                 <tr>
@@ -197,13 +199,14 @@
                                     <td class="text-gray-900 text-left">
                                         <%# Eval("date")%>
                                     </td>
-                                    <td class="text-gray-900">
-                                        <asp:Label ID="lblCustomer" runat="server" Text='<%# Eval("customer_name")%>'></asp:Label>
-                                    </td>
                                     <td class="text-primary">
                                         <a class=" text-primary  " href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>"><span>INV#-00000<%# Eval("invoice_number")%></span></a>
 
                                     </td>
+                                    <td class="text-gray-900">
+                                        <asp:Label ID="lblCustomer" runat="server" Text='<%# Eval("customer_name")%>'></asp:Label>
+                                    </td>
+
                                     <td class="text-gray-900">
                                         <asp:Label ID="Label4" runat="server" Text='<%# Eval("total_amount" , "{0:N2}")%>'></asp:Label>
 
@@ -212,7 +215,8 @@
                                         <asp:Label ID="Label5" runat="server" Text='<%# Eval("balance" , "{0:N2}")%>'></asp:Label>
 
                                     </td>
-                                    <td class="text-gray-900 text-right">Status
+                                    <td class="text-gray-900 text-right">
+                                        <span class="badge badge-success">PAID</span>
                                     </td>
 
                                 </tr>
@@ -225,28 +229,51 @@
 
                         </asp:Repeater>
                     </div>
+                    <div class="card-footer bg-white py-4" id="buttondiv" runat="server">
+                        <nav aria-label="...">
+                            <ul class="pagination justify-content-end mb-0">
+                                <br />
+                                <td>
+                                    <asp:Label ID="Label1" runat="server" class="m-1 small text-uppercase text-gray-500"></asp:Label>
+                                </td>
+                                <br />
+                                <li class="page-item active">
+
+                                    <asp:LinkButton ID="btnPrevious" OnClick="btnPrevious_Click" data-toggle="tooltip" title="Previous" class="btn btn-sm  btn-circle btn-light" runat="server"><span class="fas fa-angle-left text-gray-600"></span></asp:LinkButton>
+
+                                </li>
+                                <li class="page-item active">
+
+                                    <asp:LinkButton ID="btnNext" OnClick="btnNext_Click" data-toggle="tooltip" title="Next" class="btn btn-sm  btn-circle mx-2 btn-light" runat="server"><span class="fas fa-angle-right text-white text-gray-600"></span></asp:LinkButton>
+
+                                </li>
+
+                            </ul>
+                        </nav>
+                    </div>
                     <div class="card-body text-gray-900" visible="false" id="invoiceDetailDiv" runat="server">
                         <div class="row">
-                            <div class="col-4 border-right">
+                            <div class="col-4 border-right" style="margin-top: -21px">
                                 <asp:Repeater ID="rptInvoiceShort" runat="server">
 
                                     <HeaderTemplate>
-                                            <table class="table align-items-center table-hover table-sm ">
+                                        <table class="table align-items-center table-hover table-sm ">
 
-                                                <tbody>
+                                            <tbody>
                                     </HeaderTemplate>
                                     <ItemTemplate>
-                                        <tr>
+                                        <tr class="border-bottom">
 
                                             <td>
-                                                <asp:Label ID="Label3" class="text-gray-900" runat="server" Text='<%# Eval("customer_name")%>'></asp:Label>
-                                                <a class=" text-primary  " href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>"><span>INV#-00000<%# Eval("invoice_number")%></span></a>
-                                                <h6> | <span class=" text-gray-600"><%# Eval("date")%></span> </h6>
+                                                <asp:Label ID="Label3" class="text-gray-900 small" runat="server" Text='<%# Eval("customer_name")%>'></asp:Label>
+                                                <br />
+                                                <a class=" text-primary  small" href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>"><span>INV#-00000<%# Eval("invoice_number")%></span></a>
+                                                <span>| <span class="small text-gray-900"><%# Eval("date")%></span> </span>
                                             </td>
 
                                             <td class="text-gray-900 text-right">
-                                                <h6><span class="small text-gray-400 font-weight-bold text-uppercase">Due</h6>
-                                                <asp:Label ID="Label8" runat="server" class="badge badge-warning" Text='<%# Eval("balance" , "{0:N2}")%>'></asp:Label>
+                                                <h6><span class="small text-gray-400 font-weight-bold text-uppercase">Balance</h6>
+                                                <asp:Label ID="Label8" runat="server" class="text-uppercase text-gray-600 small" Text='<%# Eval("balance" , "{0:N2}")%>'></asp:Label>
 
                                             </td>
 
@@ -262,17 +289,17 @@
                             </div>
                             <div class="col-8">
                                 <div id="div_print">
-                                    <div class="row" style=" margin-left:-60px; margin-right: -60px">
+                                    <div class="row" style="margin-left: -60px; margin-right: -60px">
                                         <div class="col-1">
-                                            </div>
-                                        <div class="col-10" >
+                                        </div>
+                                        <div id="colTen" class="col-10 shadow" >
                                             <div class="card-body border-none">
                                                 <div class="row">
                                                     <div class="col-md-6  text-left" style="color: black">
                                                         <asp:Repeater ID="rptrLogo" runat="server">
-                                                         <ItemTemplate>
-                                                             <img class="" src='<%# Eval("logo")%>' height="80" width="80" alt="" id="LogoImage" runat="server" />
-                                                         </ItemTemplate>
+                                                            <ItemTemplate>
+                                                                <img class="" src='<%# Eval("logo")%>' height="80" width="80" alt="" id="LogoImage" runat="server" />
+                                                            </ItemTemplate>
 
                                                         </asp:Repeater>
                                                         <div class="row">
@@ -308,7 +335,7 @@
                                                             <span id="BindShop" runat="server">
                                                                 <span style="height: 100px; color: black" contenteditable="true">To: </span><span style="height: 100px; color: black" contenteditable="true" class=" font-weight-bold text-uppercase" id="Name" runat="server"></span>
                                                                 <span style="height: 100px; color: black" contenteditable="true" class=" font-weight-bold font-italic" id="CustomerCompany" runat="server"></span>
-                                                             <br />
+                                                                <br />
                                                                 <span id="CustomerTIN" style="color: black" runat="server" width="200px">CUSTOMER TIN<span class="fas fa-hashtag  ml-1"></span><span id="TINNUMBER" width="200px" contenteditable="true" runat="server" class="ml-1"></span></span>
                                                                 <br />
                                                                 <span id="CustVatRegNumberSpan" style="color: black" contenteditable="true" runat="server" width="200px">Vat Reg. Number<span class="fas fa-hashtag ml-1"></span><span id="CustVatRegNumber" width="200px" contenteditable="true" runat="server" class="ml-1"></span></span>
@@ -318,7 +345,7 @@
                                                             <span id="Addressbar" class="border-bottom border-dark" style="color: black" runat="server">ADDRESS: <span id="Address" class="  text-uppercase" contenteditable="true" runat="server"></span></span>
                                                             <h6 class=""><span class="text-uppercase font-weight-bold " style="color: black" id="InvNoBinding" runat="server">INV#</span></h6>
                                                             <h6><span class="text-uppercase  font-weight-bold " id="FSno" style="color: black" contenteditable="true" runat="server">FS#</span></h6>
-                                                            <h6 id="dateDiv" runat="server" ><span class="text-uppercase text-gray-900 font-weight-bold mr-1" id="Span1" runat="server">Date:</span><span id="dateSpan" style="color: black" runat="server"></span></h6>
+                                                            <h6 id="dateDiv" runat="server"><span class="text-uppercase text-gray-900 font-weight-bold mr-1" id="Span1" runat="server">Date:</span><span id="dateSpan" style="color: black" runat="server"></span></h6>
                                                             <span id="PayMode" visible="true" style="color: black" runat="server" class="mt-2 border-top border-bottom border-dark"><i class=" fas fa-dollar-sign text-dark "></i><span class="mx-1"><span class="font-weight-bold   text-uppercase">Payment Mode:</span> <span id="PaymentMode" class="  text-uppercase" runat="server"></span></span></span>
                                                             <br />
                                                             <span title="print date" style="color: black" id="printdate" class="h5" runat="server"></span>
@@ -329,128 +356,128 @@
                                                     </div>
                                                 </div>
                                                 <div id="conw" runat="server" style="color: black">
-                                                <asp:Repeater ID="rptrAttachment" runat="server">
+                                                    <asp:Repeater ID="rptrAttachment" runat="server">
 
-                                                    <HeaderTemplate>
+                                                        <HeaderTemplate>
 
-                                                        <table class="table align-items-center table-sm " style="color: black;">
-                                                            <thead class="thead-dark ">
-                                                                <tr>
-                                                                    <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">#</th>
+                                                            <table class="table align-items-center table-sm " style="color: black;">
+                                                                <thead class="thead-dark ">
+                                                                    <tr>
+                                                                        <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">#</th>
 
-                                                                    <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">Item Name</th>
-                                                                    <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">Decription</th>
-                                                                    <th scope="col" class=" text-center" style="border-block-color: black; border: solid; border-width: 1px">Quantity</th>
-                                                                    <th scope="col" class="text-center" style="border-block-color: black; border: solid; border-width: 1px">Unit Price</th>
+                                                                        <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">Item & Description</th>
+                                                                        <th scope="col" class=" text-center" style="border-block-color: black; border: solid; border-width: 1px">Quantity</th>
+                                                                        <th scope="col" class="text-center" style="border-block-color: black; border: solid; border-width: 1px">Unit Price</th>
 
 
-                                                                    <th scope="col" class=" text-right" style="border-block-color: black; border: solid; border-width: 1px">Total Price</th>
+                                                                        <th scope="col" class=" text-right" style="border-block-color: black; border: solid; border-width: 1px">Total Price</th>
 
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                    </HeaderTemplate>
-                                                    <ItemTemplate>
-                                                        <tr>
-                                                            <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px">
-                                                                <a class="  " href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>&&item_id=<%# Eval("id")%>&&edit=true"><span><%# Eval("id")%></span></a>
-                                                            </td>
-                                                            <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px"><%# Eval("item_name")%>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                        </HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <tr>
+                                                                <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px">
+                                                                    <a class="  " href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>&&item_id=<%# Eval("id")%>&&edit=true"><span><%# Eval("id")%></span></a>
+                                                                </td>
+                                                                <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px">
+                                                                    <span><%# Eval("item_name")%></span><br />
+                                                                    <span class="small text-gray-600"><%# Eval("description")%></span>
 
-                                                            </td>
-                                                            <td scope="col" contenteditable="true" style="border-block-color: black; border: solid; border-width: 1px"><%# Eval("description")%></td>
+                                                                </td>
 
-                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-center" contenteditable="true">
-                                                                <span><%# Convert.ToDouble(Eval("quantity")).ToString("#,##0.00")%></span>
-                                                            </td>
+                                                                <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-center" contenteditable="true">
+                                                                    <span><%# Convert.ToDouble(Eval("quantity")).ToString("#,##0.00")%></span>
+                                                                </td>
 
-                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class=" text-center" contenteditable="true">
-                                                                <span><%# Convert.ToDouble(Eval("unit_price")).ToString("#,##0.00")%></span>
+                                                                <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class=" text-center" contenteditable="true">
+                                                                    <span><%# Convert.ToDouble(Eval("unit_price")).ToString("#,##0.00")%></span>
 
-                                                            </td>
+                                                                </td>
 
-                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right" contenteditable="true">
-                                                                <span><%# Convert.ToDouble(Eval("total_amount")).ToString("#,##0.00")%></span>
+                                                                <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right" contenteditable="true">
+                                                                    <span><%# Convert.ToDouble(Eval("total_amount")).ToString("#,##0.00")%></span>
 
-                                                            </td>
-                                                        </tr>
+                                                                </td>
+                                                            </tr>
 
-                                                    </ItemTemplate>
-                                                    <FooterTemplate>
-                                                        </tbody>
+                                                        </ItemTemplate>
+                                                        <FooterTemplate>
+                                                            </tbody>
                                                    </table>
-                                                    </FooterTemplate>
-                                                </asp:Repeater>
-                                                <center>
-                                                    <h5 id="RaksTDiv" runat="server" class="water text-gray-900 font-weight-bolder mx-lg-5" style="padding-right: 0px; padding-left: 300px; font-size: 70px;">ATTACHMENT</h5>
+                                                        </FooterTemplate>
+                                                    </asp:Repeater>
+                                                    <center>
+                                                        <h5 id="RaksTDiv" runat="server" class="water text-gray-900 font-weight-bolder mx-lg-5" style="padding-right: 0px; padding-left: 300px; font-size: 70px;">ATTACHMENT</h5>
 
-                                                </center>
-                                                <div class="row" id="TotalRow" runat="server">
+                                                    </center>
+                                                    <div class="row" id="TotalRow" runat="server">
 
-                                                    <div class="col-md-8 text-left" style="z-index: 2">
-                                                        <div id="amoundInWordsDiv" runat="server" >
-                                                            <span class="text-gray-900 h6 text-uppercase mr-1 border-bottom border-dark">Amount in words: </span>
-                                                            <br />
-                                                            <span class="text-uppercase small font-weight-bold text-gray-900" id="AmountInWords" runat="server"></span>
+                                                        <div class="col-md-8 text-left" style="z-index: 2">
+                                                            <div id="amoundInWordsDiv" runat="server">
+                                                                <span class="text-gray-900 h6 text-uppercase mr-1 border-bottom border-dark">Amount in words: </span>
+                                                                <br />
+                                                                <span class="text-uppercase small font-weight-bold text-gray-900" id="AmountInWords" runat="server"></span>
+                                                            </div>
+                                                            <p class="small text-gray-900 font-weight-bold border-top">* Invalid without Fiscal or Refund Receipt</p>
+
+                                                            <div class="row">
+                                                                <div class="col-md-12 text-left">
+                                                                    <span id="CreditDiv" runat="server" class="fas fa-arrow-circle-right text-gray-400 mr-2"></span><span id="CreditDiv2" runat="server">CREDIT BALANCE: [<span id="credittotal" class="font-weight-bold" runat="server">0.00</span>]</span>
+                                                                </div>
+
+                                                            </div>
                                                         </div>
-                                                        <p class="small text-gray-900 font-weight-bold border-top">* Invalid without Fiscal or Refund Receipt</p>
 
-                                                        <div class="row">
-                                                            <div class="col-md-12 text-left">
-                                                                <span id="CreditDiv" runat="server" class="fas fa-arrow-circle-right text-gray-400 mr-2"></span><span id="CreditDiv2" runat="server">CREDIT BALANCE: [<span id="credittotal" class="font-weight-bold" runat="server">0.00</span>]</span>
+                                                        <div class="col-md-4 mt-1" style="z-index: 2; color: black">
+                                                            <div class="form-group">
+                                                                <table class="table table-sm " style="color: black">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px"><span style="margin: 7px 5px 5px 5px; padding: 5px" class="m-0 font-weight-bold text-right">Sub-Total:</span></td>
+                                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right"><span id="subTotal" class=" font-weight-bold " runat="server"></span></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px"><span style="margin: 7px 5px 5px 5px; padding: 5px" class="m-0 font-weight-bold text-right">VAT(15%):</span></td>
+                                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right"><span id="vatAmount" class=" font-weight-bold" runat="server"></span></td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px"><span style="margin: 7px 5px 5px 5px; padding: 5px" class="m-0 font-weight-bold text-right">Grand Total:</span></td>
+                                                                            <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right"><span id="Total" class="font-weight-bold" runat="server"></span></td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
                                                             </div>
 
                                                         </div>
+
                                                     </div>
+                                                    <div class="row " id="NotesDiv" runat="server" style="color: black">
 
-                                                    <div class="col-md-4 mt-1" style="z-index: 2; color: black">
-                                                        <div class="form-group">
-                                                            <table class="table table-sm " style="color: black">
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td style="color: black; border-block-color: black; border: solid; border-width: 1px"><span style="margin: 7px 5px 5px 5px; padding: 5px" class="m-0 font-weight-bold text-right">Sub-Total:</span></td>
-                                                                        <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right"><span id="subTotal" class=" font-weight-bold " runat="server"></span></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td style="color: black; border-block-color: black; border: solid; border-width: 1px"><span style="margin: 7px 5px 5px 5px; padding: 5px" class="m-0 font-weight-bold text-right">VAT(15%):</span></td>
-                                                                        <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right"><span id="vatAmount" class=" font-weight-bold" runat="server"></span></td>
-                                                                    </tr>
-
-                                                                    <tr>
-                                                                        <td style="color: black; border-block-color: black; border: solid; border-width: 1px"><span style="margin: 7px 5px 5px 5px; padding: 5px" class="m-0 font-weight-bold text-right">Grand Total:</span></td>
-                                                                        <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right"><span id="Total" class="font-weight-bold" runat="server"></span></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-
+                                                        <div class="col-md-6 text-left font-italic font-weight-bold">
+                                                            <span class="mb-2">Prepared By:_________________________</span><br />
+                                                            <br />
+                                                            <span>Signature_________________________</span>
+                                                        </div>
+                                                        <div class="col-md-6 text-right font-italic font-weight-bold">
+                                                            <span class=" mb-2 text-right">Authorized By:_________________________</span><br />
+                                                            <br />
+                                                            <span class=" text-right">Signature_________________________</span>
                                                         </div>
 
                                                     </div>
-
                                                 </div>
-                                                <div class="row " id="NotesDiv" runat="server" style="color: black">
-
-                                                    <div class="col-md-6 text-left font-italic font-weight-bold">
-                                                        <span class="mb-2">Prepared By:_________________________</span><br />
-                                                        <br />
-                                                        <span>Signature_________________________</span>
-                                                    </div>
-                                                    <div class="col-md-6 text-right font-italic font-weight-bold">
-                                                        <span class=" mb-2 text-right">Authorized By:_________________________</span><br />
-                                                        <br />
-                                                        <span class=" text-right">Signature_________________________</span>
-                                                    </div>
-
-                                                </div>
-                                                    </div>
 
                                             </div>
                                         </div>
                                         <div class="col-1">
                                         </div>
                                     </div>
-                                
-                                    </div>
+
+                                </div>
 
                             </div>
                         </div>
@@ -464,7 +491,7 @@
                                     <center>
 
                                         <h3 class="text-gray-900 mb-2 font-weight-bold">Create New Sales</h3>
-                              
+
                                         <h5 class="text-gray-500 mb-3">Start your business by creating sales</h5>
                                         <button type="button" data-toggle="modal" data-target="#ModalCreateInvoice" class="btn btn-danger text-white"><span class="fas fa-plus mr-2 text-white"></span>Create New Invoice</button>
                                     </center>
@@ -475,31 +502,10 @@
                             </main>
                         </center>
                     </div>
-                    
+
 
                 </div>
-                <div class="card-footer bg-white py-4" id="buttondiv" runat="server">
-                    <nav aria-label="...">
-                        <ul class="pagination justify-content-end mb-0">
-                            <br />
-                            <td>
-                                <asp:Label ID="Label1" runat="server" class="m-1 small text-primary"></asp:Label>
-                            </td>
-                            <br />
-                            <li class="page-item active">
 
-                                <asp:LinkButton ID="btnPrevious" data-toggle="tooltip" title="Previous" class="btn btn-sm  btn-circle btn-light" runat="server"><span class="fas fa-angle-left text-gray-600"></span></asp:LinkButton>
-
-                            </li>
-                            <li class="page-item active">
-
-                                <asp:LinkButton ID="btnNext" data-toggle="tooltip" title="Next" class="btn btn-sm  btn-circle mx-2 btn-light" runat="server"><span class="fas fa-angle-right text-white text-gray-600"></span></asp:LinkButton>
-
-                            </li>
-
-                        </ul>
-                    </nav>
-                </div>
 
             </div>
         </div>
@@ -543,7 +549,6 @@
 
                         <div class="row mb-3">
                             <div class="col-2">
-
                             </div>
                             <div class="col-8">
                                 <center>
@@ -551,7 +556,7 @@
                                         <asp:LinkButton ID="btnSaveLineItem" class="btn btn-sm text-white w-100" Style="background-color: #d46fe8" runat="server" OnClick="btnSaveLineItem_Click"><span class="fas fa-save text-white mr-2"></span>Save Edit</asp:LinkButton>
                                     </div>
                                 </center>
-                               
+
                             </div>
                             <div class="col-2">
                             </div>
@@ -583,7 +588,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <hr />
 
 
@@ -792,7 +797,7 @@
                                     <asp:TextBox ID="txtDiscountLine" Value="0" ClientIDMode="Static" ReadOnly="false" data-toggle="tooltip" title="Line Discount" class="form-control form-control-sm" placeholder="Line Discount" runat="server"></asp:TextBox>
 
                                     <div class="input-group-append">
-                                        <asp:DropDownList ID="ddlLineDiscountType" data-toggle="tooltip" title="Disc. Type" data-placement="bottom" ClientIDMode="Static"  class="form-control form-control-sm " runat="server">
+                                        <asp:DropDownList ID="ddlLineDiscountType" data-toggle="tooltip" title="Disc. Type" data-placement="bottom" ClientIDMode="Static" class="form-control form-control-sm " runat="server">
                                             <asp:ListItem>ETB</asp:ListItem>
                                             <asp:ListItem>%</asp:ListItem>
                                         </asp:DropDownList>
@@ -810,6 +815,7 @@
                         </div>
                         <div class="row">
                             <div class="col-8">
+                                <span class="text-gray-400 mx-1 border-bottom border-top">ITEM#</span><span id="itemCount" runat="server" class="text-gray-400  border-bottom border-top"></span>
                             </div>
                             <div class="col-4 small">
                                 <div class="form-group">
@@ -835,7 +841,7 @@
                                             </tr>
                                             <tr>
                                                 <td><span class="m-0 font-weight-bold text-right text-gray-900 ">Grand Total:</span></td>
-                                                <td class="text-right"><span id="GrandTotal"  class="text-gray-900 font-weight-bold text-gray-900" runat="server"></span></td>
+                                                <td class="text-right"><span id="GrandTotal" class="text-gray-900 font-weight-bold text-gray-900" runat="server"></span></td>
                                                 <asp:TextBox ID="txtTotalDiscount" ClientIDMode="Static" Style="display: none" runat="server"></asp:TextBox>
                                                 <asp:TextBox ID="txtVatFree" ClientIDMode="Static" Style="display: none" runat="server"></asp:TextBox>
                                                 <asp:TextBox ID="txtGrandTotal" ClientIDMode="Static" Style="display: none" runat="server"></asp:TextBox>
@@ -850,7 +856,7 @@
                     </div>
 
                     <div class="modal-footer">
-
+                        <button class="btn btn-light btn-sm" type="button" data-toggle="tooltip" onclick="AddJson();" title="Add Json"><span class="fas fa-plus"></span></button>
                         <asp:LinkButton ID="btnCreateInvoice" runat="server" class="btn btn-sm text-white" Style="background-color: #d46fe8" CausesValidation="false" OnClick="btnCreateInvoice_Click"><span class="fas fa-plus mr-2"></span>Create Invoice</asp:LinkButton>
 
                     </div>
@@ -953,7 +959,7 @@
                                 </div>
 
                             </div>
- 
+
                         </div>
                         <div class="modal-footer">
                             <asp:LinkButton ID="btnSaveCustomization" OnClientClick="UpdateOpacity1();" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnSaveCustomization_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Save</asp:LinkButton>
@@ -962,13 +968,14 @@
                 </div>
             </div>
         </div>
-                <script type="text/javascript">
+        <script type="text/javascript">
             var slider = document.getElementById("customRange5");
             var txtAm = document.getElementById("<%=lblOpacity.ClientID%>");
             slider.oninput = function () {
                 txtAm.innerText = this.value;
             }
-        </script>      <div class="modal fade " id="EditInvoiceModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        </script>
+        <div class="modal fade " id="EditInvoiceModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -990,7 +997,8 @@
                                         <asp:TextBox ID="txtEditFSNumber" data-toggle="tooltip" title="FS#" ClientIDMode="Static" placeholder="FS#" class="form-control form-control-sm" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
-                            </div>  </div>
+                            </div>
+                        </div>
                         <div class="row mb-3">
                             <div class="col-12 ">
                                 <div class="form-group mb-0">
@@ -1002,7 +1010,7 @@
                                     </div>
                                 </div>
                             </div>
-                         </div>
+                        </div>
                         <div class="modal-footer">
                             <asp:LinkButton ID="btnSaveEditInvoiceInfo" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnSaveEditInvoiceInfo_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
                         </div>
@@ -1030,7 +1038,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <asp:LinkButton ID="btnDeleteInvoice" class="btn btn-sm text-white" style="background-color: #d46fe8" OnClick="btnDeleteInvoice_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
+                            <asp:LinkButton ID="btnDeleteInvoice" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnDeleteInvoice_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
                         </div>
                     </div>
                 </div>
@@ -1108,7 +1116,7 @@
             </div>
         </div>
 
-        
+
         <script type="text/javascript">
             $('#transactional').click(function () {
                 $("#ddlDiscountApplied").toggle(true);
@@ -1141,17 +1149,13 @@
                 PageMethods.GetCustomerInfo($("#ddlExistingCustomer option:selected").text(), Success, Failure);
 
             }
-
             function Success(result) {
                 $("[id*=txtTINNumber]").val(result[0]);
                 $("[id*=txtAddress]").val(result[1]);
                 $("[id*=txtCustomerName]").val($("#ddlExistingCustomer option:selected").text());
                 $('#ExistingCustomerModal').modal('hide');
                 $('#ModalCreateInvoice').modal('show');
-
-
             }
-
             function Failure(error) {
                 alert(error);
             }
@@ -1172,11 +1176,11 @@
                 header3.innerHTML = "Quantity";
                 header4.innerHTML = "Rate";
                 header5.innerHTML = "Amount";
-                header1.className = "font-weight-bold bg-light text-uppercase";
-                header2.className = "font-weight-bold bg-light text-uppercase";
-                header3.className = "font-weight-bold bg-light text-uppercase";
-                header4.className = "font-weight-bold bg-light text-uppercase";
-                header5.className = "text-right bg-light font-weight-bold text-uppercase";
+                header1.className = " bg-light text-gray-500";
+                header2.className = " bg-light text-gray-500";
+                header3.className = " bg-light text-gray-500";
+                header4.className = " bg-light text-gray-500";
+                header5.className = "text-right bg-light mall text-gray-500";
             });
         </script>
         <script type="text/javascript">
@@ -1235,6 +1239,8 @@
                 alert(error);
             }
             function AddTable() {
+                var itemCount = document.getElementById("<%=itemCount.ClientID %>");
+                itemCount.innerHTML = Number(itemCount.innerHTML) + 1;
                 let isChecked = $('#line').is(':checked');
                 if (isChecked == true) {
                     if ($("#ddlLineDiscountType option:selected").text() == "ETB") {
@@ -1260,7 +1266,7 @@
                 cell1.innerHTML = $("#ddlItemName option:selected").text();
                 cell2.innerHTML = $("[id*=txtDescription]").val();
                 cell3.innerHTML = $("[id*=txtQuantity]").val();
-                
+
                 var unitPrice = Number($("[id*=txtUnitPrice]").val()) - Number(discount);
                 var quantity = $("[id*=txtQuantity]").val();
                 var totalPrice = unitPrice * quantity;
@@ -1270,6 +1276,86 @@
                 GetTax();
             }
         </script>
+        <script type="text/javascript">
+            function GetDiscountSurchargeOption() {
+                PageMethods.GetSurchargeDiscountSetting(returnSettings);
+                function returnSettings(result) {
+                    return result;
+                }
+            }
+            function GetDefaultPrinter() {
+                PageMethods.GetPrinterSN(returnName);
+                function returnName(result) {
+                    return result;
+                }
+            }
+            function UniqueSaleNumberGenerator() {
+                var firstLetters = GetDefaultPrinter();
+                var operatorCode = "CS00";
+                var lastSerialNumber = $("[id*=txtFSNumber]").val();
+                var uniqueSaleNumber = firstLetters + operatorCode + lastSerialNumber;
+            }
+            //JSON Input without surcharge and discount
+            function AddJson() {
+                //Getting the amount paid for the invoice
+                //Amount Paid = Total - Credit
+
+                var totalAmount = document.getElementById("<%=GrandTotal.ClientID %>");
+                var creditAmount = $("[id*=txtCreditAmount]").val();
+                var paymentAmount = Number(totalAmount.innerHTML) - creditAmount;
+
+                //Binding item list and payment types [Including the discounts]
+                var uniqueSaleNumber = UniqueSaleNumberGenerator();
+                var jsonItemList = "{\"uniqueSaleNumber\":" + uniqueSaleNumber + ",\"items\": [";
+                for (var i = 0; i < Number(document.getElementById("<%=itemCount.ClientID %>").innerText); i++) {
+                    jsonItemList += "{\"text\"" + ":" + $("#ddlItemName option:selected").text() + ",";
+                    jsonItemList += "\"quantity\"" + ":" + $("[id*=txtQuantity]").val() + ",";
+                    jsonItemList += "\"unitPrice\"" + ":" + $("[id*=txtUnitPrice]").val() + ",";
+                    jsonItemList += "\"taxGroup\"" + ":" + Number("1") + "},";
+                }
+                jsonItemList = jsonItemList.substring(jsonItemList.length - 1, length);
+                jsonItemList += "],";
+                jsonItemList += "\"payments\"" + ":" + "[{\"amount\"" + ":" + paymentAmount.toFixed(2) + ",\"paymentType\"" + ":" + "cash" + "}]";
+                jsonItemList += "}";
+                //var itemCount = document.getElementById("<%=itemCount.ClientID %>");
+                //itemCount.innerHTML = jsonItemList;
+                return jsonItemList;
+
+            }
+            //JSON with surcharge and without discount
+            function AddJsonSurcharge() {}
+            //JSON without surcharge and with discount
+            function AddJsonDiscount() {}
+            //JSON with surcharge and with discount
+            function AddJsonSurchargeDiscount() {}
+
+            function SendJSONtoPrinter(json, uri) {
+                $(document).ready(function () {
+                    $.post(uri,   // url
+                        json, // data to be submit
+                        function (data, status, jqXHR) {   // success callback
+
+                        });
+                });
+            }
+            function PrintReceipt() {
+                var printerId = GetDefaultPrinter();
+                var uri = "http://localhost:8001/" + printerId + "/receipt";
+                //Defing setting parameters
+                var isSurchargeAllowed = GetDiscountSurchargeOption()[0];
+                var isDiscountAllowed = GetDiscountSurchargeOption()[1];
+                //Make the option whether surcharge and discount is activated
+                if (isDiscountAllowed == false && isSurchargeAllowed == false)
+                    SendJSONtoPrinter(AddJson(), uri);
+                if (isDiscountAllowed == true && isSurchargeAllowed == false)
+                    SendJSONtoPrinter(AddJsonDiscount(), uri);
+                if (isDiscountAllowed == false && isSurchargeAllowed == true)
+                    SendJSONtoPrinter(AddJsonSurcharge(), uri);
+                if (isDiscountAllowed == true && isSurchargeAllowed == true)
+                    SendJSONtoPrinter(AddJsonSurchargeDiscount(), uri);
+            }
+        </script>
+
         <script type="text/javascript">
             function CreateSale() {
                 var customerName = $("[id*=txtCustomerName]").val();
@@ -1307,7 +1393,7 @@
                 else
                     var discount = 0;
                 PageMethods.CreateInvoice($("[id*=txtCustomerName]").val(), $("#ddlItemName option:selected").text(), $("[id*=txtReferenceNumber]").val(), $("[id*=txtDate]").val(),
-                    "", $("[id*=txtUnitPrice]").val() - Number(discount), $("[id*=txtDescription]").val(), $("[id*=txtQuantity]").val(), (Number($("[id*=txtUnitPrice]").val()) - Number(discount))* Number($("[id*=txtQuantity]").val()), $("[id*=txtCreditAmount]").val(),
+                    "", $("[id*=txtUnitPrice]").val() - Number(discount), $("[id*=txtDescription]").val(), $("[id*=txtQuantity]").val(), (Number($("[id*=txtUnitPrice]").val()) - Number(discount)) * Number($("[id*=txtQuantity]").val()), $("[id*=txtCreditAmount]").val(),
                     document.getElementById("<%=invoiceSpan.ClientID %>").innerHTML, $("[id*=txtFSNumber]").val(), $("[id*=txtTINNumber]").val(), paymentMode, $("[id*=txtAddress]").val(), $("#ddlBankAccount option:selected").text(), discount);
             }
         </script>

@@ -26,7 +26,11 @@ namespace pos.app.classes
         public CustomerOperation(string name) => this.Name = name;
         public void AddCustomer()
         {
-
+            string tableCustomerColumns = "(bussines_type,customer_name,company_name,email,phone,website,credit_limit,status" +
+                ",address,tin,vat_registration_number)";
+            base.cmdText = "insert into tblcustomer " + tableCustomerColumns + " values ('" + BusinessType + "','" + Name + "','" + Company + "'," +
+                "'" + Email + "','" + Phone + "','" + Website + "','" + CreditLimit + "','" + Status + "','" + Address + "','" + TIN + "','" + VatRegistrationNumber + "')";
+            base.MakeCUD();
         }
         public DataTable GetCustomerInfo()
         {

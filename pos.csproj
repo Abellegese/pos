@@ -115,11 +115,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="applogin\login.aspx" />
-    <Content Include="app\appsettings.aspx" />
+    <Content Include="app\creditnotes.aspx" />
     <Content Include="app\customers.aspx" />
     <Content Include="app\dashboard.aspx" />
     <Content Include="app\product.aspx" />
-    <Content Include="app\purchasedetails.aspx" />
     <Content Include="app\purchaseorder.aspx" />
     <Content Include="app\purchases.aspx" />
     <Content Include="app\report\creditreport.aspx" />
@@ -134,7 +133,6 @@
     <Content Include="app\salesorder.aspx" />
     <Content Include="app\search.aspx" />
     <Content Include="app\vendors.aspx" />
-    <Content Include="app\warehouses.aspx" />
     <Content Include="asset\css\fontawesome-free\attribution.js" />
     <Content Include="asset\css\fontawesome-free\css\all.css" />
     <Content Include="asset\css\fontawesome-free\css\all.min.css" />
@@ -1793,6 +1791,7 @@
     <Content Include="asset\icons\dashbordicon\home.svg" />
     <Content Include="asset\icons\dashbordicon\home1.svg" />
     <Content Include="asset\icons\dashbordicon\layers.svg" />
+    <Content Include="asset\icons\dashbordicon\monitor.svg" />
     <Content Include="asset\icons\dashbordicon\navigation.svg" />
     <Content Include="asset\icons\dashbordicon\pie-chart.svg" />
     <Content Include="asset\icons\dashbordicon\pocket.svg" />
@@ -2128,13 +2127,6 @@
     <Compile Include="app\app.Master.designer.cs">
       <DependentUpon>app.Master</DependentUpon>
     </Compile>
-    <Compile Include="app\appsettings.aspx.cs">
-      <DependentUpon>appsettings.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="app\appsettings.aspx.designer.cs">
-      <DependentUpon>appsettings.aspx</DependentUpon>
-    </Compile>
     <Compile Include="app\classes\BankOperation.cs" />
     <Compile Include="app\classes\CreditOperation.cs" />
     <Compile Include="app\classes\CustomerOperation.cs" />
@@ -2146,13 +2138,22 @@
     <Compile Include="app\classes\IPurchase.cs" />
     <Compile Include="app\classes\ISale.cs" />
     <Compile Include="app\classes\IStore.cs" />
+    <Compile Include="app\classes\IVendor.cs" />
     <Compile Include="app\classes\NumberToWord.cs" />
     <Compile Include="app\classes\PurchaseOperation.cs" />
     <Compile Include="app\classes\ReferenceGenerator.cs" />
     <Compile Include="app\classes\SalesOperation.cs" />
     <Compile Include="app\classes\SQLOperation.cs" />
     <Compile Include="app\classes\StoreOperation.cs" />
+    <Compile Include="app\classes\UserUtility.cs" />
     <Compile Include="app\classes\VendorOperation.cs" />
+    <Compile Include="app\creditnotes.aspx.cs">
+      <DependentUpon>creditnotes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="app\creditnotes.aspx.designer.cs">
+      <DependentUpon>creditnotes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="app\customers.aspx.cs">
       <DependentUpon>customers.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2173,13 +2174,6 @@
     </Compile>
     <Compile Include="app\product.aspx.designer.cs">
       <DependentUpon>product.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="app\purchasedetails.aspx.cs">
-      <DependentUpon>purchasedetails.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="app\purchasedetails.aspx.designer.cs">
-      <DependentUpon>purchasedetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="app\purchaseorder.aspx.cs">
       <DependentUpon>purchaseorder.aspx</DependentUpon>
@@ -2279,13 +2273,6 @@
     <Compile Include="app\vendors.aspx.designer.cs">
       <DependentUpon>vendors.aspx</DependentUpon>
     </Compile>
-    <Compile Include="app\warehouses.aspx.cs">
-      <DependentUpon>warehouses.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="app\warehouses.aspx.designer.cs">
-      <DependentUpon>warehouses.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2356,7 +2343,9 @@
     <Analyzer Include="..\packages\xunit.analyzers.1.0.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
     <Analyzer Include="..\packages\xunit.analyzers.1.0.0\analyzers\dotnet\cs\xunit.analyzers.fixes.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="asset\images\products\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

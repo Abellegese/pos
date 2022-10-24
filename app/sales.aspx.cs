@@ -38,6 +38,27 @@ namespace pos.app
             }
         }
         [WebMethod]
+        public static List<string> GetSurchargeDiscountSetting()
+        {
+            List<string> lst = new List<string>();
+
+            SQLOperation so = new SQLOperation("select * from tblfiscal_printer_settings");
+
+            bool isDiscountAllowed = bool.Parse(so.ReadTable().Rows[0]["allow_discount"].ToString());
+            bool isSurchargeAllowed = bool.Parse(so.ReadTable().Rows[0]["allow_surcharge"].ToString());
+            lst.Add(isDiscountAllowed.ToString());
+            lst.Add(isSurchargeAllowed.ToString());
+
+            return lst;
+        }
+        [WebMethod]
+        public static string GetPrinterSN()
+        {
+            SQLOperation sqlop = new SQLOperation("select * from tblfiscal_printer_active");
+            DataTable dt = sqlop.ReadTable();
+            return dt.Rows[0]["fiscal_id"].ToString();
+        }
+        [WebMethod]
         public static void UpdateOpacity(string opacity)
         {
             SQLOperation sqlop = new SQLOperation("update tblinvoice_customization set watermark_opacity='" + opacity + "'");
@@ -146,7 +167,7 @@ namespace pos.app
                 InvoiceDiv.Visible = false;
                 invoiceDetailDiv.Visible = true;
                 //
-                invoiceDetailSpan.InnerText = "INV#-00000" + Request.QueryString["invno"].ToString();
+                invoiceDetailSpan.InnerText = "INV#-" + Convert.ToInt64(Request.QueryString["invno"].ToString()).ToString("D8");
                 invoiceDetailSpan.Visible = true;
                 salesIconSpan.Visible = false;
                 salesSpan.Visible = false;
@@ -157,13 +178,16 @@ namespace pos.app
                 btnEdit.Visible = true;
                 btnDuplicate.Visible = true;
                 creditLink.Visible = true;
+                commentLink.Visible = true;
+                refundLink.Visible = true;
+                buttondiv.Visible = false;
 
                 //
-                InvNoBinding.InnerText = "INV#-00000" + Request.QueryString["invno"].ToString();
-                FSno.InnerText = "FS#-00000" + Request.QueryString["fsno"].ToString();
+                InvNoBinding.InnerText = "INV#-" + Convert.ToInt64(Request.QueryString["invno"].ToString()).ToString("D8"); ;
+                FSno.InnerText = "FS#-" + Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8"); ;
 
-                txtEdiInvNumber.Text = "00000" + Request.QueryString["invno"].ToString();
-                txtEditFSNumber.Text = "00000" + Request.QueryString["fsno"].ToString();
+                txtEdiInvNumber.Text = Convert.ToInt64(Request.QueryString["invno"].ToString()).ToString("D8");
+                txtEditFSNumber.Text = Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8");
                 //
                 SalesOperation slo = new SalesOperation();
                 DataTable dt = slo.GetSalesInfo(Request.QueryString["invno"].ToString());
@@ -199,7 +223,7 @@ namespace pos.app
                 PagedDataSource Pds1 = new PagedDataSource();
                 Pds1.DataSource = sqlop.ReadDataset().Tables[0].DefaultView;
                 Pds1.AllowPaging = true;
-                Pds1.PageSize = 30;
+                Pds1.PageSize = 10;
                 Pds1.CurrentPageIndex = CurrentPage;
                 Label1.Text = "Showing Page: " + (CurrentPage + 1).ToString() + " of " + Pds1.PageCount.ToString();
                 btnPrevious.Enabled = !Pds1.IsFirstPage;
@@ -331,12 +355,12 @@ namespace pos.app
         private void BindFSnumber()
         {
             SalesOperation slo = new SalesOperation();
-            txtFSNumber.Text = slo.FSnumberCounter().ToString();
+            txtFSNumber.Text = Convert.ToInt64(slo.FSnumberCounter().ToString()).ToString("D8");
         }
         private void BindInvoiceNumber()
         {
             SalesOperation slo = new SalesOperation();
-            invoiceSpan.InnerText = slo.InvoiceNumberCounter().ToString();
+            invoiceSpan.InnerText = Convert.ToInt64(slo.InvoiceNumberCounter().ToString()).ToString("D8");
         }
         private void BindCustomer()
         {

@@ -80,8 +80,8 @@ E:\inventory\inventory\pos\bin\xunit.execution.desktop.xml
 E:\inventory\inventory\pos\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 E:\inventory\inventory\pos\bin\es\Hangfire.Core.resources.dll
 E:\inventory\inventory\pos\bin\zh\Hangfire.Core.resources.dll
-E:\inventory\inventory\pos\obj\Debug\pos.csproj.AssemblyReference.cache
 E:\inventory\inventory\pos\obj\Debug\pos.csproj.CoreCompileInputs.cache
 E:\inventory\inventory\pos\obj\Debug\pos.csproj.CopyComplete
 E:\inventory\inventory\pos\obj\Debug\pos.dll
 E:\inventory\inventory\pos\obj\Debug\pos.pdb
+E:\inventory\inventory\pos\obj\Debug\pos.csproj.AssemblyReference.cache
