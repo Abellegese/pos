@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace pos.app.classes
+﻿namespace pos.app.classes
 {
-    public class BankOperation:SQLOperation, IBank
+    public class BankOperation : SQLOperation, IBank
     {
         public string BankName { get; set; }
         public string AccountNumber { get; set; }

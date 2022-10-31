@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
 
 namespace pos.app.classes
 {
@@ -12,7 +9,7 @@ namespace pos.app.classes
         public string ItemName { get; set; }
         public string ItemCode { get; set; }
         public string ItemCategory { get; set; }
-        public string ShelfNo { get; set; }  
+        public string ShelfNo { get; set; }
         public string Barcode { get; set; }
         public string Date { get; set; }
         public string ExpiredDate { get; set; }
@@ -38,9 +35,9 @@ namespace pos.app.classes
             tableColumns += "(item_name,item_code,item_category,shelf_no,barcode";
             tableColumns += ",detail_description,purchase_price,sale_price,unit";
             tableColumns += ",sku,manufacturer,reorder_point,tax,created_source,warehouse,opening_stock)";
-            base.cmdText = "insert into tblstock_details "+tableColumns+" values('" + ItemName+"','"+ItemCode+"','"+ItemCategory+"'" +
-                ",'"+ShelfNo+"','"+Barcode+"','"+Description+"','"+PurchasePrice+"','"+SalePrice+"'" +
-                ",'"+Unit+"','"+SKU+"','"+Manufacturer+"','"+ReorderPoint+"','"+TaxRate+"','"+CreatedSource+"','"+Warehouse+ "','" + Quantity + "')";
+            base.cmdText = "insert into tblstock_details " + tableColumns + " values('" + ItemName + "','" + ItemCode + "','" + ItemCategory + "'" +
+                ",'" + ShelfNo + "','" + Barcode + "','" + Description + "','" + PurchasePrice + "','" + SalePrice + "'" +
+                ",'" + Unit + "','" + SKU + "','" + Manufacturer + "','" + ReorderPoint + "','" + TaxRate + "','" + CreatedSource + "','" + Warehouse + "','" + Quantity + "')";
             //Inserting the updated quantity to the database
             base.MakeCUD();
             //Adding Item to Stock
@@ -102,7 +99,7 @@ namespace pos.app.classes
         }
         public DataTable GetItemInfo()
         {
-            base.cmdText = "select * from tblstock_details where item_name='"+this.ItemName+"'";
+            base.cmdText = "select * from tblstock_details where item_name='" + this.ItemName + "'";
             return base.ReadTable();
         }
         public DataTable GetStockInfo()

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Web;
+﻿using System.Data;
 
 namespace pos.app.classes
 {
-    public class CustomerOperation: SQLOperation, ICustomer
+    public class CustomerOperation : SQLOperation, ICustomer
     {
         public string BusinessType { get; set; }
         public string Name { get; set; }
@@ -22,7 +18,7 @@ namespace pos.app.classes
         public string TIN { get; set; }
         public string VatRegistrationNumber { get; set; }
 
-        public CustomerOperation () { }
+        public CustomerOperation() { }
         public CustomerOperation(string name) => this.Name = name;
         public void AddCustomer()
         {

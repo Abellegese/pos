@@ -159,13 +159,13 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Li1;
 
         /// <summary>
-        /// LinkButton1 control.
+        /// Div1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
 
         /// <summary>
         /// sub control.
@@ -229,6 +229,15 @@ namespace pos.app
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Li3;
+
+        /// <summary>
+        /// Span1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Span1;
 
         /// <summary>
         /// Settingbar control.
@@ -318,7 +327,7 @@ namespace pos.app
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLogout;
+        protected global::System.Web.UI.WebControls.LinkButton btnLogout;
 
         /// <summary>
         /// main1 control.
@@ -447,33 +456,6 @@ namespace pos.app
         protected global::System.Web.UI.WebControls.LinkButton btnSaveDeviceType;
 
         /// <summary>
-        /// ddlComandType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlComandType;
-
-        /// <summary>
-        /// txtHexCommand control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtHexCommand;
-
-        /// <summary>
-        /// btnSaveCommandType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton btnSaveCommandType;
-
-        /// <summary>
         /// ddlFiscalTypes control.
         /// </summary>
         /// <remarks>
@@ -501,13 +483,31 @@ namespace pos.app
         protected global::System.Web.UI.WebControls.LinkButton btnSaveFiscalName;
 
         /// <summary>
-        /// printerID control.
+        /// serialNumber control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerID;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl serialNumber;
+
+        /// <summary>
+        /// deviceStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceStatus;
+
+        /// <summary>
+        /// printerDateTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerDateTime;
 
         /// <summary>
         /// discount control.
@@ -528,22 +528,40 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox surcharge;
 
         /// <summary>
-        /// logoAllow control.
+        /// operator control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton logoAllow;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox @operator;
 
         /// <summary>
-        /// logoDisallow control.
+        /// saleno control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton logoDisallow;
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox saleno;
+
+        /// <summary>
+        /// fsno control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox fsno;
+
+        /// <summary>
+        /// fsnoSelection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox fsnoSelection;
 
         /// <summary>
         /// btnSaveFiscalSettings control.
@@ -555,102 +573,102 @@ namespace pos.app
         protected global::System.Web.UI.WebControls.LinkButton btnSaveFiscalSettings;
 
         /// <summary>
-        /// printerUri control.
+        /// txtSetPrinterDateTime control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerUri;
+        protected global::System.Web.UI.WebControls.TextBox txtSetPrinterDateTime;
 
         /// <summary>
-        /// printerSerial control.
+        /// txtFromDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerSerial;
+        protected global::System.Web.UI.WebControls.TextBox txtFromDate;
 
         /// <summary>
-        /// printerFiscalSerial control.
+        /// txtToDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerFiscalSerial;
+        protected global::System.Web.UI.WebControls.TextBox txtToDate;
 
         /// <summary>
-        /// printerManufacturer control.
+        /// deviceSerialNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerManufacturer;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceSerialNo;
 
         /// <summary>
-        /// printerModel control.
+        /// deviceProtocol control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerModel;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceProtocol;
 
         /// <summary>
-        /// printerFirmVersion control.
+        /// deviceString control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerFirmVersion;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceString;
 
         /// <summary>
-        /// printerItemTextMaxLen control.
+        /// deviceModel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerItemTextMaxLen;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceModel;
 
         /// <summary>
-        /// printerCommentTextMaxLen control.
+        /// devicePort control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerCommentTextMaxLen;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl devicePort;
 
         /// <summary>
-        /// printerOpPasswordTextMaxLen control.
+        /// deviceReceiptNo control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerOpPasswordTextMaxLen;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceReceiptNo;
 
         /// <summary>
-        /// taxIdentificationNumber control.
+        /// deviceHeader control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl taxIdentificationNumber;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceHeader;
 
         /// <summary>
-        /// printerSupportedPaymentTypes control.
+        /// deviceFooter control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerSupportedPaymentTypes;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl deviceFooter;
     }
 }

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using pos.app.classes;
+﻿using pos.app.classes;
+using System;
 using System.Data;
 
 namespace pos.app
@@ -112,7 +107,7 @@ namespace pos.app
         {
             if (Request.QueryString["cid"] != null && Request.QueryString["invno"] != null)
             {
-                SQLOperation sqlop = new SQLOperation("update tblcredit_note set balance='"+txtEditCreditAmount.Text+"' where id = '" + Request.QueryString["cid"].ToString() + "'");
+                SQLOperation sqlop = new SQLOperation("update tblcredit_note set balance='" + txtEditCreditAmount.Text + "' where id = '" + Request.QueryString["cid"].ToString() + "'");
                 sqlop.MakeCUD();
 
                 sqlop.cmdText = "update tblinvoice set balance = '" + txtEditCreditAmount.Text + "'  where invoice_number = '" + Request.QueryString["invno"].ToString() + "'";

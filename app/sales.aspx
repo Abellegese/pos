@@ -19,45 +19,62 @@
         }
 
     </script>
+
     <script type="text/javascript">
-        document.onkeyup = function (e) {
-            if (e.which == 67) {
-                $('#ModalCreateInvoice').modal('show');
-            }
-        };
+
+        window.addEventListener('load', (event) => {
+            var x = document.getElementById("Pbutton");
+            x.style.display = "none";
     </script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            //We are binding onchange event using jQuery built-in change event
-            $('#ddlItemName').change(function () {
-                GetItemRate();
-                GetStockInf();
-                ShowItemIStock();
+
+        //document.onkeyup = function (e) {
+            //if (e.which == 67) {
+                //$('#ModalCreateInvoice').modal('show');
+            //}
+        //};
+    </script>
+
+    <script type="text/javascript">
+
+            $(document).ready(function () {
+                function GetDefaultPrinter() {
+                    PageMethods.GetPrinterSN(returnPrinterId);
+                }
+                function returnPrinterId(result) {
+                    var printerId = document.getElementById("<%=printerId.ClientID%>");
+                    printerId.innerHTML = result;
+                }
+                GetDefaultPrinter();
+                //We are binding onchange event using jQuery built-in change event
+                $('#ddlItemName').change(function () {
+                    GetItemRate();
+                    GetStockInf();
+                    ShowItemIStock();
+                });
+                function ShowItemIStock() {
+                    if ($("#ddlItemName option:selected").text() == "-Select Item-")
+                        $("#itemInfoDiv").toggle(false);
+                    else
+                        $("#itemInfoDiv").toggle(true);
+                }
+                function GetItemRate() {
+                    PageMethods.GetItemRate($("#ddlItemName option:selected").text(), Success);
+                }
+                function Success(result) {
+                    $("#txtUnitPrice").val(result[0]);
+                    document.getElementById("taxSpan").innerHTML = "Tax [" + result[1] + "%" + "]";
+                    document.getElementById("unitSpan").innerHTML = result[2];
+
+                }
+
+                function GetStockInf() {
+                    PageMethods.GetItemBalance($("#ddlItemName option:selected").text(), Success1);
+                }
+                function Success1(result) {
+                    document.getElementById("balanceSpan").innerHTML = "stock on hand [" + result + " " + document.getElementById("unitSpan").innerHTML + " ]";
+                }
             });
-            function ShowItemIStock() {
-                if ($("#ddlItemName option:selected").text() == "-Select Item-")
-                    $("#itemInfoDiv").toggle(false);
-                else
-                    $("#itemInfoDiv").toggle(true);
-            }
-            function GetItemRate() {
-                PageMethods.GetItemRate($("#ddlItemName option:selected").text(), Success);
-            }
-            function Success(result) {
-                $("#txtUnitPrice").val(result[0]);
-                document.getElementById("taxSpan").innerHTML = "Tax [" + result[1] + "%" + "]";
-                document.getElementById("unitSpan").innerHTML = result[2];
-
-            }
-
-            function GetStockInf() {
-                PageMethods.GetItemBalance($("#ddlItemName option:selected").text(), Success1);
-            }
-            function Success1(result) {
-                document.getElementById("balanceSpan").innerHTML = "stock on hand [" + result + " " + document.getElementById("unitSpan").innerHTML + " ]";
-            }
-        });
-
     </script>
     <style>
         .water {
@@ -74,7 +91,6 @@
         <asp:ScriptManager ID='ScriptManager1' runat='server' EnablePageMethods='true' />
         <div class="row">
             <div class="col">
-
                 <div class="bg-white rounded-lg h-100">
                     <div class="card-header bg-white ">
                         <div class="row">
@@ -86,6 +102,7 @@
 
                                 </a>
                                 <span class="badge mr-2 text-white badge-light text-gray-600 font-weight-bold" visible="false" id="invoiceDetailSpan" runat="server"></span>
+                                <span visible="false" id="invoiceStatus" runat="server"></span>
                                 <span class="fas fa-cart-plus mr-2" style="color: #d46fe8" id="salesIconSpan" runat="server"></span><span id="salesSpan" class="small text-gray-900 font-weight-bold text-uppercase" runat="server">Sales</span>
 
                             </div>
@@ -98,46 +115,43 @@
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnCustomize" class="mr-2 btn btn-outline-secondary btn-circle btn-sm" data-toggle="modal" data-target="#CustomizeInvoiceModal">
+                                    <button id="draftConverter" runat="server" visible="false" type="button"  class="btn btn-outline-warning rounded-pill mr-2 btn-sm" data-toggle="modal" data-target="#convertModal">Convert to Invoice</button>
+                                    <button type="button" visible="false" runat="server" id="btnCustomize" class="mr-2 btn btn-secondary btn-circle btn-sm" data-toggle="modal" data-target="#CustomizeInvoiceModal">
                                         <div>
                                             <i data-toggle="tooltip" title="Customize Template" class="fas fa-cog  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnSendEmail" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                    <button type="button" visible="false" runat="server" id="btnSendEmail" class="mr-2 btn btn-circle btn-secondary btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
                                         <div>
                                             <i data-toggle="tooltip" title="Send Email" class="fas fa-envelope  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnDelete" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#DeletInvoiceModal">
+                                    <button type="button" visible="false" runat="server" id="btnDelete" class="mr-2 btn btn-circle btn-secondary btn-sm" data-toggle="modal" data-target="#DeletInvoiceModal">
                                         <div>
                                             <i data-toggle="tooltip" title="Delete Invoice" class="fas fa-trash  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnDuplicate" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                    <button type="button" visible="false" runat="server" id="btnDuplicate" class="mr-2 btn btn-circle btn-secondary btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
                                         <div>
                                             <i data-toggle="tooltip" title="Duplicate" class="fas fa-copy  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnEdit" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#EditInvoiceModal">
+                                    <button type="button" visible="false" runat="server" id="btnEdit" class="mr-2 btn btn-circle btn-secondary btn-sm" data-toggle="modal" data-target="#EditInvoiceModal">
                                         <div>
                                             <i data-toggle="tooltip" title="Edit Info" class="fas fa-edit  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button name="b_print" onclick="printdiv('div_print');" class="mr-2 btn btn-circle btn-outline-secondary btn-sm">
+                                    <button name="b_print" onclick="printdiv('div_print');" class="mr-2 btn btn-circle btn-secondary btn-sm">
                                         <div>
                                             <i class="fas fa-print font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <div class="vr">
-                                    </div>
-
-
                                     <button type="button" runat="server" id="Sp2" class="mr-1 btn btn-sm btn-circle" style="background-color: #d46fe8" data-toggle="modal" data-target="#ModalCreateInvoice">
                                         <div>
                                             <i data-toggle="tooltip" title="Create Invoice" class="fas fa-plus text-white font-weight-bold"></i>
@@ -158,13 +172,16 @@
 
 
                                     <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                        <div class="dropdown-header text-gray-900">Filter:</div>
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#filterModal" id="A1" runat="server"><span class="fas fa-filter mr-2 " style="color: #d46fe8"></span>Filter Record</a>
+
                                         <div class="dropdown-header text-gray-900">Option:</div>
                                         <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#DiscountModal" id="A2" runat="server"><span class="fas fa-cog mr-2 " style="color: #d46fe8"></span>Manage Discount</a>
                                         <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#createNewBankModal" id="LR" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Bank Account</a>
 
                                         <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="creditLink" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Credit</a>
-                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="commentLink" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Comment</a>
-                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="refundLink" runat="server"><span class="fas fa-reply mr-2" style="color: #d46fe8"></span>Refund Invoice</a>
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CommentModal" id="commentLink" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Comment</a>
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" onclick="ShowRefund();" data-toggle="modal" visible="false" data-target="#ModalCreateInvoice" id="refundLink" runat="server"><span class="fas fa-reply mr-2" style="color: #d46fe8"></span>Refund Invoice</a>
                                     </div>
                                 </div>
 
@@ -216,7 +233,7 @@
 
                                     </td>
                                     <td class="text-gray-900 text-right">
-                                        <span class="badge badge-success">PAID</span>
+                                        <span class="badge badge-success"><%# Eval("invoice_type" , "{0:N2}")%></span>
                                     </td>
 
                                 </tr>
@@ -229,9 +246,13 @@
 
                         </asp:Repeater>
                     </div>
+
                     <div class="card-footer bg-white py-4" id="buttondiv" runat="server">
                         <nav aria-label="...">
                             <ul class="pagination justify-content-end mb-0">
+                                <td>
+
+                                </td>
                                 <br />
                                 <td>
                                     <asp:Label ID="Label1" runat="server" class="m-1 small text-uppercase text-gray-500"></asp:Label>
@@ -253,7 +274,7 @@
                     </div>
                     <div class="card-body text-gray-900" visible="false" id="invoiceDetailDiv" runat="server">
                         <div class="row">
-                            <div class="col-4 border-right" style="margin-top: -21px">
+                            <div class="col-4 border-right" style="margin-top: -21px; max-height:900px;overflow-y:scroll;overflow-x:hidden">
                                 <asp:Repeater ID="rptInvoiceShort" runat="server">
 
                                     <HeaderTemplate>
@@ -267,7 +288,7 @@
                                             <td>
                                                 <asp:Label ID="Label3" class="text-gray-900 small" runat="server" Text='<%# Eval("customer_name")%>'></asp:Label>
                                                 <br />
-                                                <a class=" text-primary  small" href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>"><span>INV#-00000<%# Eval("invoice_number")%></span></a>
+                                                <a class=" text-primary  small" href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>"><span>INV#-<%# Eval("invoice_number")%></span></a>
                                                 <span>| <span class="small text-gray-900"><%# Eval("date")%></span> </span>
                                             </td>
 
@@ -287,12 +308,14 @@
 
                                 </asp:Repeater>
                             </div>
-                            <div class="col-8">
+                            <div class="col-8" style="max-height:900px;overflow-y:scroll;overflow-x:hidden">
+          
                                 <div id="div_print">
-                                    <div class="row" style="margin-left: -60px; margin-right: -60px">
+
+                                    <div class="row mt-3" style="margin-left: -60px; margin-right: -60px">
                                         <div class="col-1">
                                         </div>
-                                        <div id="colTen" class="col-10 shadow" >
+                                        <div id="colTen" class="col-10 shadow-sm" >
                                             <div class="card-body border-none">
                                                 <div class="row">
                                                     <div class="col-md-6  text-left" style="color: black">
@@ -360,17 +383,18 @@
 
                                                         <HeaderTemplate>
 
-                                                            <table class="table align-items-center table-sm " style="color: black;">
+                                                            <table class="table align-items-center table-sm " style="color: black;" id="attachmentTable">
                                                                 <thead class="thead-dark ">
                                                                     <tr>
                                                                         <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">#</th>
 
-                                                                        <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">Item & Description</th>
+                                                                        <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">Item</th>
+                                                                        <th scope="col" class="" style="border-block-color: black; border: solid; border-width: 1px">Description</th>
                                                                         <th scope="col" class=" text-center" style="border-block-color: black; border: solid; border-width: 1px">Quantity</th>
-                                                                        <th scope="col" class="text-center" style="border-block-color: black; border: solid; border-width: 1px">Unit Price</th>
+                                                                        <th scope="col" class="text-center" style="border-block-color: black; border: solid; border-width: 1px">Price</th>
 
 
-                                                                        <th scope="col" class=" text-right" style="border-block-color: black; border: solid; border-width: 1px">Total Price</th>
+                                                                        <th scope="col" class=" text-right" style="border-block-color: black; border: solid; border-width: 1px">Amount</th>
 
                                                                     </tr>
                                                                 </thead>
@@ -382,23 +406,23 @@
                                                                     <a class="  " href="sales.aspx?invno=<%# Eval("invoice_number")%>&&fsno=<%# Eval("fsno")%>&&customer=<%# Eval("customer_name")%>&&item_id=<%# Eval("id")%>&&edit=true"><span><%# Eval("id")%></span></a>
                                                                 </td>
                                                                 <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px">
-                                                                    <span><%# Eval("item_name")%></span><br />
-                                                                    <span class="small text-gray-600"><%# Eval("description")%></span>
+                                                                    <%# Eval("item_name")%>
+                                                                </td>
+                                                                <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px">
+                                                                    <%# Eval("description")%>
+                                                                    
 
                                                                 </td>
-
                                                                 <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-center" contenteditable="true">
-                                                                    <span><%# Convert.ToDouble(Eval("quantity")).ToString("#,##0.00")%></span>
+                                                                   <%# Convert.ToDouble(Eval("quantity")).ToString("#,##0.00")%>
                                                                 </td>
 
                                                                 <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class=" text-center" contenteditable="true">
-                                                                    <span><%# Convert.ToDouble(Eval("unit_price")).ToString("#,##0.00")%></span>
-
+                                                                    <%# Convert.ToDouble(Eval("unit_price")).ToString("#,##0.00")%>
                                                                 </td>
 
                                                                 <td style="color: black; border-block-color: black; border: solid; border-width: 1px" class="text-right" contenteditable="true">
-                                                                    <span><%# Convert.ToDouble(Eval("total_amount")).ToString("#,##0.00")%></span>
-
+                                                                    <%# Convert.ToDouble(Eval("total_amount")).ToString("#,##0.00")%>
                                                                 </td>
                                                             </tr>
 
@@ -502,11 +526,89 @@
                             </main>
                         </center>
                     </div>
-
-
                 </div>
+            </div>
+        </div>
+        <div class="modal fade " id="filterModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel">
+                            <span class="fas fa-filter mr-2" style="color: #d46fe8"></span>Filter Record</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="dateRange" name="customRadioInline2" class="custom-control-input" runat="server" checked="true" clientidmode="Static" />
+                                    <label class="custom-control-label text-gray-700 small " for="dateRange">Date Range</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">FRM</span>
+                                        </div>
+                                        <asp:TextBox ID="txtDateFrom" ClientIDMode="Static" TextMode="Date" data-toggle="tooltip" title="From Date" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                                                        <div class="col-6">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">TOD</span>
+                                        </div>
+                                        <asp:TextBox ID="txtDateTo" ClientIDMode="Static" TextMode="Date" data-toggle="tooltip" title="To Date" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-12">
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="advancedSearch" name="customRadioInline2" class="custom-control-input" runat="server" clientidmode="Static" />
+                                    <label class="custom-control-label text-gray-700 small " for="advancedSearch">Advanced search</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="customerDiv" style="display:none">
+                            <div class="col-12">
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <asp:TextBox ID="txtCustomerSearchName" ClientIDMode="Static" placeholder="Customer Name. eg Abel" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                    <div class="col-6">
+                                        <asp:TextBox ID="txtInvoiceNumber" ClientIDMode="Static" placeholder="Invoice Number/ Att. Reference" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="row mb-3" id="invoiceDiv" style="display: none">
+                            <div class="col-12">
+                                <div class="form-group mb-0">
+                                    <asp:DropdownList ID="ddlInvoiceType" ClientIDMode="Static" placeholder="Customer Name. eg Abel" class="form-control form-control-sm" runat="server">
+                                        <asp:ListItem>Cash Sale</asp:ListItem>
+                                        <asp:ListItem>Credit Sale</asp:ListItem>
+                                        <asp:ListItem>Refund</asp:ListItem>
+                                    </asp:DropdownList>
+                                </div>
+                            </div>
 
-
+                        </div>
+                        <div class="modal-footer">
+                            <asp:LinkButton ID="btnFilterRecord" class="btn btn-sm text-white" Style="background-color: #d46fe8" runat="server" OnClick="btnFilterRecord_Click"><span class="fas fa-search text-white mr-2"></span>Search</asp:LinkButton>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="modal fade " id="EditLineModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -554,6 +656,43 @@
                                 <center>
                                     <div class="input-group">
                                         <asp:LinkButton ID="btnSaveLineItem" class="btn btn-sm text-white w-100" Style="background-color: #d46fe8" runat="server" OnClick="btnSaveLineItem_Click"><span class="fas fa-save text-white mr-2"></span>Save Edit</asp:LinkButton>
+                                    </div>
+                                </center>
+
+                            </div>
+                            <div class="col-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="CommentModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel">
+                            <span class="fas fa-comment mr-2" style="color: #d46fe8"></span>Add Comment</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="form-group mb-0">
+                                    <asp:TextBox ID="txtInvoiceComment" Height="150px" ClientIDMode="Static" TextMode="MultiLine" data-toggle="tooltip" title="Quantity" placeholder="Comments here..." class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-8">
+                                <center>
+                                    <div class="input-group">
+                                        <asp:LinkButton ID="btnSaveComment" class="btn btn-sm text-white w-100" Style="background-color: #d46fe8" runat="server" OnClick="btnSaveComment_Click"><span class="fas fa-save text-white mr-2"></span>Save Comment</asp:LinkButton>
                                     </div>
                                 </center>
 
@@ -663,10 +802,12 @@
             <div class="modal-dialog  modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h6 class="modal-title font-weight-bold text-gray-900" id="exampleModalLabelG"><span class="fas fa-cart-plus mr-2" style="color: #c24599"></span>
-                            Create Invoice [INV#-00000<span id="invoiceSpan" runat="server"></span>]
-                            
+                        <h6 class="modal-title font-weight-bold text-gray-900" id="exampleModalLabelG"><span class="fas fa-cart-plus mr-2" id="createInvoiceIcon" runat="server" style="color: #c24599"></span>
+                            <span id="createInvoiceSpan" runat="server">Create Invoice</span> [INV#-<span id="invoiceSpan" runat="server"></span>]
+
                             <button class="btn btn-circle btn-sm ml-2" type="button" data-toggle="modal" data-target="#ExistingCustomerModal"><span class="fas fa-user-check " data-toggle="tooltip" title="Select existing customer" style="color: #d46fe8"></span></button>
+                            <span class="m-1 small text-uppercase text-white">Printer ID<span id="printerId" runat="server" class="badge text-lowercase text-white badge-light"></span></span>
+
                         </h6>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -728,6 +869,7 @@
                                     <label class="custom-control-label font-weight-200  text-gray-900  small font-weight-bold text-uppercase " for="bank">Bank</label>
                                 </div>
                             </div>
+                            
                         </div>
                         <div class="row mb-3">
                             <div class="col-8">
@@ -746,11 +888,84 @@
                                     <input type="radio" id="credit" name="customRadioInline" class="custom-control-input" runat="server" clientidmode="Static" />
                                     <label class="custom-control-label font-weight-200  text-gray-900  small font-weight-bold text-uppercase " for="credit">Apply Credit</label>
                                 </div>
+
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-8 ">
                                 <asp:TextBox ID="txtCreditAmount" Value="0" Style="display: none" data-toggle="tooltip" title="Credit Amount" ClientIDMode="Static" class="form-control form-control-sm" placeholder="Credit Amount" runat="server"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="row border-top mb-3">
+ 
+                            <div class="col-12">      
+                                <label class="small mr-2 text-gray-600">Receipt Settings:</label>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+
+                                    <input type="checkbox" id="duplicate" name="customRadioInline2" class="custom-control-input"  runat="server" clientidmode="Static" />
+                                    <label class="custom-control-label text-gray-700 small " for="duplicate">Print Duplicate Receipt</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="refund" name="customRadioInline2" class="custom-control-input" runat="server" clientidmode="Static" />
+                                    <label class="custom-control-label text-gray-700 small " for="refund">Is Refund</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mb-3  border-top">
+                            <div class="col-7 mt-2">
+                                <asp:DropDownList ID="ddlINVnumber" Style="display: none" data-toggle="tooltip" title="Select Invoice to Refund" ClientIDMode="Static" class="form-control form-control-sm" runat="server"></asp:DropDownList>
+                            </div>
+                            
+                        </div>
+                        <div class="row mb-3" id="refundTable" style="display:none">
+                            <div class="col-7">
+                                <div class=" table-responsive">
+                                    <table class="table table-sm table-bordered">
+
+                                        <tbody>
+
+                                            <tr class="border-bottom">
+                                                <td class=" text-gray-700">
+                                                    <span class="fas fa-arrow-alt-circle-right mr-2 text-gray-400"></span><span class="text-gray-500 small">Device Rec#</span>
+
+                                                </td>
+                                                <td class=" text-right">
+                                                    <span class="small text-gray-600" id="refundReceiptNo" runat="server"></span>
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class=" text-gray-700">
+                                                    <span class="fas fa-arrow-alt-circle-right mr-2 text-gray-400"></span><span class="text-gray-500 small">DateTime</span>
+
+                                                </td>
+                                                <td class=" text-right">
+                                                    <span class="small text-gray-600" id="refundDateTime" runat="server"></span>
+
+
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class=" text-gray-700 ">
+                                                    <span class="fas fa-arrow-alt-circle-right mr-2 text-gray-400"></span><span class="text-gray-500 small">Fiscal Memory#</span>
+
+                                                </td>
+                                                <td class=" text-right">
+                                                    <span class=" text-gray-600">
+
+                                                        <span class="small text-gray-600" id="refundMemory" runat="server"></span>
+
+                                                    </span>
+
+                                                </td>
+                                            </tr>
+                                            
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
                             </div>
                         </div>
                         <div class="mt-2 mb-2 border-top"></div>
@@ -856,14 +1071,22 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-light btn-sm" type="button" data-toggle="tooltip" onclick="AddJson();" title="Add Json"><span class="fas fa-plus"></span></button>
-                        <asp:LinkButton ID="btnCreateInvoice" runat="server" class="btn btn-sm text-white" Style="background-color: #d46fe8" CausesValidation="false" OnClick="btnCreateInvoice_Click"><span class="fas fa-plus mr-2"></span>Create Invoice</asp:LinkButton>
+                        <button class="btn btn-light btn-sm" type="button" onclick="ConvertToPercentage()">Add</button>
+                        <button class="btn btn-sm text-white" style="background-color: #d46fe8;display: none" type="button" disabled id="Pbutton">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Creating Invoice...
+                        </button>
+                        <asp:LinkButton ID="btnSaveAsDraft" runat="server" class="btn btn-sm btn-light" OnClientClick="ShowLoader();SendJSONtoPrinter();" CausesValidation="false" OnClick="btnSaveAsDraft_Click"><span class="fas fa-save mr-2"></span>Save as Draft</asp:LinkButton>
+                        <asp:LinkButton ID="btnCreateInvoice" runat="server" class="btn btn-sm text-white" OnClientClick="ShowLoader();SendJSONtoPrinter();" Style="background-color: #d46fe8" CausesValidation="false" OnClick="btnCreateInvoice_Click"><span class="fas fa-plus mr-2"></span>Create Invoice</asp:LinkButton>
 
                     </div>
 
                 </div>
             </div>
         </div>
+
+
+
         <div class="modal fade " id="CustomizeInvoiceModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
@@ -968,6 +1191,29 @@
                 </div>
             </div>
         </div>
+        <script>
+            function ShowLoader() {
+                var y = document.getElementById("<%=btnCreateInvoice.ClientID %>");
+                var z = document.getElementById("<%=btnSaveAsDraft.ClientID %>");
+                var x = document.getElementById("Pbutton");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+
+                if (y.style.display === "none") {
+                    y.style.display = "block";
+                } else {
+                    y.style.display = "none";
+                }
+                if (z.style.display === "none") {
+                    z.style.display = "block";
+                } else {
+                    z.style.display = "none";
+                }
+            }
+        </script>
         <script type="text/javascript">
             var slider = document.getElementById("customRange5");
             var txtAm = document.getElementById("<%=lblOpacity.ClientID%>");
@@ -975,6 +1221,117 @@
                 txtAm.innerText = this.value;
             }
         </script>
+        <div class="modal fade " id="convertModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-stop-circle mr-2" style="color: #ff00bb"></span>
+                            Approve Conversion
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-2 ">
+                            <div class="col-12 ">
+                                
+                                <span class="text-gray-400 text-uppercase">Draft Summary</span>
+                                 <br />
+                                <table class="table table-sm">
+
+                                    <tbody>
+                                        <tr class="border-bottom">
+                                            <td class=" text-gray-700">
+                                                <span class="fas fa-arrow-alt-circle-right mr-2 text-gray-400"></span><span class="text-gray-500 small">Total Amount</span>
+
+                                            </td>
+                                            <td class=" text-right">
+                                                <span class="small text-gray-600" id="totalAmount" runat="server"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class=" text-gray-700">
+                                                <span class="fas fa-arrow-alt-circle-right mr-2 text-gray-400"></span><span class="text-gray-500 small">Credit</span>
+
+                                            </td>
+                                            <td class=" text-right">
+                                                <span class="small text-gray-600" id="creditAmount" runat="server"></span>
+
+
+                                            </td>
+                                        </tr>
+                                        <tr class="border-bottom">
+                                            <td class=" text-gray-700 text-uppercase">
+                                                <span class="fas fa-arrow-alt-circle-right mr-2 text-gray-400"></span><span class="text-gray-500 small">Item#</span>
+
+                                            </td>
+                                            <td class=" text-right">
+                                                <span class=" text-gray-600">
+
+                                                    <span class="small text-gray-600" id="itemCountSummary" runat="server"></span>
+
+                                                </span>
+
+                                            </td>
+                                        </tr>
+              
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        <div class="row mb-3">
+                            <div class="col-12 ">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">FS#</span>
+                                        </div>
+                                        <asp:TextBox ID="txtDraftFSNumber" data-toggle="tooltip" title="FS#" ClientIDMode="Static" placeholder="FS#" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 ">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">DATE</span>
+                                        </div>
+                                        <asp:TextBox ID="txtDraftDate" data-toggle="tooltip" TextMode="Date" title="Date of Invoice" ClientIDMode="Static" placeholder="Date" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3 border-top border-bottom">
+
+                            <div class="col-12">
+              
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="isRefund" name="customRadioInline2" class="custom-control-input" runat="server" clientidmode="Static" />
+                                    <label class="custom-control-label text-gray-700 small " for="isRefund">Is Refund</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-2 ">
+                                </div>
+                            <div class="col-8 text-center">
+                                <button class="btn btn-light btn-sm" type="button" onclick="SendDraftJSONtoPrinter()">cancel</button>
+                                <asp:LinkButton ID="btnConvertToInvoice" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClientClick="SendDraftJSONtoPrinter()" OnClick="btnConvertToInvoice_Click1" runat="server" Text="Button"><span class="fas fa-recycle mr-2"></span>Convert</asp:LinkButton>
+
+                            </div>
+                            <div class="col-2 ">
+                            </div>
+                        </div>
+             
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade " id="EditInvoiceModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
@@ -1115,10 +1472,49 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                var totalAmount1 = document.getElementById("<%=totalAmount.ClientID%>");
+                var creditAmount = document.getElementById("<%=creditAmount.ClientID%>");
+                var itemCountSummary = document.getElementById("<%=itemCountSummary.ClientID%>");
 
+                totalAmount1.innerText = document.getElementById("<%=Total.ClientID%>").innerHTML;
+                creditAmount.innerText = document.getElementById("<%=credittotal.ClientID%>").innerText;
+                itemCountSummary.innerText = Number(document.getElementById("attachmentTable").rows.length) - 1;
+
+            });
+        </script>
+        <script type="text/javascript">
+            function ShowRefund() {
+                var createInvoiceSpan = document.getElementById("<%= createInvoiceSpan.ClientID%>");
+                var createInvoiceIcon = document.getElementById("<%= createInvoiceIcon.ClientID%>");
+
+                createInvoiceSpan.innerHTML = "Create Refund";
+                createInvoiceIcon.className = "fas fa-reply mr-2";
+            }
+        </script>
 
         <script type="text/javascript">
+            $('#advancedSearch').click(function () {
+                var h = document.getElementById("customerDiv");
+                if (h.style.display === "none") {
+                    h.style.display = "block";
+                    h.className = "row mb-3";
+                } else {
+                    h.style.display = "none";
+                }
+                //For Invoice Type Number
+                var y = document.getElementById("invoiceDiv");
+                if (y.style.display === "none") {
+                    y.style.display = "block";
+                } else {
+                    y.style.display = "none";
+                }
+            });
+        </script>
+        <script type="text/javascript">
             $('#transactional').click(function () {
+                
                 $("#ddlDiscountApplied").toggle(true);
             });
             $('#no').click(function () {
@@ -1129,12 +1525,41 @@
             });
         </script>
         <script type="text/javascript">
+            $('#refund').click(function () {
+                x = document.getElementById("<%=ddlINVnumber.ClientID%>");
+                if (x.style.display === "none") {
+                    $("#ddlINVnumber").toggle(true);
+                    document.getElementById("refundTable").style.display = "block";
+                } else {
+                    $("#ddlINVnumber").toggle(false);
+                    document.getElementById("refundTable").style.display = "none";
+                }
+              
+            });
             $('#paid').click(function () {
                 $("#txtCreditAmount").toggle(false);
             });
             $('#credit').click(function () {
                 $("#txtCreditAmount").toggle(true);
             });
+            $('#ddlINVnumber').change(function () {
+                if ($("#ddlINVnumber option:selected").text() == "-Select Invoice Number-") {
+                    document.getElementById("refundTable").style.display = "none";
+                }
+                else {
+                    GetRefundData();
+                    document.getElementById("refundTable").style.display = "block";
+                }
+            });
+            function GetRefundData() {
+                PageMethods.GetRefundResult($("#ddlINVnumber option:selected").text(), returnVales)
+            }
+            function returnVales(result) {
+                document.getElementById("<%=refundReceiptNo.ClientID%>").innerText = result[0];
+                document.getElementById("<%=refundDateTime.ClientID%>").innerText = result[1];
+                document.getElementById("<%=refundMemory.ClientID%>").innerText = result[2];
+
+            }
         </script>
         <script type="text/javascript">
             $('#bank').click(function () {
@@ -1170,17 +1595,14 @@
                 var header2 = header.insertCell(1);
                 var header3 = header.insertCell(2);
                 var header4 = header.insertCell(3);
-                var header5 = header.insertCell(4);
-                header1.innerHTML = "Item";
-                header2.innerHTML = "Description";
-                header3.innerHTML = "Quantity";
-                header4.innerHTML = "Rate";
-                header5.innerHTML = "Amount";
+                header1.innerHTML = "Item & Description";
+                header2.innerHTML = "Quantity";
+                header3.innerHTML = "Rate";
+                header4.innerHTML = "Amount";
                 header1.className = " bg-light text-gray-500";
                 header2.className = " bg-light text-gray-500";
                 header3.className = " bg-light text-gray-500";
-                header4.className = " bg-light text-gray-500";
-                header5.className = "text-right bg-light mall text-gray-500";
+                header4.className = "text-right bg-light mall text-gray-500";
             });
         </script>
         <script type="text/javascript">
@@ -1261,101 +1683,20 @@
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
                 var cell4 = row.insertCell(3);
-                var cell5 = row.insertCell(4);
+                
                 // Add some text to the new cells:
-                cell1.innerHTML = $("#ddlItemName option:selected").text();
-                cell2.innerHTML = $("[id*=txtDescription]").val();
-                cell3.innerHTML = $("[id*=txtQuantity]").val();
+                cell1.innerHTML = $("#ddlItemName option:selected").text()+ "<br/>" + $("[id*=txtDescription]").val();
+                cell2.innerHTML = $("[id*=txtQuantity]").val();
 
                 var unitPrice = Number($("[id*=txtUnitPrice]").val()) - Number(discount);
                 var quantity = $("[id*=txtQuantity]").val();
-                var totalPrice = unitPrice * quantity;
-                cell4.innerHTML = unitPrice;
-                cell5.innerHTML = totalPrice;
-                cell5.className = "text-right";
+                var totalPrice = (unitPrice * quantity).toFixed(2);
+                cell3.innerHTML = unitPrice;
+                cell4.innerHTML = totalPrice;
+                cell4.className = "text-right";
                 GetTax();
             }
         </script>
-        <script type="text/javascript">
-            function GetDiscountSurchargeOption() {
-                PageMethods.GetSurchargeDiscountSetting(returnSettings);
-                function returnSettings(result) {
-                    return result;
-                }
-            }
-            function GetDefaultPrinter() {
-                PageMethods.GetPrinterSN(returnName);
-                function returnName(result) {
-                    return result;
-                }
-            }
-            function UniqueSaleNumberGenerator() {
-                var firstLetters = GetDefaultPrinter();
-                var operatorCode = "CS00";
-                var lastSerialNumber = $("[id*=txtFSNumber]").val();
-                var uniqueSaleNumber = firstLetters + operatorCode + lastSerialNumber;
-            }
-            //JSON Input without surcharge and discount
-            function AddJson() {
-                //Getting the amount paid for the invoice
-                //Amount Paid = Total - Credit
-
-                var totalAmount = document.getElementById("<%=GrandTotal.ClientID %>");
-                var creditAmount = $("[id*=txtCreditAmount]").val();
-                var paymentAmount = Number(totalAmount.innerHTML) - creditAmount;
-
-                //Binding item list and payment types [Including the discounts]
-                var uniqueSaleNumber = UniqueSaleNumberGenerator();
-                var jsonItemList = "{\"uniqueSaleNumber\":" + uniqueSaleNumber + ",\"items\": [";
-                for (var i = 0; i < Number(document.getElementById("<%=itemCount.ClientID %>").innerText); i++) {
-                    jsonItemList += "{\"text\"" + ":" + $("#ddlItemName option:selected").text() + ",";
-                    jsonItemList += "\"quantity\"" + ":" + $("[id*=txtQuantity]").val() + ",";
-                    jsonItemList += "\"unitPrice\"" + ":" + $("[id*=txtUnitPrice]").val() + ",";
-                    jsonItemList += "\"taxGroup\"" + ":" + Number("1") + "},";
-                }
-                jsonItemList = jsonItemList.substring(jsonItemList.length - 1, length);
-                jsonItemList += "],";
-                jsonItemList += "\"payments\"" + ":" + "[{\"amount\"" + ":" + paymentAmount.toFixed(2) + ",\"paymentType\"" + ":" + "cash" + "}]";
-                jsonItemList += "}";
-                //var itemCount = document.getElementById("<%=itemCount.ClientID %>");
-                //itemCount.innerHTML = jsonItemList;
-                return jsonItemList;
-
-            }
-            //JSON with surcharge and without discount
-            function AddJsonSurcharge() {}
-            //JSON without surcharge and with discount
-            function AddJsonDiscount() {}
-            //JSON with surcharge and with discount
-            function AddJsonSurchargeDiscount() {}
-
-            function SendJSONtoPrinter(json, uri) {
-                $(document).ready(function () {
-                    $.post(uri,   // url
-                        json, // data to be submit
-                        function (data, status, jqXHR) {   // success callback
-
-                        });
-                });
-            }
-            function PrintReceipt() {
-                var printerId = GetDefaultPrinter();
-                var uri = "http://localhost:8001/" + printerId + "/receipt";
-                //Defing setting parameters
-                var isSurchargeAllowed = GetDiscountSurchargeOption()[0];
-                var isDiscountAllowed = GetDiscountSurchargeOption()[1];
-                //Make the option whether surcharge and discount is activated
-                if (isDiscountAllowed == false && isSurchargeAllowed == false)
-                    SendJSONtoPrinter(AddJson(), uri);
-                if (isDiscountAllowed == true && isSurchargeAllowed == false)
-                    SendJSONtoPrinter(AddJsonDiscount(), uri);
-                if (isDiscountAllowed == false && isSurchargeAllowed == true)
-                    SendJSONtoPrinter(AddJsonSurcharge(), uri);
-                if (isDiscountAllowed == true && isSurchargeAllowed == true)
-                    SendJSONtoPrinter(AddJsonSurchargeDiscount(), uri);
-            }
-        </script>
-
         <script type="text/javascript">
             function CreateSale() {
                 var customerName = $("[id*=txtCustomerName]").val();
@@ -1409,6 +1750,271 @@
                 var slider = document.getElementById("customRange5");
                 slider.value = txtAm.innerText;
             });
+        </script>
+
+
+        <script type="text/javascript">
+            //Discount amount to percentage converter
+            function RemoveDescription(text) {
+                var indexOfNewLine = text.indexOf("\n");
+                text = text.substring(0, indexOfNewLine)
+                return text;
+            }
+            function ConvertToPercentage() {
+                var percenteDiscount = 0;
+                var initalRate = $("#txtUnitPrice").val();
+                var discount = $("#txtDiscountLine").val();
+                var finalRate = initalRate - discount;
+                if ($("#ddlLineDiscountType option:selected").text() == "ETB") {
+                    percenteDiscount = (((initalRate - finalRate) / initalRate) * 100).toFixed(2);
+                }
+                else {
+                    percenteDiscount = $("#txtDiscountLine").val();
+
+                }
+                alert(percenteDiscount);
+            }
+            function BindDiscount() {
+
+            }
+            //Record Receipt Response[receipt no, datetime, fiscalmemoryno]
+            function RecordReceiptResponse(invoiceNumber, receiptNo, datetime, fiscalMemoryNo) {
+                PageMethods.RecordReceiptInfo(invoiceNumber, receiptNo, datetime, fiscalMemoryNo);
+            }
+
+            function RemoveCurlBrace(text) {
+                text = text.substring(0, text.length - 1);
+                text = text.substring(1, text.length);
+                return text;
+            }
+            //Methods for retriving Refund
+            function GetRefundInfo() {
+                PageMethods.GetRefundResult(document.getElementById("<%= invoiceSpan.ClientID%>"), refundValue);
+            }
+            var refundCheckBox = document.getElementById("<%= refund.ClientID%>")
+            function GetRefundValue() {
+                var refundJsonData = "";
+                if (refundCheckBox.checked == true) {
+                    refundJsonData += RemoveCurlBrace(JSON.stringify({
+                        Reversal: {
+                            RevrsalType: "Refund",
+                            ReceiptNo: document.getElementById("<%=refundReceiptNo.ClientID%>").innerText,
+                            ReceiptDateTime: document.getElementById("<%=refundDateTime.ClientID%>").innerText,
+                            FiscalMemoryNo: document.getElementById("<%=refundMemory.ClientID%>").innerText
+                        }
+                    }));
+                    refundJsonData += ",";
+                }
+                return refundJsonData;
+            }
+            //End Retriving
+            function UniqueSaleNumberGenerator() {
+                var printerId = document.getElementById("<%=printerId.ClientID%>");
+                var firstLetters = printerId.innerHTML;
+                var operatorCode = "0001";
+                var lastSerialNumber = $("[id*=txtFSNumber]").val();
+                var uniqueSaleNumber = firstLetters + "-" + operatorCode + "-" + lastSerialNumber;
+                return uniqueSaleNumber;
+            }
+            function BindRefund() {
+                var refundJsonValue = "";
+                var createInvoiceSpan = document.getElementById("<%= createInvoiceSpan.ClientID%>");
+                if (createInvoiceSpan.innerHTML == "Create Refund") {
+                    refundJsonValue = GetRefundInfo();
+                }
+                return refundJsonValue;
+            }
+            function IterateDraftItemLine() {
+                //Item Count
+                let jsonData = "";
+                var table2 = document.getElementById("attachmentTable");
+                for (var i = 1; i < table2.rows.length; i++) {
+                    jsonData += "{";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ ItemName: table2.rows[i].cells[1].innerText })) + ",";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ Price: Number(table2.rows[i].cells[2].innerText) })) + ",";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ TaxGroup: Number("1") })) + ",";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ Quantity: Number(table2.rows[i].cells[3].innerText) }));
+                    jsonData += "},";
+                }
+                return jsonData;
+            }
+            function IterateItemLine() {
+                //Item Count
+                let jsonData = "";
+                var table = document.getElementById("myTable");
+                var itemCounts = Number(document.getElementById("<%=itemCount.ClientID %>").innerText)
+                for (var i = 1; i < itemCounts + 1; i++) {
+                    jsonData += "{";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ ItemName: RemoveDescription(table.rows[i].cells[0].innerText) })) + ",";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ Price: Number(table.rows[i].cells[3].innerText) })) + ",";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ TaxGroup: Number("1") })) + ",";
+                    jsonData += RemoveCurlBrace(JSON.stringify({ Quantity: Number(table.rows[i].cells[2].innerText) }));
+                    jsonData += "},";
+                }
+                return jsonData;
+            }
+
+            //JSON Input without surcharge and discount
+            function AddJson() {
+                //Getting the amount paid for the invoice
+                //Amount Paid = Total - Credit
+                var totalAmount = document.getElementById("<%=GrandTotal.ClientID %>");
+                var creditAmount = document.getElementById("<%=credittotal.ClientID %>");
+                var paymentAmount = Number(totalAmount.innerText) - creditAmount.innerText;
+                const headerJsonData = RemoveCurlBrace(JSON.stringify({
+                    ReceiptType: 1, //1 for Sale type
+                    Operator: {
+                        Code: "1",
+                        Name: "Abel",
+                        Password: "*******"
+                    },
+                    uniqueSaleNumber: UniqueSaleNumberGenerator()
+                }));
+                var bodyJsonData = RemoveCurlBrace(JSON.stringify({
+                    Rows: []
+                }));
+                bodyJsonData = bodyJsonData.substring(0, 8);
+                bodyJsonData += IterateItemLine().substring(0, IterateItemLine().length - 1) + ",";
+                bodyJsonData += JSON.stringify({
+                    Amount: Number(paymentAmount.toFixed(2)),
+                    PaymentType: 1 //1 for cash sale
+                });
+                bodyJsonData += "]";
+                var jsonData = "{" + headerJsonData + "," + GetRefundValue() + bodyJsonData + "}";
+                return jsonData;
+            }
+            //JSON with surcharge and without discount
+            function AddJsonDraft() {
+                //Getting the amount paid for the invoice
+                //Amount Paid = Total - Credit
+
+                var totalAmount = document.getElementById("<%=Total.ClientID %>");
+                var creditAmount = document.getElementById("<%=credittotal.ClientID %>");
+                var paymentAmount = Number(totalAmount.innerText) - creditAmount.innerText;
+                const headerJsonData = RemoveCurlBrace(JSON.stringify({
+                    ReceiptType: 1, //1 for Sale type
+                    Operator: {
+                        Code: "1",
+                        Name: "Abel",
+                        Password: "*******"
+                    },
+                    uniqueSaleNumber: UniqueSaleNumberGenerator()
+                }));
+                var bodyJsonData = RemoveCurlBrace(JSON.stringify({
+                    Rows: []
+                }));
+                bodyJsonData = bodyJsonData.substring(0, 8);
+                bodyJsonData += IterateDraftItemLine().substring(0, IterateDraftItemLine().length - 1) + ",";
+                bodyJsonData += JSON.stringify({
+                    Amount: Number(paymentAmount.toFixed(2)),
+                    PaymentType: 1 //1 for cash sale
+                });
+                bodyJsonData += "]";
+                var jsonData = "{" + headerJsonData + "," + bodyJsonData + "}";
+                return jsonData;
+            }
+            //Post and Receive information from the fiscal printer when create Invoice
+            function SendJSONtoPrinter() {
+                var printerId = document.getElementById("<%=printerId.ClientID%>");
+                var uri = 'http://localhost:3000/printers/' + printerId.innerText + '/receipt';
+                var json = AddJson();
+                $.ajax({
+                    type: "POST",
+                    url: uri,
+                    data:json,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        //recording the response json
+                        RecordReceiptResponse(document.getElementById(
+                            "<%=invoiceSpan.ClientID %>").innerHTML
+                            , response.ReceiptNo
+                            , response.ReceiptDateTime
+                            , response.FiscalMemoryNo);
+                    },
+                    error: function (error) {
+                        alert("Couldn't connect to the printer");
+                    }
+                });
+            }
+            //Post and Receive Drafted Item from the fiscal printer when create Invoice
+            function SendDraftJSONtoPrinter() {
+                var printerId = document.getElementById("<%=printerId.ClientID%>");
+                var uri = 'http://localhost:3000/printers/' + printerId.innerHTML + '/receipt';
+                var json = AddJsonDraft();
+                $.ajax({
+                    type: "POST",
+                    url: uri,
+                    data:json,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        //recording the response json
+                        RecordReceiptResponse(document.getElementById(
+                            "<%=invoiceSpan.ClientID %>").innerHTML
+                            , response.ReceiptNo
+                            , response.ReceiptDateTime
+                            , response.FiscalMemoryNo);
+                    },
+                    error: function (error) {
+                        alert("Couldn't connect to the printer");
+                    }
+                });
+            }
+        </script>
+        <script>
+            $(document).ready(function () {
+                GetFSNumberConfig();
+            });
+            function GetFSNumberConfig() {
+                PageMethods.GetFSnumberSetings(GetFSNumbersettingsValue);
+            }
+            function GetFSNumbersettingsValue(result) {
+                if (result[0] == "True") {
+                    if (result[1] == "True") {
+                        var SerialNo = document.getElementById("<%=printerId.ClientID%>");
+
+                        var deviceReceiptNo = document.getElementById("<%=txtFSNumber.ClientID%>");
+                        $(document).ready(function () {
+                            var uri = 'http://localhost:3000/printers/' + SerialNo.innerText;
+                            $.getJSON(uri)
+                                .done(function (data) {
+                                    $("[id*=txtFSNumber]").val(String(Number(data.LastReceiptNo) + 1).padStart('8', '0'));
+                                    $("[id*=txtDraftFSNumber]").val(String(Number(data.LastReceiptNo) + 1).padStart('8', '0'));
+                                })
+                        });
+                    }
+                    else {
+                        PageMethods.BindFSnumber(GetFSNumberValues);
+                        function GetFSNumberValues(result) {
+                            $("[id*=txtFSNumber]").val(String(Number(result)).padStart('8', '0'));
+                            $("[id*=txtDraftFSNumber]").val(String(Number(result)).padStart('8', '0'));
+                        }
+                    }
+                }
+                else {
+                    if (result[1] == "True") {
+                        var SerialNo = document.getElementById("<%=printerId.ClientID%>");
+
+                        var deviceReceiptNo = document.getElementById("<%=txtFSNumber.ClientID%>");
+                        $(document).ready(function () {
+                            var uri = 'http://localhost:3000/printers/' + SerialNo.innerText;
+                            $.getJSON(uri)
+                                .done(function (data) {
+                                    $("[id*=txtFSNumber]").val(Number(data.LastReceiptNo) + 1);
+                                    $("[id*=txtDraftFSNumber]").val(Number(data.LastReceiptNo) + 1);
+                                })
+                        });
+                    }
+                    else {
+                        PageMethods.BindFSnumber(GetFSNumberValues);
+                        function GetFSNumberValues(result) {
+                            $("[id*=txtFSNumber]").val(String(Number(result)).padStart('0', '0'));
+                            $("[id*=txtDraftFSNumber]").val(String(Number(result)).padStart('0', '0'));;
+                        }
+                    }
+                }
+            }
         </script>
     </div>
 </asp:Content>

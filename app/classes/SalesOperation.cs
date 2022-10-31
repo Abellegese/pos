@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Web;
-using pos.app.classes;
 namespace pos.app.classes
 {
-    public class SalesOperation:SQLOperation,ISale
+    public class SalesOperation : SQLOperation, ISale
     {
         public string CustomerName { get; set; }
         public string ItemName { get; set; }
@@ -30,6 +26,8 @@ namespace pos.app.classes
         public string IsDiscounted { get; set; }
         public string Warehouse { get; set; }
         public string SalesOrderNumber { get; set; }
+        public string InvoiceType { get; set; }
+        public string Comments { get; set; }
 
         public SalesOperation() { }
         public void CreateSales()
@@ -57,8 +55,10 @@ namespace pos.app.classes
             StoreOperation so = new StoreOperation(this.ItemName, "select * from tblstock");
             //recording Values to Invoice Table
             string tableInvoiceColumn = "";
-            tableInvoiceColumn += "(customer_name,invoice_number,discount,total_amount,balance,date,fsno,warehouse,discount_type,is_discounted)";
-            base.cmdText = "insert into tblinvoice " + tableInvoiceColumn + " values('" + CustomerName + "','" + InvoiceNumber + "','"+Discount+"','" + TotalAmount + "','" + Balance + "','" + Date + "','" + FSNumber + "','" + so.ReadTable().Rows[0]["warehouse"] + "','" + DiscountType + "','" + IsDiscounted + "')";
+            tableInvoiceColumn += "(customer_name,invoice_number,discount,total_amount,balance,date,fsno,warehouse,discount_type,is_discounted,invoice_type)";
+            base.cmdText = "insert into tblinvoice " + tableInvoiceColumn + " values('" + CustomerName + "','" + InvoiceNumber + "','" + Discount + "'," +
+                "'" + TotalAmount + "','" + Balance + "','" + Date + "','" + FSNumber + "','" + so.ReadTable().Rows[0]["warehouse"] + "','" + DiscountType + "'" +
+                ",'" + IsDiscounted + "','" + InvoiceType + "')";
             base.MakeCUD();
 
             //Recording Credit If Any 
@@ -72,6 +72,8 @@ namespace pos.app.classes
                 co.Date = this.Date;
                 co.CreateCredit();
             }
+            Comments = "Invoice Created By Abel Legese at " + DateTime.Now;
+            AddComment();
         }
         public Int64 FSnumberCounter()
         {
@@ -95,7 +97,7 @@ namespace pos.app.classes
         {
             //Insert into the main tables
             string tableSOColumn = "(customer_name,date,invoice_status,invoice_number,shipment_status,amount,customer_address,customer_tin,order_number)";
-            base.cmdText = "insert into tblsales_order_main " + tableSOColumn + " values ('" + CustomerName + "','" + Date + "','Unconfirmed','','Unconfirmed','" + TotalAmount + "','"+Address+"','"+TIN+"','"+SalesOrderNumber+"')";
+            base.cmdText = "insert into tblsales_order_main " + tableSOColumn + " values ('" + CustomerName + "','" + Date + "','Unconfirmed','','Unconfirmed','" + TotalAmount + "','" + Address + "','" + TIN + "','" + SalesOrderNumber + "')";
             base.MakeCUD();
         }
         public void CreateSalesOrderDetails()
@@ -113,6 +115,12 @@ namespace pos.app.classes
             if (base.ReadTable().Rows.Count == 0)
                 return 1;
             return Convert.ToInt64(base.ReadTable().Rows[0]["id"].ToString()) + 1;
+        }
+        public void AddComment()
+        {
+            string tableCommentColumn = "(invoice_number,comments)";
+            base.cmdText = "insert into tblinvoice_comment " + tableCommentColumn + " values('" + InvoiceNumber + "','" + Comments + "')";
+            base.MakeCUD();
         }
     }
 }

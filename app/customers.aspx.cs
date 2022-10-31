@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using pos.app.classes;
+﻿using pos.app.classes;
+using System;
 
 namespace pos.app
 {
@@ -20,7 +15,7 @@ namespace pos.app
         private void BindCustomer()
         {
             SQLOperation sqlop = new SQLOperation("select * from tblcustomer");
-            if(sqlop.ReadTable().Rows.Count != 0)
+            if (sqlop.ReadTable().Rows.Count != 0)
             {
                 rptrCustomer.DataSource = sqlop.ReadTable();
                 rptrCustomer.DataBind();

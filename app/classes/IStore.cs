@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Web;
-
-namespace pos.app.classes
+﻿namespace pos.app.classes
 {
     public interface IStore
     {

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Data;
+﻿using System.Data;
 
 namespace pos.app.classes
 {
-    public class VendorOperation:SQLOperation,IVendor
+    public class VendorOperation : SQLOperation, IVendor
     {
         public string Name { get; set; }
         public string Company { get; set; }

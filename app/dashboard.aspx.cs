@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using pos.app.classes;
+﻿using pos.app.classes;
+using System;
 using System.Web.Services;
 namespace pos.app
 {

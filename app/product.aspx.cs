@@ -1,6 +1,6 @@
-﻿using System;
+﻿using pos.app.classes;
+using System;
 using System.Data;
-using pos.app.classes;
 using System.Web.UI.WebControls;
 
 namespace pos.app
@@ -17,17 +17,17 @@ namespace pos.app
                 BindItemsDetail();
             }
         }
-        public Tuple<string,string> GetStockInfo(string itemName)
+        public Tuple<string, string> GetStockInfo(string itemName)
         {
             string reorderPoint = "";
             string unit = "";
             SQLOperation sqlop = new SQLOperation("select * from tblstock_details where item_name = '" + itemName + "' ");
-            if(sqlop.ReadTable().Rows.Count != 0)
+            if (sqlop.ReadTable().Rows.Count != 0)
             {
                 reorderPoint = sqlop.ReadTable().Rows[0]["reorder_point"].ToString();
                 unit = sqlop.ReadTable().Rows[0]["unit"].ToString();
             }
-            return Tuple.Create(reorderPoint,unit);
+            return Tuple.Create(reorderPoint, unit);
         }
         public string GetStockBalance(string itemName)
         {
@@ -75,9 +75,9 @@ namespace pos.app
                     sellingPriceSpan.InnerText = dt.Rows[0]["sale_price"].ToString();
                     warehouseNameSpan.InnerText = dt.Rows[0]["warehouse"].ToString();
                     commitedStock.InnerText = "";
-                    availableForSale.InnerText ="";
+                    availableForSale.InnerText = "";
                     openingStock.InnerText = dt.Rows[0]["opening_stock"].ToString();
-                 
+
 
                     //Binding Items Account
 
@@ -167,13 +167,13 @@ namespace pos.app
             {
                 StoreOperation so = new StoreOperation(Request.QueryString["pname"].ToString())
                 {
-                    Description = "Quantity adjusted for "+ddlAdjustmentReason.SelectedItem.Text+" @"+DateTime.Now.ToString(),
+                    Description = "Quantity adjusted for " + ddlAdjustmentReason.SelectedItem.Text + " @" + DateTime.Now.ToString(),
                     Quantity = txtQuantityAdjusted.Text,
                     Date = DateTime.Now.Date.ToString(),
                     Warehouse = warehouseNameSpan.InnerText,
                     ExpiredDate = "None"
                 };
-                if(Convert.ToDouble(txtQuantityAdjusted.Text) > 0)
+                if (Convert.ToDouble(txtQuantityAdjusted.Text) > 0)
                 {
                     so.AddItemToStock();
                 }

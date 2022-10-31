@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace pos.app.classes
 {
-    public class PurchaseOperation: SQLOperation, IPurchase
+    public class PurchaseOperation : SQLOperation, IPurchase
     {
         public string VendorName { get; set; }
         public string ItemName { get; set; }
@@ -91,7 +88,7 @@ namespace pos.app.classes
 
             string tablePODetailColumn = "(vendor_name,item_name,date,unit_price,description,quantity,total_amount,order_number)";
             base.cmdText = "insert into tblpurchase_order " + tablePODetailColumn + " values ('" + VendorName + "','" + ItemName + "','" + Date + "','" + PurchasePrice + "'" +
-                ",'" + PurchaseDescription + "','" + PurchaseQuantity + "','" + TotalAmount + "','" +PurchaseOrderNumber  + "')";
+                ",'" + PurchaseDescription + "','" + PurchaseQuantity + "','" + TotalAmount + "','" + PurchaseOrderNumber + "')";
             base.MakeCUD();
         }
         public Int64 PurchaseOrderNumberCounter()

@@ -1,12 +1,9 @@
-﻿using System;
+﻿using pos.app.classes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using pos.app.classes;
-using System.Web.Services;
 using System.Data;
+using System.Web.Services;
+using System.Web.UI.WebControls;
 
 namespace pos.app
 {
@@ -35,7 +32,7 @@ namespace pos.app
                 {
                     DataTable dt = sqlop.ReadTable();
                     Name.InnerText = dt.Rows[0]["customer_name"].ToString();
-                    dateOfOrder.InnerText = "Order Date: " +dt.Rows[0]["date"].ToString();
+                    dateOfOrder.InnerText = "Order Date: " + dt.Rows[0]["date"].ToString();
                 }
             }
         }
@@ -63,7 +60,7 @@ namespace pos.app
         }
         [WebMethod]
         public static void CreateSalesOrder(string customerName, string itemName, string date, string unitPrice, string description
-            ,string quantity, string totalAmount, string salesOrderNumber)
+            , string quantity, string totalAmount, string salesOrderNumber)
         {
             SalesOperation so = new SalesOperation
             {
@@ -132,14 +129,14 @@ namespace pos.app
                 buttondiv.Visible = false;
                 salesOrderNumberSpan.InnerText = Request.QueryString["sono"].ToString();
                 SQLOperation sqlop = new SQLOperation("select * from tblsales_order where order_number = '" + Request.QueryString["sono"].ToString() + "'");
-                if(sqlop.ReadTable().Rows.Count != 0 )
+                if (sqlop.ReadTable().Rows.Count != 0)
                 {
                     rptrSODetails.DataSource = sqlop.ReadTable();
                     rptrSODetails.DataBind();
                 }
                 sqlop.cmdText = "select * from tblsales_order_main";
 
-                if(sqlop.ReadTable().Rows.Count != 0)
+                if (sqlop.ReadTable().Rows.Count != 0)
                 {
                     rptSOShort.DataSource = sqlop.ReadTable();
                     rptSOShort.DataBind();

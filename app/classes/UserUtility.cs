@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace pos.app.classes
+﻿namespace pos.app.classes
 {
     public class UserUtility : SQLOperation
     {
@@ -15,7 +10,7 @@ namespace pos.app.classes
             base.cmdText = "select * from tblusers where username='" + System.Web.HttpContext.Current.Session["USERNAME"].ToString() + "'";
             if (base.ReadTable().Rows.Count != 0)
             {
-                fulName =  base.ReadTable().Rows[0]["full_name"].ToString();
+                fulName = base.ReadTable().Rows[0]["full_name"].ToString();
             }
             return fulName;
         }

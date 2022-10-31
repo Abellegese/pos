@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace pos.app.classes
 {
@@ -31,7 +28,7 @@ namespace pos.app.classes
                     return Convert(amount_int) + " Point " + Convert(amount_dec) + " Birr Only.";
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

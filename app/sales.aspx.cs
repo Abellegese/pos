@@ -1,13 +1,9 @@
-﻿using System;
+﻿using pos.app.classes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using pos.app.classes;
-using System.Web.Services;
 using System.Data;
-using System.Security.Cryptography;
+using System.Web.Services;
+using System.Web.UI.WebControls;
 
 namespace pos.app
 {
@@ -18,7 +14,7 @@ namespace pos.app
             if (!IsPostBack)
             {
                 BindCustomer();
-                BindFSnumber();
+                //BindFSnumber();
                 GetItemInfo();
                 IsDiscountEnabled();
                 BindDiscountModes();
@@ -35,7 +31,46 @@ namespace pos.app
                 BindCredit();
                 EditInvoice();
                 BindInvoiceTemplate();
+                BindComments();
+                BindFiscalReceiptNumber();
             }
+        }
+        private void BindFiscalReceiptNumber()
+        {
+            SQLOperation sqlop = new SQLOperation("select* from tblfiscal_receipt_response");
+            DataTable dt = sqlop.ReadTable();
+            ddlINVnumber.DataSource = dt;
+            ddlINVnumber.DataTextField = "inv_no";
+            ddlINVnumber.DataBind();
+            ddlINVnumber.Items.Insert(0, new ListItem("-Select Invoice Number-", "0"));
+        }
+        private void BindComments()
+        {
+            if (Request.QueryString["invno"] != null)
+            {
+                string invno = Request.QueryString["invno"].ToString();
+                SQLOperation so = new SQLOperation("select * from tblinvoice_comment where invoice_number = '" + invno + "'");
+                DataTable dt = so.ReadTable();
+                //rptrComments.DataSource = dt;
+                //rptrComments.DataBind();
+            }
+        }
+        [WebMethod]
+        public static void RecordReceiptInfo(string invoiceNo, string receiptNo, string datetime, string fiscalMemoryNo)
+        {
+            SQLOperation so = new SQLOperation();
+            so.cmdText = "insert into tblfiscal_receipt_response values('" + invoiceNo + "','" + receiptNo + "','" + datetime + "','" + fiscalMemoryNo + "')";
+            so.MakeCUD();
+        }
+        [WebMethod]
+        public static List<string> GetRefundResult(string invNo)
+        {
+            List<string> lst = new List<string>();
+            SQLOperation so = new SQLOperation("select * from tblfiscal_receipt_response where inv_no = '" + invNo + "'");
+            lst.Add(so.ReadTable().Rows[0]["receipt_no"].ToString());
+            lst.Add(so.ReadTable().Rows[0]["datetime"].ToString());
+            lst.Add(so.ReadTable().Rows[0]["fiscal_memory_number"].ToString());
+            return lst;
         }
         [WebMethod]
         public static List<string> GetSurchargeDiscountSetting()
@@ -167,6 +202,7 @@ namespace pos.app
                 InvoiceDiv.Visible = false;
                 invoiceDetailDiv.Visible = true;
                 //
+
                 invoiceDetailSpan.InnerText = "INV#-" + Convert.ToInt64(Request.QueryString["invno"].ToString()).ToString("D8");
                 invoiceDetailSpan.Visible = true;
                 salesIconSpan.Visible = false;
@@ -181,13 +217,21 @@ namespace pos.app
                 commentLink.Visible = true;
                 refundLink.Visible = true;
                 buttondiv.Visible = false;
+                invoiceStatus.Visible = true;
+                InvNoBinding.InnerText = "INV#-" + Convert.ToInt64(Request.QueryString["invno"].ToString()).ToString("D8"); ;
 
                 //
-                InvNoBinding.InnerText = "INV#-" + Convert.ToInt64(Request.QueryString["invno"].ToString()).ToString("D8"); ;
-                FSno.InnerText = "FS#-" + Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8"); ;
+                if (Request.QueryString["fsno"] == null || Request.QueryString["fsno"] == "")
+                {
+                    FSno.InnerText = "FS#-NONE";
+                }
+                else
+                {
+                    FSno.InnerText = "FS#-" + Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8");
+                    txtEditFSNumber.Text = Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8");
+                }
 
                 txtEdiInvNumber.Text = Convert.ToInt64(Request.QueryString["invno"].ToString()).ToString("D8");
-                txtEditFSNumber.Text = Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8");
                 //
                 SalesOperation slo = new SalesOperation();
                 DataTable dt = slo.GetSalesInfo(Request.QueryString["invno"].ToString());
@@ -196,12 +240,37 @@ namespace pos.app
                 //
                 PaymentMode.InnerText = dt.Rows[0]["payment_mode"].ToString();
                 dateSpan.InnerText = dt.Rows[0]["date"].ToString();
-                RefTag.InnerText = "Tra.Ref.:"+dt.Rows[0]["ref_number"].ToString();
+                RefTag.InnerText = "Tra.Ref.:" + dt.Rows[0]["ref_number"].ToString();
+                //Check Sale Type;
+                SQLOperation so = new SQLOperation("select * from tblinvoice where invoice_number = '" + Request.QueryString["invno"].ToString() + "'");
+                if (so.ReadTable().Rows[0]["invoice_type"].ToString() == "Cash Sale")
+                {
+                    invoiceStatus.Attributes.Add("class", "badge mr-2 text-gray-700 text-uppercase badge-light  font-weight-bold");
+                    invoiceStatus.InnerText = so.ReadTable().Rows[0]["invoice_type"].ToString();
+                }
+                else if (so.ReadTable().Rows[0]["invoice_type"].ToString() == "Credit Sale")
+                {
+                    invoiceStatus.Attributes.Add("class", "badge mr-2 text-uppercase text-white badge-warning  font-weight-bold");
+                    invoiceStatus.InnerText = so.ReadTable().Rows[0]["invoice_type"].ToString();
+                }
+                else if (so.ReadTable().Rows[0]["invoice_type"].ToString() == "Draft")
+                {
+                    invoiceStatus.Attributes.Add("class", "badge mr-2 text-uppercase text-white badge-warning  font-weight-bold");
+                    invoiceStatus.InnerText = so.ReadTable().Rows[0]["invoice_type"].ToString();
+                }
+                else
+                {
+                    invoiceStatus.Attributes.Add("class", "badge mr-2 text-uppercase text-white badge-danger  font-weight-bold");
+                    invoiceStatus.InnerText = so.ReadTable().Rows[0]["invoice_type"].ToString();
+                }
+                if (invoiceStatus.InnerText == "Draft")
+                    draftConverter.Visible = true;
             }
         }
         private void BindCustomerInfo()
         {
-            if (Request.QueryString["customer"] != null) {
+            if (Request.QueryString["customer"] != null)
+            {
                 CustomerOperation co = new CustomerOperation(Request.QueryString["customer"].ToString());
                 if (co.GetCustomerInfo().Rows.Count != 0)
                 {
@@ -284,8 +353,8 @@ namespace pos.app
         }
         private void BindReferenceNumber()
         {
-            ReferenceGenerator rg = new ReferenceGenerator();
-            txtReferenceNumber.Text = rg.RandomReference();
+            //ReferenceGenerator rg = new ReferenceGenerator();
+            txtReferenceNumber.Text = "CS-" + Convert.ToInt64(invoiceSpan.InnerText).ToString("D6") + "-" + DateTime.Now.ToString("yy");
         }
         [WebMethod]
         public static string GetDiscountAppliedMode()
@@ -345,17 +414,27 @@ namespace pos.app
             SQLOperation sqlop = new SQLOperation("select * from tbldiscount_preferences");
             string isEnabled = sqlop.ReadTable().Rows[0]["discount_mode"].ToString();
             if (isEnabled == "No") { discountDiv.Visible = false; txtDiscount.Visible = false; ddlTransactionDiscountType.Style.Add("display", "none"); descriptionDiv.Attributes.Add("class", "col-5"); }
-            if(isEnabled == "Line") { discountDiv.Visible = true; txtDiscount.Visible = false; ddlTransactionDiscountType.Style.Add("display", "none"); }
+            if (isEnabled == "Line") { discountDiv.Visible = true; txtDiscount.Visible = false; ddlTransactionDiscountType.Style.Add("display", "none"); }
             if (isEnabled == "Transactional")
             {
                 discountDiv.Visible = false; txtDiscount.Visible = true; descriptionDiv.Attributes.Add("class", "col-5");
                 ddlTransactionDiscountType.Style.Add("display", "block");
             }
         }
-        private void BindFSnumber()
+        [WebMethod]
+        public static List<string> GetFSnumberSetings()
+        {
+            SQLOperation slo = new SQLOperation("select * from tblfiscal_printer_settings");
+            List<string> lst = new List<string>();
+            lst.Add(slo.ReadTable().Rows[0]["allow_fsno"].ToString());
+            lst.Add(slo.ReadTable().Rows[0]["allow_fsno_select"].ToString());
+            return lst;
+        }
+        [WebMethod]
+        public static string BindFSnumber()
         {
             SalesOperation slo = new SalesOperation();
-            txtFSNumber.Text = Convert.ToInt64(slo.FSnumberCounter().ToString()).ToString("D8");
+            return Convert.ToInt64(slo.FSnumberCounter().ToString()).ToString("D8");
         }
         private void BindInvoiceNumber()
         {
@@ -372,7 +451,8 @@ namespace pos.app
             ddlExistingCustomer.Items.Insert(0, new ListItem("-Select-", "0"));
         }
         [WebMethod]
-        public static List<string> GetCustomerInfo(string name) {
+        public static List<string> GetCustomerInfo(string name)
+        {
             List<string> lst = new List<string>();
             CustomerOperation co = new CustomerOperation(name);
             DataTable dt = co.GetCustomerInfo();
@@ -441,12 +521,22 @@ namespace pos.app
             SalesOperation slo = new SalesOperation();
             slo.CustomerName = txtCustomerName.Text;
             slo.InvoiceNumber = invoiceSpan.InnerText;
-            
+
             slo.Balance = txtCreditAmount.Text;
             slo.Date = txtDate.Text;
             slo.FSNumber = txtFSNumber.Text;
-
-            double Tdiscount = 0;double Ldiscount = 0;
+            if (refund.Checked == true)
+            {
+                slo.InvoiceType = "Refund";
+            }
+            else
+            {
+                if (Convert.ToDouble(txtCreditAmount.Text) > 0)
+                    slo.InvoiceType = "Credit Sale";
+                else
+                    slo.InvoiceType = "Cash Sale";
+            }
+            double Tdiscount = 0; double Ldiscount = 0;
             if (txtDiscount.Visible == true)
                 Tdiscount = Convert.ToDouble(txtDiscount.Text);
             if (txtDiscountLine.Visible == true)
@@ -533,7 +623,7 @@ namespace pos.app
                 slo.DiscountType = "";
             }
             slo.CreateInvoice();
-            Response.Redirect("sales.aspx?invno=" + invoiceSpan.InnerText + "&&fsno=" + txtFSNumber.Text+"&&customer="+txtCustomerName.Text);
+            Response.Redirect("sales.aspx?invno=" + invoiceSpan.InnerText + "&&fsno=" + txtFSNumber.Text + "&&customer=" + txtCustomerName.Text);
         }
         protected void btnSaveBankAccount_Click(object sender, EventArgs e)
         {
@@ -549,7 +639,7 @@ namespace pos.app
             {
                 SQLOperation sqlop = new SQLOperation("update tblsale_and_invoice set quantity='" + txtEditQuantity.Text + "'" +
                     ",unit_price='" + txtEditUnitPrice.Text + "'" +
-                    ", total_amount='"+Convert.ToDouble(txtEditQuantity.Text)* Convert.ToDouble(txtEditUnitPrice.Text) + "' where id='" + Request.QueryString["item_id"].ToString() + "'");
+                    ", total_amount='" + Convert.ToDouble(txtEditQuantity.Text) * Convert.ToDouble(txtEditUnitPrice.Text) + "' where id='" + Request.QueryString["item_id"].ToString() + "'");
                 sqlop.MakeCUD();
 
                 sqlop.cmdText = "select sum(total_amount) from tblsale_and_invoice where invoice_number='" + Request.QueryString["invno"].ToString() + "'";
@@ -589,9 +679,9 @@ namespace pos.app
         }
         protected void btnSaveCustomization_Click(object sender, EventArgs e)
         {
-            SQLOperation sqlop = new SQLOperation("update tblinvoice_customization set heading_name='" + txtHeadingName.Text + "', heading_font_size='"+txtHeadingFontsize.Text+"'" +
-                ",heading_line_spacing='"+txtHeadingLineHeight.Text+ "',body_font_size='" + txtBodyFontSize.Text + "',logo_size='" + txtLogosize.Text + "'" +
-                ",cb_visibility='"+creditCheck.Checked+ "',wm_visibility='" + waterCheck.Checked + "'");
+            SQLOperation sqlop = new SQLOperation("update tblinvoice_customization set heading_name='" + txtHeadingName.Text + "', heading_font_size='" + txtHeadingFontsize.Text + "'" +
+                ",heading_line_spacing='" + txtHeadingLineHeight.Text + "',body_font_size='" + txtBodyFontSize.Text + "',logo_size='" + txtLogosize.Text + "'" +
+                ",cb_visibility='" + creditCheck.Checked + "',wm_visibility='" + waterCheck.Checked + "'");
             sqlop.MakeCUD();
             Response.Redirect(Request.RawUrl);
         }
@@ -609,6 +699,163 @@ namespace pos.app
             SQLOperation sqlop = new SQLOperation("update tblinvoice set balance='" + txtAddCreditAmount.Text + "' where invoice_number='" + Request.QueryString["invno"].ToString() + "'");
             sqlop.MakeCUD();
             Response.Redirect(Request.RawUrl);
+        }
+
+        protected void btnSaveComment_Click(object sender, EventArgs e)
+        {
+            SalesOperation so = new SalesOperation();
+            so.InvoiceNumber = InvNoBinding.InnerText;
+            so.Comments = txtInvoiceComment.Text;
+            so.AddComment();
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void btnSaveAsDraft_Click(object sender, EventArgs e)
+        {
+            SalesOperation slo = new SalesOperation();
+            slo.CustomerName = txtCustomerName.Text;
+            slo.InvoiceNumber = invoiceSpan.InnerText;
+
+            slo.Balance = txtCreditAmount.Text;
+            slo.Date = txtDate.Text;
+            slo.FSNumber = "";
+            slo.InvoiceType = "Draft";
+            double Tdiscount = 0; double Ldiscount = 0;
+            if (txtDiscount.Visible == true)
+                Tdiscount = Convert.ToDouble(txtDiscount.Text);
+            if (txtDiscountLine.Visible == true)
+                Ldiscount = Convert.ToDouble(txtDiscountLine.Text);
+            if (transactional.Checked == true)
+            {
+                if (ddlDiscountApplied.SelectedItem.Text == "Before Tax")
+                {
+                    if (ddlTransactionDiscountType.SelectedItem.Text == "%")
+                    {
+                        double total = 0;
+                        double discount = Convert.ToDouble(txtVatFree.Text) * (Convert.ToDouble(txtDiscount.Text) / 100);
+                        double beforeVatamount = Convert.ToDouble(txtVatFree.Text) - discount;
+                        total += beforeVatamount + beforeVatamount * 0.15;
+                        slo.TotalAmount = total.ToString();
+
+                        slo.Discount = discount.ToString();
+
+                    }
+                    else
+                    {
+                        double total = 0;
+                        double discount = Convert.ToDouble(txtDiscount.Text);
+                        double beforeVatamount = Convert.ToDouble(txtVatFree.Text) - discount;
+                        total += beforeVatamount + beforeVatamount * 0.15;
+                        slo.Discount = discount.ToString();
+                        slo.TotalAmount = total.ToString();
+                    }
+                }
+                else
+                {
+                    if (ddlTransactionDiscountType.SelectedItem.Text == "%")
+                    {
+                        double total = Convert.ToDouble(txtGrandTotal.Text);
+                        double discount = Convert.ToDouble(txtGrandTotal.Text) * (Convert.ToDouble(txtDiscount.Text) / 100);
+                        total = total - discount;
+                        slo.Discount = discount.ToString();
+                        slo.TotalAmount = total.ToString();
+                    }
+                    else
+                    {
+                        double total = Convert.ToDouble(txtGrandTotal.Text);
+                        double discount = Convert.ToDouble(txtDiscount.Text);
+                        total = total - discount;
+                        slo.TotalAmount = total.ToString();
+                        slo.Discount = discount.ToString();
+                    }
+                }
+            }
+            else
+            {
+                slo.TotalAmount = txtGrandTotal.Text;
+                slo.Discount = txtTotalDiscount.Text;
+            }
+
+            if (Tdiscount > 0 || Ldiscount > 0)
+            {
+                slo.IsDiscounted = "Yes";
+            }
+            else
+            {
+                slo.IsDiscounted = "No";
+
+            }
+            if (ddlLineDiscountType.SelectedItem.Text == "ETB" && line.Checked == true)
+            {
+                slo.DiscountType = "amount";
+            }
+            if (ddlLineDiscountType.SelectedItem.Text == "%" && line.Checked == true)
+            {
+                slo.DiscountType = "percent";
+            }
+
+            if (ddlTransactionDiscountType.SelectedItem.Text == "ETB" && transactional.Checked == true)
+            {
+                slo.DiscountType = "amount";
+            }
+            if (ddlTransactionDiscountType.SelectedItem.Text == "%" && transactional.Checked == true)
+            {
+                slo.DiscountType = "percent";
+            }
+            if (no.Checked == true)
+            {
+                slo.DiscountType = "";
+            }
+            slo.CreateInvoice();
+            Response.Redirect("sales.aspx?invno=" + invoiceSpan.InnerText + "&&fsno=" + txtFSNumber.Text + "&&customer=" + txtCustomerName.Text);
+        }
+        protected void btnConvertToInvoice_Click1(object sender, EventArgs e)
+        {
+            double credit = 0;
+            if (Request.QueryString["invno"] != null)
+            {
+                SQLOperation sqlop = new SQLOperation("select * from tblinvoice where invoice_number = '" + Request.QueryString["invno"].ToString() + "'");
+                DataTable dt = sqlop.ReadTable();
+                if (dt.Rows.Count != 0)
+                    credit = Convert.ToDouble(dt.Rows[0]["balance"].ToString());
+                String invoiceType = "Cash Sale";
+                if (isRefund.Checked == true)
+                    invoiceType = "Refund";
+                else
+                    if (credit > 0)
+                    invoiceType = "Credit Sale";
+                SQLOperation so = new SQLOperation("update tblinvoice set invoice_type='" + invoiceType + "', fsno='" + txtDraftFSNumber.Text + "', date='" + txtDraftDate.Text + "'");
+                so.MakeCUD();
+                string invNo = Request.QueryString["invno"].ToString();
+                Response.Redirect("sales.aspx?invno=" + invNo + "&&fsno=" + txtDraftFSNumber.Text + "&&customer=" + Name.InnerText);
+            }
+        }
+
+        protected void btnFilterRecord_Click(object sender, EventArgs e)
+        {
+            string searchQuery = string.Empty;
+            searchQuery += "select * from tblinvoice where ";
+            searchQuery += "date = '" + txtDateFrom.Text + "' or  date = '" + txtDateTo.Text + "'";
+            if (advancedSearch.Checked == true)
+            {
+                searchQuery += "or customer_name = '" + txtCustomerSearchName.Text + "' or invoice_number = '" + txtInvoiceNumber.Text + "' ";
+                searchQuery += " or invoice_type = '" + ddlInvoiceType.SelectedItem.Text + "'";
+            }
+            SQLOperation so = new SQLOperation(searchQuery);
+            DataTable dt = so.ReadTable();
+            if (dt.Rows.Count != 0)
+            {
+                if (Request.QueryString["invno"] != null)
+                {
+                    rptInvoiceShort.DataSource = dt;
+                    rptInvoiceShort.DataBind();
+                }
+                else
+                {
+                    rptrInvoice.DataSource = dt;
+                    rptrInvoice.DataBind();
+                }
+            }
         }
     }
 }

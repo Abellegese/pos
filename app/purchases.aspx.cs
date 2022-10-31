@@ -1,11 +1,9 @@
-﻿using System;
+﻿using pos.app.classes;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web.Services;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using pos.app.classes;
 using System.Data;
+using System.Web.Services;
+using System.Web.UI.WebControls;
 
 namespace pos.app
 {
@@ -88,8 +86,8 @@ namespace pos.app
                 DataTable dt = sqlop.ReadTable();
                 PaymentMode.InnerText = dt.Rows[0]["payment_mode"].ToString();
                 dateSpan.InnerText = dt.Rows[0]["date"].ToString();
-                FSno.InnerText = "FS#"+dt.Rows[0]["fsno"].ToString();
-                BillNoBinding.InnerText = "BILL#"+Request.QueryString["billno"].ToString();
+                FSno.InnerText = "FS#" + dt.Rows[0]["fsno"].ToString();
+                BillNoBinding.InnerText = "BILL#" + Request.QueryString["billno"].ToString();
                 //
                 sqlop.cmdText = "select * from tblpurchase_and_bill where bill_number='" + Request.QueryString["billno"].ToString() + "'";
                 rptrAttachment.DataSource = sqlop.ReadTable();
@@ -132,7 +130,7 @@ namespace pos.app
 
         [WebMethod]
         public static void CreatePurchases(string vendorName, string itemName, string referenceNumber, string date, string unitPrice, string description
-        ,string quantity, string totalAmount, string billNumber, string expiredDate, string manufacturingDate)
+        , string quantity, string totalAmount, string billNumber, string expiredDate, string manufacturingDate)
         {
             PurchaseOperation so = new PurchaseOperation
             {
