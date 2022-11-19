@@ -23,6 +23,8 @@ namespace pos.app
                 GetTotals();
                 BindVendorInfo();
                 NumberToWord();
+                EditBil();
+                BindPurchaseOrderNumber();
             }
         }
         private void BindVendorInfo()
@@ -79,6 +81,13 @@ namespace pos.app
                 BillDiv.Visible = false;
                 BillDetailDiv.Visible = true;
                 buttondiv.Visible = false;
+                btnDeleteBills.Visible = true;
+                btnEditInfo.Visible = true;
+                btnBack.Visible = true;
+                billSpanIcon.Visible = false;
+                billText.Visible = false;
+                billNumberSpan.Visible = true;
+                billNumberSpan.InnerText = "bill#-"+Convert.ToInt64(Request.QueryString["billno"].ToString()).ToString("D8");
                 //
                 SQLOperation sqlop = new SQLOperation("select * from tblpurchases");
                 rptBillShort.DataSource = sqlop.ReadTable();
@@ -86,8 +95,11 @@ namespace pos.app
                 DataTable dt = sqlop.ReadTable();
                 PaymentMode.InnerText = dt.Rows[0]["payment_mode"].ToString();
                 dateSpan.InnerText = dt.Rows[0]["date"].ToString();
-                FSno.InnerText = "FS#" + dt.Rows[0]["fsno"].ToString();
-                BillNoBinding.InnerText = "BILL#" + Request.QueryString["billno"].ToString();
+                FSno.InnerText = "FS#" + Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8");
+                BillNoBinding.InnerText = "BILL#" + Convert.ToInt64(Request.QueryString["billno"].ToString()).ToString("D8");
+
+                txtEdiBillNumber.Text = Convert.ToInt64(Request.QueryString["billno"].ToString()).ToString("D8");
+                txtEditFSNumber.Text = Convert.ToInt64(Request.QueryString["fsno"].ToString()).ToString("D8");
                 //
                 sqlop.cmdText = "select * from tblpurchase_and_bill where bill_number='" + Request.QueryString["billno"].ToString() + "'";
                 rptrAttachment.DataSource = sqlop.ReadTable();
@@ -104,6 +116,73 @@ namespace pos.app
             ddlItemName.DataBind();
             ddlItemName.Items.Insert(0, new ListItem("-Select Item-", "0"));
         }
+        [WebMethod]
+        public static string[][] BindOrderItems(string orderNumber)
+        {
+            SQLOperation so = new SQLOperation("select * from tblpurchase_order where order_number = '" + orderNumber + "'");
+            DataTable dt = so.ReadTable();
+            string[][] orderMatrix = new string[dt.Rows.Count][];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string itemName = dt.Rows[i]["item_name"].ToString();
+                string quantity = dt.Rows[i]["quantity"].ToString();
+                string unitPrice = dt.Rows[i]["unit_price"].ToString();
+                string totalAmount = dt.Rows[i]["total_amount"].ToString();
+                orderMatrix[i] = new string[4] { itemName, quantity, unitPrice, totalAmount };
+            }
+            return orderMatrix;
+        }
+        [WebMethod]
+        public static List<string> BindOrderVendor(string orderNumber)
+        {
+            List<string> lst = new List<string>();
+            SQLOperation so = new SQLOperation("select * from tblpurchase_order_main where order_number = '" + orderNumber + "'");
+            DataTable dt = so.ReadTable();
+            string vendorName = dt.Rows[0]["vendor_name"].ToString();
+            string vendorAddress = dt.Rows[0]["vendor_address"].ToString();
+            string vendorTin = dt.Rows[0]["vendor_tin"].ToString();
+
+            //Add to List
+            lst.Add(vendorName);
+            lst.Add(vendorAddress);
+            lst.Add(vendorTin);
+
+            return lst;
+        }
+        [WebMethod]
+        public static List<double> BindOrderSubtotals(string orderNumber)
+        {
+            List<double> lst = new List<double>();
+            SQLOperation so = new SQLOperation("select sum(total_amount) from tblpurchase_order where order_number = '" + orderNumber + "'");
+            DataTable dt = so.ReadTable();
+            double totalAmount = Convert.ToDouble(dt.Rows[0][0].ToString()) + 0.15 * Convert.ToDouble(dt.Rows[0][0].ToString());
+            double subtotal = Convert.ToDouble(dt.Rows[0][0].ToString());
+            double vat = totalAmount - subtotal;
+
+
+            //Add to List
+            lst.Add(totalAmount);
+            lst.Add(subtotal);
+            lst.Add(vat);
+
+            return lst;
+        }
+        private void EditBil()
+        {
+            if (Request.QueryString["item_id"] != null)
+            {
+                btnEditLineItem.Visible = true;
+                btnDeleteLineItemsModal.Visible = true;
+                itemSelectionSpan.Visible = true;
+                itemNumber.InnerText = Request.QueryString["item_id"].ToString();
+                selectedItem.InnerText = Request.QueryString["item"].ToString();
+
+                SQLOperation sqlop = new SQLOperation("select * from tblpurchase_and_bill where id = '" + Request.QueryString["item_id"].ToString() + "'");
+                txtEditQuantity.Text = sqlop.ReadTable().Rows[0]["quantity"].ToString();
+                txtEditUnitPrice.Text = sqlop.ReadTable().Rows[0]["unit_price"].ToString();
+            }
+        }
         private void BindBankAccount()
         {
             SQLOperation sqlop = new SQLOperation("select* from tblbank_account_info");
@@ -113,10 +192,18 @@ namespace pos.app
             ddlBankAccount.DataBind();
             ddlBankAccount.Items.Insert(0, new ListItem("-Select-", "0"));
         }
+        public void BindPurchaseOrderNumber()
+        {
+            SQLOperation so = new SQLOperation("select * from tblpurchase_order_main where bill_status = 'Confirmed' or bill_status = 'Unconfirmed'");
+            ddlOrderNumber.DataSource = so.ReadTable();
+            ddlOrderNumber.DataValueField = "order_number";
+            ddlOrderNumber.DataBind();
+            ddlOrderNumber.Items.Insert(0, new ListItem("-Select Order Number-", "0"));
+        }
         private void BindBillNumber()
         {
             PurchaseOperation slo = new PurchaseOperation();
-            billSpan.InnerText = slo.BillNumberCounter().ToString();
+            billSpan.InnerText = Convert.ToInt64(slo.BillNumberCounter().ToString()).ToString("D8");
         }
         private void BindVenddor()
         {
@@ -225,6 +312,88 @@ namespace pos.app
             }
             po.Balance = txtCreditAmount.Text;
             po.CreateBills();
+            Response.Redirect("purchases.aspx?billno=" + billSpan.InnerText + "&&vendor=" + txtVendorName.Text + "&&fsno=" + txtFSNumber.Text);
+            Response.Redirect(Request.RawUrl);
+
+        }
+
+        protected void btnDeleteBill_Click(object sender, EventArgs e)
+        {
+            SQLOperation sqlop = new SQLOperation("delete from tblpurchase_and_bill where bill_number='" + Request.QueryString["billno"].ToString() + "'");
+            sqlop.MakeCUD();
+
+            sqlop.cmdText = "delete from tblpurchases where bill_no='" + Request.QueryString["billno"].ToString() + "'";
+            sqlop.MakeCUD();
+
+            Response.Redirect("purchases.aspx");
+        }
+
+        protected void btnDeleteLineItem_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["item_id"] != null && Request.QueryString["edit"] != null)
+            {
+                SQLOperation so = new SQLOperation("delete from tblpurchase_and_bill where id = '" + Request.QueryString["item_id"].ToString() + "'");
+                so.MakeCUD();
+                string invno = Request.QueryString["invno"].ToString();
+                string fsno = Request.QueryString["fsno"].ToString();
+                string vendor = Request.QueryString["vendor"].ToString();
+                Response.Redirect("purchases.aspx?bill=" + invno + "&&vendor=" + vendor);
+
+            }
+        }
+
+        protected void btnSaveEditInvoiceInfo_Click(object sender, EventArgs e)
+        {
+            SQLOperation sqlop = new SQLOperation("update tblpurchase_and_bill set bill_number='" + txtEdiBillNumber.Text + "' where bill_number='" + Request.QueryString["billno"].ToString() + "'");
+            sqlop.MakeCUD();
+
+            //
+            sqlop.cmdText = "update tblpurchases set bill_no='" + txtEdiBillNumber.Text + "', fsno='" + txtEditFSNumber.Text + "' where bill_no='" + Request.QueryString["billno"].ToString() + "'";
+            sqlop.MakeCUD();
+
+            Response.Redirect("purchases.aspx?billno=" + txtEdiBillNumber.Text + "&&fsno=" + txtEditFSNumber.Text + "&&vendor=" + Name.InnerText);
+        }
+
+        protected void btnSaveLineItem_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["item_id"] != null && Request.QueryString["edit"] != null)
+            {
+                SQLOperation sqlop = new SQLOperation("update tblpurchase_and_bill set quantity='" + txtEditQuantity.Text + "'" +
+                    ",unit_price='" + txtEditUnitPrice.Text + "'" +
+                    ", total_amount='" + Convert.ToDouble(txtEditQuantity.Text) * Convert.ToDouble(txtEditUnitPrice.Text) + "' where id='" + Request.QueryString["item_id"].ToString() + "'");
+                sqlop.MakeCUD();
+
+                sqlop.cmdText = "select sum(total_amount) from tblpurchase_and_bill where bill_number='" + Request.QueryString["billno"].ToString() + "'";
+
+                double vatFree = double.Parse(sqlop.ReadTable().Rows[0][0].ToString());
+
+                double total = vatFree + vatFree * 0.15;
+
+                sqlop.cmdText = "update tblpurchases set total_amount='" + total + "' where bill_no='" + Request.QueryString["billno"].ToString() + "'";
+                sqlop.MakeCUD();
+                Response.Redirect(Request.RawUrl);
+
+            }
+        }
+
+        protected void rptrBill_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            foreach (RepeaterItem item in rptrBill.Items)
+            {
+                Label lblStatus = item.FindControl("lblStatus") as Label;
+                Label lblBalance = item.FindControl("lblBalance") as Label;
+                double balance = Convert.ToDouble(lblBalance.Text);
+                if (balance > 0)
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-danger");
+                    lblStatus.Text = "Pending";
+                }
+                else
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-success");
+                    lblStatus.Text = "Paid";
+                }
+            }
         }
     }
 }

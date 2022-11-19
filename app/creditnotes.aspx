@@ -43,34 +43,34 @@
                             </div>
                             <div class="col-md-8 text-right">
                                 <div class="dropdown no-arrow">
-                                    <button type="button" visible="true" runat="server" id="btnReceiveCredits" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#RecieveCreditModal">
+                                    <button type="button" visible="false" runat="server" id="btnReceiveCredits" class="mr-2 btn btn-circle btn-secondary btn-sm" data-toggle="modal" data-target="#RecieveCreditModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Receieve Credit" class="fas fa-hand-holding-usd text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Receieve Credit" class="fas fa-hand-holding-usd text-wgite font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="true" runat="server" id="btnSendEmail" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                    <button type="button" visible="false" runat="server" id="btnSendEmail" class="mr-2 btn-circle btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
                                         <div>
-                                            <i data-toggle="tooltip" title="Send Email" class="fas fa-envelope text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Send Email" class="fas fa-envelope font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="true" runat="server" id="btnDelete" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#DeleteCreditModal">
+                                    <button type="button" visible="false" runat="server" id="btnDelete" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#DeleteCreditModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Delete Credit" class="fas fa-trash text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Delete Credit" class="fas fa-trash  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
 
-                                    <button type="button" visible="true" runat="server" id="btnEdit" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditCreditModal">
+                                    <button type="button" visible="false" runat="server" id="btnEdit" class="mr-2 btn btn-circle btn-outline-secondary btn-sm" data-toggle="modal" data-target="#EditCreditModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Edit Info" class="fas fa-edit text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Edit Info" class="fas fa-edit font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button name="b_print" onclick="printdiv('div_print');" class="mr-1 btn btn-light btn-sm">
+                                    <button name="b_print" onclick="printdiv('div_print');" class="mr-1 btn btn-circle btn-outline-secondary btn-sm">
                                         <div>
-                                            <i class="fas fa-print text-gray-600 font-weight-bold"></i>
+                                            <i class="fas fa-print  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
@@ -105,7 +105,7 @@
                     </div>
          
                     <div class="card-body small text-gray-900" style="margin-top:-21px" id="creditDiv" runat="server">
-                        <asp:Repeater ID="rptrCredit" runat="server">
+                        <asp:Repeater ID="rptrCredit" runat="server" OnItemDataBound="rptrCredit_ItemDataBound">
 
                             <HeaderTemplate>
                                 <table class="table align-items-center table-hover table-sm ">
@@ -131,7 +131,7 @@
                                 <tr>
 
                                     <td class="text-gray-900 text-left">
-                                        <%# Eval("date")%>
+                                        <%# Eval("date", "{0: dd/MM/yyyy}")%>
                                     </td>
                                     <td class="text-primary">
                                         <a class=" text-warning  " href="creditnotes.aspx?cid=<%# Eval("id")%>&&invno=<%# Eval("invoice_or_bill_number")%>"><span>CN#-00000<%# Eval("id")%></span></a>
@@ -152,11 +152,12 @@
 
                                     </td>
                                     <td class="text-gray-900">
-                                        <asp:Label ID="Label5" runat="server" Text='<%# Eval("balance" , "{0:N2}")%>'></asp:Label>
+                                        <asp:Label ID="lblBalance" runat="server" Text='<%# Eval("balance" , "{0:N2}")%>'></asp:Label>
 
                                     </td>
                                     <td class="text-gray-900 text-right">
-                                        <span class="badge badge-success">PAID</span>
+                                        <asp:Label ID="lblStatus" runat="server"></asp:Label>
+
                                     </td>
 
                                 </tr>
@@ -185,9 +186,10 @@
                                         <tr class="border-bottom">
 
                                             <td>
-                                                <asp:Label ID="Label3" class="text-gray-900 text-uppercase" runat="server" Text='<%# Eval("customer_or_vendor")%>'></asp:Label>
-                                                <a class=" text-primary  " href="creditnotes.aspx?cid=<%# Eval("id")%>"><span>CN#-<%# Eval("id")%></span></a>
-                                                <h6>| <span class=" text-gray-600"><%# Eval("date")%></span> </h6>
+                                                <asp:Label ID="Label3" class="text-gray-900 small" runat="server" Text='<%# Eval("customer_or_vendor")%>'></asp:Label>
+                                                <br />
+                                                <a class=" text-primary  small" href="creditnotes.aspx?cid=<%# Eval("id")%>"><span>CN#-<%# Eval("id")%></span></a>
+                                                | <span class=" text-gray-600 text-small"><%# Eval("date","{0:MM/dd/yyyy}")%></span> 
                                             </td>
 
                                             <td class="text-gray-900 text-right">
@@ -206,12 +208,13 @@
 
                                 </asp:Repeater>
                             </div>
-                            <div class="col-8">
+                            <div class="col-8" style="max-height: 1000px; overflow-y: scroll; overflow-x: hidden">
                                 <div id="div_print">
-                                    <div class="row">
+                                    <div class="row mt-3" style="margin-left: -60px; margin-right: -60px">
                                         <div class="col-1">
                                         </div>
-                                        <div class="col-10">
+                                        <div id="colTen" class="col-10 shadow-sm" style="height: 1000px;">
+                                            <div class="card-body border-none">
                                             <div class="row ">
                                                 <div class="col-md-8 text-left">
                                                     <asp:Repeater ID="rptrLogo" runat="server">
@@ -222,7 +225,7 @@
                                                     </asp:Repeater>
                                                     <div class="row ">
                                                         <div class="col-md-6 text-left">
-                                                            <span translate="no" class="h6 text-gray-900 text-uppercase border-bottom border-top border-dark font-weight-bold" id="oname" runat="server"></span>
+                                                            <span style="color: black" translate="no" class="h4 text-uppercase border-bottom border-top border-dark font-weight-bold" id="oname" runat="server"></span>
                                                             <br />
                                                             <span translate="no" class="text-xs text-gray-900 text-uppercase border-bottom font-weight-bold" id="oAddress" runat="server"></span>
 
@@ -240,10 +243,13 @@
                                                 </div>
                                                 <div class="col-md-4 text-right">
 
-                                                    <h3 class="text-gray-900 font-weight-bolder border-bottom border-dark">CREDIT NOTE</h3>
+                                                    <h2 style="color:black" class="font-weight-bolder border-bottom border-dark">CREDIT NOTE</h2>
+                                                    <br />
+                                                    <br />
+                                                    <br />
                                                     <h5 class="text-gray-900 font-weight-bold">CN#-<span id="CNNumber" runat="server"></span></h5>
                                                     <h5 class="text-gray-900 font-weight-bold">INV#-<span id="INVNumber" runat="server"></span></h5>
-                                                    <h6 class="text-danger font-weight-bold">DUE: ETB<span id="dueAmount" runat="server"></span></h6>
+                                                    <h6 class="text-gray-600 font-weight-bold">DUE: ETB<span id="dueAmount" runat="server"></span></h6>
 
                                                     <h5 id="CreditTitle" class="text-gray-900 text-uppercase border-bottom border-top border-dark font-weight-bold" runat="server"></h5>
                                                 </div>
@@ -257,8 +263,8 @@
 
                                                 <HeaderTemplate>
 
-                                                    <table class="table align-items-center table-sm small " style="color: black;">
-                                                        <thead class="thead-light text-uppercase ">
+                                                    <table class="table align-items-center table-bordered table-sm small " style="color: black;">
+                                                        <thead class="thead-dark text-uppercase ">
                                                             <tr>
 
                                                                 <th scope="col" class="">Item Name</th>
@@ -310,7 +316,7 @@
 
                                                 <div class="col-md-4 mt-1" style="z-index: 2; color: black">
                                                     <div class="form-group">
-                                                        <table class="table table-sm small" style="color: black">
+                                                        <table class="table table-sm small table-bordered" style="color: black">
                                                             <tbody>
                                                                 <tr>
                                                                     <td ><span style="margin: 7px 5px 5px 5px; padding: 5px" class="m-0 font-weight-bold text-right">Sub-Total:</span></td>
@@ -333,6 +339,7 @@
                                                 </div>
 
                                             </div>
+                                                </div>
                                         </div>
                                         <div class="col-1">
                                         </div>

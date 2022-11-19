@@ -293,17 +293,17 @@
                                 </div>
                             </li>
                             <li class="nav-item" id="Li2" runat="server" data-toggle="tooltip" data-placement="right" title="Inventory">
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Div4" aria-expanded="true" aria-controls="Div4">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Inventory" aria-expanded="true" aria-controls="Div4">
                                     <img src="../asset/icons/dashbordicon/activity.svg" />
 
                                 </a>
-                                <div id="Div4" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                                <div id="Inventory" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                                     <div class="bg-white py-2 collapse-inner rounded">
                                         <h6 class="collapse-header">Main:</h6>
                                         <a class="collapse-item" href="product.aspx">
                                             <img src="../asset/icons/feather/folder.svg" class="mr-2" />Items</a>
                                         <a class="collapse-item" href="BankStatement.aspx">
-                                            <img src="../asset/icons/feather/trending-up.svg" class="mr-2" />Bank Transaction</a>
+                                            <img src="../asset/icons/feather/trending-up.svg" class="mr-2" />Item Transaction</a>
 
 
                                     </div>
@@ -431,10 +431,33 @@
                                                 </div>
                                             </div>
                                             <div class="topbar-divider d-none d-sm-block"></div>
-                                            <div class="nav-item dropdown no-arrow w-100" id="Div1" runat="server" data-toggle="tooltip" title="Reports">
+                                            <div class="nav-item dropdown no-arrow w-100 mr-3" id="Div1" runat="server" data-toggle="tooltip" title="Quick Link">
                                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <img src="../asset/icons/feather/bookmark.svg" />
+                                                </a>
+                                                <!-- Dropdown - User Information -->
+                                                <div class="dropdown-menu dropdown-menu-left w-100 shadow animated--grow-in"
+                                                    aria-labelledby="userDropdown3">
+                                                    <a class="dropdown-item" href="CustomerVendorPreferences.aspx">
+                                                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                        Sales
+                                                    </a>
+                                                    <a class="dropdown-item" href="orgprofileview.aspx">
+                                                        <i class="fas fa-home fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                        Purchase
+                                                    </a>
+                                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                                        <i class="fas fa-cart-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                        Inventory
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            <div class="nav-item dropdown no-arrow w-100" id="Div8" runat="server" data-toggle="tooltip" title="Help Center">
+                                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <img src="../asset/icons/feather/info.svg" />
                                                 </a>
                                                 <!-- Dropdown - User Information -->
                                                 <div class="dropdown-menu dropdown-menu-left w-100 shadow animated--grow-in"
@@ -466,6 +489,7 @@
                                 </div>
                                 <asp:Panel ID="LoginPanel" Width="700px" runat="server" DefaultButton="btnSearch">
                                     <div class="input-group" id="test" runat="server">
+
                                         <asp:TextBox ID="txtSearch" Visible="true" ClientIDMode="Static" Style="border-radius: 20px 0px 0px 20px; border-right-color: white;" class=" form-control form-control-sm" Width="210px" type="search" aria-label="Search" runat="server" placeholder=" search everything..." aria-describedby="search-addon"></asp:TextBox>
 
                                         <asp:LinkButton ID="btnSearch" Visible="true" runat="server" Style="border-radius: 0px 20px 20px 0px; border-left-color: white; border-right-color: #adb5bd; border-top-color: #adb5bd; border-bottom-color: #adb5bd" class="btn btn-white btn-sm " Text="Search" OnClientClick="myFunction()" CausesValidation="false"><span class="fas fa-search"></span></asp:LinkButton>
@@ -487,38 +511,38 @@
                                         </a>
                                         <!-- Dropdown - User Information -->
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                            aria-labelledby="userDropdown3">
+                                            aria-labelledby="userDropdown3" style="width:250px">
                                 
                                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#managePosModal">
-                                                <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-500"></i>
                                                 Manage Fiscal Printers
                                             </a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#listOfPosModal">
-                                                <i class="fas fa-print fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                <i class="fas fa-print fa-sm fa-fw mr-2 text-gray-500"></i>
                                                 Active Fiscal Devices Details
                                             </a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#posStatusPosModal">
-                                                <i class="fas fa-wifi fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                <i class="fas fa-wifi fa-sm fa-fw mr-2 text-gray-500"></i>
                                                 Fiscal Devices Status
                                             </a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addPosDeviceModal">
-                                                <i class="fas fa-plus fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                <i class="fas fa-plus fa-sm fa-fw mr-2 text-gray-500"></i>
                                                 Add Default Fiscal Device
                                             </a>
                                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#addPosDeviceTypeModal">
-                                                <i class="fas fa-arrow-right fa-sm fa-fw mr-2 text-gray-400"></i>
+                                                <i class="fas fa-arrow-right fa-sm fa-fw mr-2 text-gray-500"></i>
                                                 Add Fiscal Device Type
                                             </a>
                                         </div>
                                     </li>
                                     <li class="nav-item dropdown no-arrow mx-1" id="Settingbar" runat="server">
-                                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown3" role="button"
+                                        <a class="nav-link dropdown-toggle" href="#" id="settingDropDown" role="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <img src="../asset/icons/feather/settings.svg" />
                                         </a>
                                         <!-- Dropdown - User Information -->
                                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                            aria-labelledby="userDropdown3">
+                                            aria-labelledby="settingDropDown" style="width: 300px">
                                             <a class="dropdown-item" data-toggle="modal" data-target="#DiscountModal" href="#">
                                                 <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                                 Pereference
@@ -549,10 +573,6 @@
                                                 <i class="fas fa-plug fa-sm fa-fw mr-2 text-gray-400"></i>
                                                 Maintenance and Upgrade Form
                                             </a>
-                                            <a class="dropdown-item" href="help.aspx">
-                                                <i class="fas fa-sm fa-fw mr-2 fa-lightbulb"></i>
-                                                help
-                                            </a>
 
                                         </div>
                                     </li>
@@ -571,11 +591,11 @@
                                         <!-- Dropdown - Alerts -->
                                         <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                             aria-labelledby="alertsDropdown">
-                                            <h6 class="dropdown-header">Alerts Center
+                                            <h6 class="dropdown-header">Notification
                                             </h6>
                                             <br />
                                             <div id="tbl" class="scrollarea" style="max-height: 500px; max-width: 600px">
-                                                <asp:Repeater ID="Repeater1" runat="server">
+                                                <asp:Repeater ID="rptrNotification" runat="server">
                                                     <ItemTemplate>
 
                                                         <a class="dropdown-item  d-flex align-items-center" href="<%#Eval("query")%>">
@@ -621,8 +641,8 @@
                                             </div>
 
                                             <center>
-                                                <a class="dropdown-item text-center small text-danger" id="unread_tab" runat="server" href="marknotifasread.aspx?markas=true">Mark as Read</a>
-                                                <a class="dropdown-item text-center small " id="delete_tab" runat="server" href="marknotifasread.aspx?r=true"><span class="fas fa-trash mr-2 text-gray-300"></span><span class="text-primary">Delete All Notification</span></a>
+                                                <a class="dropdown-item text-center small text-danger" visible="false" id="unread_tab" runat="server" href="marknotifasread.aspx?markas=true">Mark as Read</a>
+                                                <a class="dropdown-item text-center small " id="delete_tab" visible="false" runat="server" href="marknotifasread.aspx?r=true"><span class="fas fa-trash mr-2 text-gray-300"></span><span class="text-primary">Delete All Notification</span></a>
                                             </center>
 
                                         </div>
@@ -1020,6 +1040,7 @@
 
                                     </div>
                                     <div class="col-12 ">
+                                        <%-- <button class="btn btn-sm  mr-2 btn-danger" onclick="PrintZreport()" disabled type="button"><span class="fas mr-2 fa-spin fa-spinner"></span>Printing</button> --%>
 
                                         <button class="btn btn-sm  mr-2 btn-outline-danger" onclick="PrintZreport()" type="button">Daily Z Report</button>
                                         <button class="btn btn-sm mr-2  btn-outline-danger" onclick="PrintXreport()" type="button">Daily X Report</button>
@@ -1114,7 +1135,7 @@
                     </div>
                 </div>
                 <div class="modal fade " id="dateRangeModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-dialog modal-sm" style="border-color: #5e72e4;" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-calendar-week mr-2" style="color: #ff00bb"></span>
@@ -1127,10 +1148,10 @@
                             <div class="modal-body">
                                 <div class="row mb-1">
                                     <div class="col-6">
-                                        <asp:TextBox ID="txtFromDate" ClientIDMode="Static" data-toggle="tooltip" title="From Date" TextMode="Date" class="form-control form-control-sm rounded-left rounded-right" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtFromDate" style="border-color: #5e72e4;" ClientIDMode="Static" data-toggle="tooltip" title="From Date" TextMode="Date" class="form-control form-control-sm rounded-left rounded-right" runat="server"></asp:TextBox>
                                     </div>
                                     <div class="col-6">
-                                        <asp:TextBox ID="txtToDate" ClientIDMode="Static" data-toggle="tooltip" title="To Date" TextMode="Date" class="form-control form-control-sm  rounded-left rounded-right" runat="server"></asp:TextBox>
+                                        <asp:TextBox ID="txtToDate" style="border-color: #5e72e4;" ClientIDMode="Static" data-toggle="tooltip" title="To Date" TextMode="Date" class="form-control form-control-sm  rounded-left rounded-right" runat="server"></asp:TextBox>
                                     </div>
                                 </div>
                                 <hr />
@@ -1149,7 +1170,7 @@
                     </div>
                 </div>
                 <div class="modal fade " id="listOfPosModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-dialog modal-md" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-info-circle mr-2" style="color: #ff00bb"></span>

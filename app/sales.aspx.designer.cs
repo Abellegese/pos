@@ -105,6 +105,15 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlButton btnEditLine;
 
         /// <summary>
+        /// btnDeleteLine control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnDeleteLine;
+
+        /// <summary>
         /// draftConverter control.
         /// </summary>
         /// <remarks>
@@ -888,6 +897,24 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl printerId;
 
         /// <summary>
+        /// order control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox order;
+
+        /// <summary>
+        /// ddlOrderNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOrderNumber;
+
+        /// <summary>
         /// txtCustomerName control.
         /// </summary>
         /// <remarks>
@@ -1399,6 +1426,24 @@ namespace pos.app
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton btnSaveEditInvoiceInfo;
+
+        /// <summary>
+        /// selectedItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl selectedItem;
+
+        /// <summary>
+        /// btnDeleteLineItem control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnDeleteLineItem;
 
         /// <summary>
         /// btnDeleteInvoice control.

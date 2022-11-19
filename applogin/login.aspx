@@ -16,6 +16,28 @@
     <link href="../asset/login/asset/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../asset/login/asset/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 5px;
+
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #e8e8e8;
+        }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #ad9e9e;
+            }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -60,13 +82,13 @@
                                         <p class="mb-4 text-sm mx-auto">
                                             Don't have an account?
                    
-                                            <a href="javascript:;" class="text-primary text-gradient font-weight-bold">Sign up</a>
+                                            <a href="signup.aspx" class="text-primary text-gradient font-weight-bold">Sign up</a>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-                                <div class="position-relative bg-gradient-dark h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center overflow-hidden" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-ill.jpg'); background-size: cover;">
+                                <div class="position-relative bg-gradient-dark h-100 px-7 d-flex flex-column justify-content-center overflow-hidden" style="background-size: cover;background-image:src('')">
                                     <span class="mask bg-gradient-dark opacity-6"></span>
                                     <h4 class="mt-5 text-white font-weight-bolder position-relative">"Welcome to QemerPOS Platform"</h4>
                                     <p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>

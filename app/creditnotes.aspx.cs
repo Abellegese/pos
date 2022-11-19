@@ -1,7 +1,7 @@
 ﻿using pos.app.classes;
 using System;
 using System.Data;
-
+using System.Web.UI.WebControls;
 namespace pos.app
 {
     public partial class creditnotes : System.Web.UI.Page
@@ -87,6 +87,10 @@ namespace pos.app
                     DataTable dt = slo.GetSalesInfo(Request.QueryString["invno"].ToString());
                     rptrAttachment.DataSource = dt;
                     rptrAttachment.DataBind();
+                    //Make buttons visible
+                    btnDelete.Visible = true;
+                    btnEdit.Visible = true;
+                    btnSendEmail.Visible = true;
                 }
             }
         }
@@ -128,6 +132,25 @@ namespace pos.app
                 sqlop.cmdText = "update tblinvoice set balance = '" + newCredit + "'  where invoice_number = '" + Request.QueryString["invno"].ToString() + "'";
                 sqlop.MakeCUD();
                 Response.Redirect(Request.RawUrl);
+            }
+        }
+
+        protected void rptrCredit_ItemDataBound(object sender, System.Web.UI.WebControls.RepeaterItemEventArgs e)
+        {
+            foreach (RepeaterItem item in rptrCredit.Items)
+            {
+                Label lblBalance = item.FindControl("lblBalance") as Label;
+                Label lblStatus = item.FindControl("lblStatus") as Label;
+                if (Convert.ToDouble(lblBalance.Text) > 0)
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-danger");
+                    lblStatus.Text = "Pending";
+                }
+                else
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-success");
+                    lblStatus.Text = "Paid";
+                }
             }
         }
     }

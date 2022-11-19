@@ -168,6 +168,15 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
 
         /// <summary>
+        /// Div8 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div8;
+
+        /// <summary>
         /// sub control.
         /// </summary>
         /// <remarks>
@@ -267,13 +276,13 @@ namespace pos.app
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl counter;
 
         /// <summary>
-        /// Repeater1 control.
+        /// rptrNotification control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater Repeater1;
+        protected global::System.Web.UI.WebControls.Repeater rptrNotification;
 
         /// <summary>
         /// mainb control.

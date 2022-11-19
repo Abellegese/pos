@@ -14,7 +14,25 @@ namespace pos.app
                 BindFiscalPrinterSettings();
                 BindFiscalType();
                 GetPrinterSN();
+                BindNotification();
             }
+        }
+        private void BindNotification()
+        {
+            SQLOperation so = new SQLOperation("select * from tblnotification");
+            DataTable dt = so.ReadTable();
+
+            Int64 i = dt.Rows.Count;
+
+            if (i != 0)
+            {
+                rptrNotification.DataSource = dt;
+                rptrNotification.DataBind();
+                unread_tab.Visible = true;
+                delete_tab.Visible = true;
+            }
+            else
+                mainb.Visible = true;
         }
         public void GetPrinterSN()
         {

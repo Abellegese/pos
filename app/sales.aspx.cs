@@ -33,6 +33,7 @@ namespace pos.app
                 BindInvoiceTemplate();
                 BindComments();
                 BindFiscalReceiptNumber();
+                BindSalesOrderNumber();
             }
         }
         private void BindFiscalReceiptNumber()
@@ -139,8 +140,9 @@ namespace pos.app
             {
                 selectSpan.Visible = true;
                 btnEditLine.Visible = true;
+                btnDeleteLine.Visible = true;
                 itemNumber.InnerText = Request.QueryString["item_id"].ToString();
-
+                selectedItem.InnerText = Request.QueryString["item"].ToString();
                 SQLOperation sqlop = new SQLOperation("select * from tblsale_and_invoice where id = '" + Request.QueryString["item_id"].ToString() + "'");
                 txtEditQuantity.Text = sqlop.ReadTable().Rows[0]["quantity"].ToString();
                 txtEditUnitPrice.Text = sqlop.ReadTable().Rows[0]["unit_price"].ToString();
@@ -462,6 +464,14 @@ namespace pos.app
             lst.Add(address);
             return lst;
         }
+        public void BindSalesOrderNumber()
+        {
+            SQLOperation so = new SQLOperation("select * from tblsales_order_main where invoice_status = 'Confirmed' or invoice_status = 'Unconfirmed'");
+            ddlOrderNumber.DataSource = so.ReadTable();
+            ddlOrderNumber.DataValueField = "order_number";
+            ddlOrderNumber.DataBind();
+            ddlOrderNumber.Items.Insert(0, new ListItem("-Select Order Number-", "0"));
+        }
         public void GetItemInfo()
         {
             StoreOperation so = new StoreOperation();
@@ -469,6 +479,58 @@ namespace pos.app
             ddlItemName.DataTextField = "item_name";
             ddlItemName.DataBind();
             ddlItemName.Items.Insert(0, new ListItem("-Select Item-", "0"));
+        }
+        [WebMethod]
+        public static string[][] BindOrderItems(string orderNumber)
+        {
+            SQLOperation so = new SQLOperation("select * from tblsales_order where order_number = '" + orderNumber + "'");
+            DataTable dt = so.ReadTable();
+            string[][] orderMatrix = new string[dt.Rows.Count][];
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string itemName = dt.Rows[i]["item_name"].ToString();
+                string quantity = dt.Rows[i]["quantity"].ToString();
+                string unitPrice = dt.Rows[i]["unit_price"].ToString();
+                string totalAmount = dt.Rows[i]["total_amount"].ToString();
+                orderMatrix[i] = new string[4] { itemName, quantity, unitPrice, totalAmount };
+            }
+            return orderMatrix;
+        }
+        [WebMethod]
+        public static List<string> BindOrderCustomer(string orderNumber)
+        {
+            List<string> lst = new List<string>();
+            SQLOperation so = new SQLOperation("select * from tblsales_order_main where order_number = '" + orderNumber + "'");
+            DataTable dt = so.ReadTable();
+            string customerName = dt.Rows[0]["customer_name"].ToString();
+            string customerAddress = dt.Rows[0]["customer_address"].ToString();
+            string customerTin = dt.Rows[0]["customer_tin"].ToString();
+
+            //Add to List
+            lst.Add(customerName);
+            lst.Add(customerAddress);
+            lst.Add(customerTin);
+
+            return lst;
+        }
+        [WebMethod]
+        public static List<double> BindOrderSubtotals(string orderNumber)
+        {
+            List<double> lst = new List<double>();
+            SQLOperation so = new SQLOperation("select sum(total_amount) from tblsales_order where order_number = '" + orderNumber + "'");
+            DataTable dt = so.ReadTable();
+            double totalAmount = Convert.ToDouble(dt.Rows[0][0].ToString()) + 0.15* Convert.ToDouble(dt.Rows[0][0].ToString());
+            double subtotal = Convert.ToDouble(dt.Rows[0][0].ToString());
+            double vat = totalAmount - subtotal;
+
+
+            //Add to List
+            lst.Add(totalAmount);
+            lst.Add(subtotal);
+            lst.Add(vat);
+
+            return lst;
         }
         [WebMethod]
         public static List<string> GetItemRate(string itemName)
@@ -624,6 +686,7 @@ namespace pos.app
             }
             slo.CreateInvoice();
             Response.Redirect("sales.aspx?invno=" + invoiceSpan.InnerText + "&&fsno=" + txtFSNumber.Text + "&&customer=" + txtCustomerName.Text);
+            Response.Redirect(Request.RawUrl);
         }
         protected void btnSaveBankAccount_Click(object sender, EventArgs e)
         {
@@ -830,31 +893,62 @@ namespace pos.app
                 Response.Redirect("sales.aspx?invno=" + invNo + "&&fsno=" + txtDraftFSNumber.Text + "&&customer=" + Name.InnerText);
             }
         }
-
         protected void btnFilterRecord_Click(object sender, EventArgs e)
         {
             string searchQuery = string.Empty;
+            string dateFrom = string.Empty;
+
+            if (txtDateFrom.Text != "" || txtDateFrom.Text != null)
+                dateFrom = Convert.ToDateTime(txtDateFrom.Text).ToString("yyyy-MM-dd").Substring(0, 10);
+
+            string dateTo = string.Empty;
+
+            if (txtDateTo.Text != "" || txtDateTo.Text != null)
+                dateTo = Convert.ToDateTime(txtDateTo.Text).ToString("yyyy-MM-dd").Substring(0, 10);
+
             searchQuery += "select * from tblinvoice where ";
-            searchQuery += "date = '" + txtDateFrom.Text + "' or  date = '" + txtDateTo.Text + "'";
+            searchQuery += "date between '" + dateFrom + "' ";
+            searchQuery += "and '" + dateTo + "'";
             if (advancedSearch.Checked == true)
             {
-                searchQuery += "or customer_name = '" + txtCustomerSearchName.Text + "' or invoice_number = '" + txtInvoiceNumber.Text + "' ";
+                searchQuery += " or customer_name = '" + txtCustomerSearchName.Text + "' or invoice_number = '" + txtInvoiceNumber.Text + "' ";
                 searchQuery += " or invoice_type = '" + ddlInvoiceType.SelectedItem.Text + "'";
             }
+            invoiceStatus.Visible = true;
+            invoiceStatus.InnerText = searchQuery;
             SQLOperation so = new SQLOperation(searchQuery);
             DataTable dt = so.ReadTable();
-            if (dt.Rows.Count != 0)
+            rptrInvoice.DataSource = dt;
+            rptrInvoice.DataBind();
+            rptInvoiceShort.DataSource = dt;
+            rptInvoiceShort.DataBind();
+        }
+
+        protected void rptrInvoice_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            foreach (RepeaterItem item in rptrInvoice.Items)
             {
-                if (Request.QueryString["invno"] != null)
-                {
-                    rptInvoiceShort.DataSource = dt;
-                    rptInvoiceShort.DataBind();
-                }
-                else
-                {
-                    rptrInvoice.DataSource = dt;
-                    rptrInvoice.DataBind();
-                }
+                Label lblStatus = item.FindControl("lblStatus") as Label;
+                if (lblStatus.Text == "Cash Sale")
+                    lblStatus.Attributes.Add("class", "badge badge badge-success");
+                if (lblStatus.Text == "Credit Sale")
+                    lblStatus.Attributes.Add("class", "badge badge badge-warning");
+                if (lblStatus.Text == "Refund")
+                    lblStatus.Attributes.Add("class", "badge badge badge-danger");
+            }
+        }
+
+        protected void btnDeleteLineItem_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["item_id"] != null && Request.QueryString["edit"] != null)
+            {
+                SQLOperation so = new SQLOperation("delete from tblsale_and_invoice where id = '" + Request.QueryString["item_id"].ToString() + "'");
+                so.MakeCUD();
+                string invno = Request.QueryString["invno"].ToString();
+                string fsno = Request.QueryString["fsno"].ToString();
+                string customer = Request.QueryString["customer"].ToString();
+                Response.Redirect("sales.aspx?invno=" + invno + "&&fsno=" + fsno + "&&customer=" + customer);
+
             }
         }
     }

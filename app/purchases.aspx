@@ -17,6 +17,8 @@
         }
 
     </script>
+    <link href="../asset/css/snackbar.css" rel="stylesheet" />
+
     <script type="text/javascript">
         $(document).ready(function () {
             //We are binding onchange event using jQuery built-in change event
@@ -63,49 +65,39 @@
                         <div class="row">
                             <div
                                 class="col-md-4 text-left">
-                                <a class="btn btn-circle btn-sm text-white btn-light mr-2" id="A1" href="sales.aspx" visible="false" runat="server" data-toggle="tooltip" data-placement="bottom" title="Back to Invoice">
+                                <a class="btn btn-circle btn-sm text-white btn-light mr-2" id="btnBack" href="purchases.aspx" visible="false" runat="server" data-toggle="tooltip" data-placement="bottom" title="Back to Invoice">
 
                                     <span class="fa fa-arrow-left text-gray-600"></span>
 
                                 </a>
-                                <span class="badge mr-2 text-white badge-light text-gray-600 font-weight-bold" visible="false" id="Span1" runat="server"></span>
-                                <span class="fas fa-cart-plus mr-2" style="color: #d46fe8" id="Span2" runat="server"></span><span id="Span3" class="small text-gray-900 font-weight-bold text-uppercase" runat="server">Purchases</span>
+                                <span class="badge mr-2 text-white badge-light text-gray-600 font-weight-bold" visible="false" id="billNumberSpan" runat="server"></span>
+                                <span class="fas fa-cart-plus mr-2" style="color: #d46fe8" id="billSpanIcon" runat="server"></span><span id="billText" class="small text-gray-900 font-weight-bold text-uppercase" runat="server">Purchases</span>
 
                             </div>
+
                             <div class="col-md-8 text-right">
                                 <div class="dropdown no-arrow">
-                                    <span class="badge text-white" style="background-color: #d46fe8" visible="false" id="Span4" runat="server">ITEM#<span id="Span5" runat="server"></span> SELECTED</span>
-                                    <button type="button" runat="server" id="Button1" visible="false" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditLineModal">
+                                    <span class="badge text-white" style="background-color: #d46fe8" visible="false" id="itemSelectionSpan" runat="server">ITEM#<span id="itemNumber" runat="server"></span> SELECTED</span>
+                                    <button type="button" runat="server" id="btnEditLineItem" visible="false" class="mr-1 btn btn-outline-light btn-sm" data-toggle="modal" data-target="#EditLineModal">
                                         <div>
                                             <i data-toggle="tooltip" title="Edit Line Item" class="fas fa-pencil-alt text-gray-600 font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="Button2" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#CustomizeInvoiceModal">
+                                    <button type="button" runat="server" id="btnDeleteLineItemsModal" visible="false" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#DeleteLineItemModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Customize Template" class="fas fa-cog text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Delete Line Item" class="fas fa-trash-restore text-gray-600 font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="Button3" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                    <button type="button" visible="false" runat="server" id="btnDeleteBills" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#DeletInvoiceModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Send Email" class="fas fa-envelope text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Delete Bills" class="fas fa-trash text-gray-600 font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="Button4" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#DeletInvoiceModal">
-                                        <div>
-                                            <i data-toggle="tooltip" title="Delete Invoice" class="fas fa-trash text-gray-600 font-weight-bold"></i>
-                                            <span></span>
-                                        </div>
-                                    </button>
-                                    <button type="button" visible="false" runat="server" id="Button5" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
-                                        <div>
-                                            <i data-toggle="tooltip" title="Duplicate" class="fas fa-copy text-gray-600 font-weight-bold"></i>
-                                            <span></span>
-                                        </div>
-                                    </button>
-                                    <button type="button" visible="false" runat="server" id="Button6" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditInvoiceModal">
+
+                                    <button type="button" visible="false" runat="server" id="btnEditInfo" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditBillModal">
                                         <div>
                                             <i data-toggle="tooltip" title="Edit Info" class="fas fa-edit text-gray-600 font-weight-bold"></i>
                                             <span></span>
@@ -154,7 +146,7 @@
 
                     </div>
                     <div class="card-body small text-gray-900" id="BillDiv" style="margin-top: -21px" runat="server">
-                        <asp:Repeater ID="rptrBill" runat="server">
+                        <asp:Repeater ID="rptrBill" runat="server" OnItemDataBound="rptrBill_ItemDataBound">
 
                             <HeaderTemplate>
                                 <table class="table align-items-center table-hover table-sm ">
@@ -181,7 +173,7 @@
                                         <%# Eval("date")%>
                                     </td>
                                     <td class="text-primary">
-                                        <a class=" text-warning  " href="purchases.aspx?billno=<%# Eval("bill_no")%>&&vendor=<%# Eval("vendor_name")%>"><span>INV#-00000<%# Eval("bill_no")%></span></a>
+                                        <a class=" text-warning  " href="purchases.aspx?billno=<%# Eval("bill_no")%>&&fsno=<%# Eval("fsno")%>&&vendor=<%# Eval("vendor_name")%>"><span>INV#-00000<%# Eval("bill_no")%></span></a>
 
                                     </td>
                                     <td class="text-gray-900">
@@ -193,11 +185,12 @@
 
                                     </td>
                                     <td class="text-gray-900">
-                                        <asp:Label ID="Label5" runat="server" Text='<%# Eval("balance" , "{0:N2}")%>'></asp:Label>
+                                        <asp:Label ID="lblBalance" runat="server" Text='<%# Eval("balance")%>'></asp:Label>
 
                                     </td>
                                     <td class="text-gray-900 text-right">
-                                        <span class="badge badge-success">PAID</span>
+                                        <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("balance" , "{0:N2}")%>'></asp:Label>
+
                                     </td>
 
                                 </tr>
@@ -234,7 +227,7 @@
                     </div>
                     <div class="card-body text-gray-900" visible="false" id="BillDetailDiv" runat="server">
                         <div class="row">
-                            <div class="col-4 border-right" style="margin-top: -21px">
+                            <div class="col-4 border-right" style="margin-top: -21px;height: 1000px;">
                                 <asp:Repeater ID="rptBillShort" runat="server">
 
                                     <HeaderTemplate>
@@ -246,9 +239,10 @@
                                         <tr class="border-bottom">
 
                                             <td>
-                                                <asp:Label ID="Label3" class="text-gray-900" runat="server" Text='<%# Eval("vendor_name")%>'></asp:Label>
-                                                <a class=" text-primary  " href="purchases.aspx?billno=<%# Eval("bill_no")%>&&vendor=<%# Eval("vendor_name")%>"><span>Bill#-00000<%# Eval("bill_no")%></span></a>
-                                                <h6>| <span class=" text-gray-600"><%# Eval("date")%></span> </h6>
+                                                <asp:Label ID="Label3" class="text-gray-900 small" runat="server" Text='<%# Eval("vendor_name")%>'></asp:Label>
+                                                <br />
+                                                <a class=" text-primary  small" href="purchases.aspx?billno=<%# Eval("bill_no")%>&&vendor=<%# Eval("vendor_name")%>"><span>Bill#-00000<%# Eval("bill_no")%></span></a>
+                                                | <span class=" text-gray-600 small"><%# Eval("date", "{0: dd/MM/yyyy}")%></span>
                                             </td>
 
                                             <td class="text-gray-900 text-right">
@@ -267,14 +261,14 @@
 
                                 </asp:Repeater>
                             </div>
-                            <div class="col-8">
+                            <div class="col-8" style="max-height: 1200px; overflow-y: scroll; overflow-x: hidden">
                                 <div id="div_print">
                                     <div class="row" style="margin-left: -60px; margin-right: -60px">
                                         <div class="col-1">
                                         </div>
-                                        <div class="col-10">
+                                        <div class="col-10  shadow-sm " style="height: 1000px;">
                                             <div class="card-body border-none">
-                                                <div class="row">
+                                                <div class="row mt-5">
                                                     <div class="col-md-6  text-left" style="color: black">
                                                         <asp:Repeater ID="rptrLogo" runat="server">
                                                             <ItemTemplate>
@@ -304,7 +298,9 @@
 
                                                     <div class="col-md-6 text-right">
 
-                                                        <span style="color: black" contenteditable="true" class="h2 text-uppercase border-bottom border-dark font-weight-bold" id="HeaderBill" runat="server">Bill</span>
+                                                        <span style="color: black" contenteditable="true" class="h2 mb-3 text-uppercase border-bottom border-dark font-weight-bold" id="HeaderBill" runat="server">Bill</span>
+                                                        <br />
+                                                        <br />
                                                         <br />
                                                         <div id="Body2" runat="server">
                                                             <span id="BindShop" runat="server">
@@ -354,7 +350,7 @@
                                                         <ItemTemplate>
                                                             <tr>
                                                                 <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px">
-                                                                    <a class="  " href="purchase.aspx?billno=<%# Eval("bill_number")%>&&vendor=<%# Eval("vendor_name")%>&&item_id=<%# Eval("id")%>&&edit=true"><span><%# Eval("id")%></span></a>
+                                                                    <a class="  " href="purchases.aspx?billno=<%# Eval("bill_number")%>&&vendor=<%# Eval("vendor_name")%>&&item=<%#Eval("item_name")%>&&item_id=<%# Eval("id")%>&&edit=true"><span><%# Eval("id")%></span></a>
                                                                 </td>
                                                                 <td class="text-left" style="color: black; border-block-color: black; border: solid; border-width: 1px">
                                                                     <span><%# Eval("item_name")%></span><br />
@@ -464,11 +460,14 @@
         </div>
 
         <div class="modal fade" data-backdrop="static" id="ModalCreateBill" tabindex="-1" role="dialog" aria-labelledby="ModalAnalysis" aria-hidden="true">
+            <div id="snackbar1">Order data successfully added!</div>
+            <div id="snackbar2">Item updated successfully!</div>
+            <div id="snackbar3">Item deleted successfully!</div>
             <div class="modal-dialog  modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h6 class="modal-title font-weight-bold text-gray-900" id="exampleModalLabelG"><span class="fas fa-cart-plus mr-2" style="color: #c24599"></span>
-                            Create Bill [Bill#-00000<span id="billSpan" runat="server"></span>]
+                            Create Bill [Bill#-<span id="billSpan" runat="server"></span>]
                             
                             <button class="btn btn-circle btn-sm ml-2" type="button" data-toggle="modal" data-target="#ExistingVendorModal"><span class="fas fa-user-check " data-toggle="tooltip" title="Select existing vendor" style="color: #d46fe8"></span></button>
                         </h6>
@@ -477,6 +476,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-8">
+                                <asp:DropDownList ID="ddlOrderNumber" data-toggle="tooltip" title="Convert From Order" ClientIDMode="Static" class="form-control form-control-sm" runat="server"></asp:DropDownList>
+                            </div>
+                        </div>
                         <div class="row mb-3">
                             <div class="col-md-4">
 
@@ -561,7 +565,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div id="itemInfoDiv" style="display: none">
-                                    <button class="btn btn-light btn-sm" type="button" data-toggle="tooltip" onclick="AddTable();CreatePurchasesClient();" title="Add item"><span class="fas fa-plus"></span></button>
+                                    <button class="btn btn-light btn-sm" type="button" data-toggle="tooltip" onclick="AddTable();" title="Add item"><span class="fas fa-plus"></span></button>
 
                                     <div class="vr"></div>
                                     <span class="fas fa-cart-arrow-down text-gray-500 mr-2"></span>
@@ -597,11 +601,11 @@
                                 <asp:TextBox ID="txtUnitPrice" ClientIDMode="Static" Style="border-color: #ff00bb" data-toggle="tooltip" title="Rate" class="form-control form-control-sm" placeholder="Rate" runat="server"></asp:TextBox>
                             </div>
                             <div class="col-md-2 " id="Div1" runat="server">
-                                <asp:TextBox ID="txtManufacturingDate" TextMode="Date" data-toggle="tooltip" title="Manufactured Date" ClientIDMode="Static" class="form-control form-control-sm" placeholder="Manufactured Date" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtManufacturingDate" TextMode="Date" data-toggle="tooltip" title="Manufactured Date" ClientIDMode="Static" Style="border-color: #ff00bb" class="form-control form-control-sm" placeholder="Manufactured Date" runat="server"></asp:TextBox>
 
                             </div>
                             <div class="col-md-2 " id="Div2" runat="server">
-                                <asp:TextBox ID="txtExpiredDate" TextMode="Date" data-toggle="tooltip" title="Expired Date" ClientIDMode="Static" class="form-control form-control-sm" placeholder="Expired Date" runat="server"></asp:TextBox>
+                                <asp:TextBox ID="txtExpiredDate" TextMode="Date" data-toggle="tooltip" title="Expired Date" ClientIDMode="Static" Style="border-color: #ff00bb" class="form-control form-control-sm" placeholder="Expired Date" runat="server"></asp:TextBox>
 
                             </div>
                         </div>
@@ -644,8 +648,8 @@
                     </div>
 
                     <div class="modal-footer">
-
-                        <asp:LinkButton ID="btnCreateBill" runat="server" class="btn btn-sm text-white" Style="background-color: #d46fe8" CausesValidation="false" OnClick="btnCreateBill_Click"><span class="fas fa-plus mr-2"></span>Create Bill</asp:LinkButton>
+                        <button class="btn btn-sm btn-light" type="button" onclick="CreatePurchasesClient();">Add</button>
+                        <asp:LinkButton ID="btnCreateBill" runat="server" OnClientClick="CreatePurchasesClient();" class="btn btn-sm text-white" Style="background-color: #d46fe8" CausesValidation="false" OnClick="btnCreateBill_Click"><span class="fas fa-plus mr-2"></span>Create Bill</asp:LinkButton>
 
                     </div>
 
@@ -676,7 +680,250 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade " id="EditLineModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel">
+                            <span class="fas fa-pencil-alt mr-2" style="color: #d46fe8"></span>Edit Line Item</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">QTY</span>
+                                        </div>
+                                        <asp:TextBox ID="txtEditQuantity" ClientIDMode="Static" data-toggle="tooltip" title="Quantity" placeholder="quantity eg. 3" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">UNP</span>
+                                        </div>
+                                        <asp:TextBox ID="txtEditUnitPrice" data-toggle="tooltip" title="Unit Price" ClientIDMode="Static" placeholder="unit price" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+
+
+                        <div class="row mb-3">
+                            <div class="col-2">
+                            </div>
+                            <div class="col-8">
+                                <center>
+                                    <div class="input-group">
+                                        <asp:LinkButton ID="btnSaveLineItem" class="btn btn-sm text-white w-100" Style="background-color: #d46fe8" runat="server" OnClick="btnSaveLineItem_Click"><span class="fas fa-save text-white mr-2"></span>Save Edit</asp:LinkButton>
+                                    </div>
+                                </center>
+
+                            </div>
+                            <div class="col-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="EditBillModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-pencil-alt mr-2" style="color: #ff00bb"></span>
+                            Edit Invoice Info
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-12 ">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">FS#</span>
+                                        </div>
+                                        <asp:TextBox ID="txtEditFSNumber" data-toggle="tooltip" title="FS#" ClientIDMode="Static" placeholder="FS#" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 ">
+                                <div class="form-group mb-0">
+                                    <div class="input-group input-group-alternative input-group-sm">
+                                        <div class="input-group-prepend ">
+                                            <span class="input-group-text">BILL#</span>
+                                        </div>
+                                        <asp:TextBox ID="txtEdiBillNumber" data-toggle="tooltip" title="INV#" ClientIDMode="Static" placeholder="INV#" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:LinkButton ID="btnSaveEditInvoiceInfo" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnSaveEditInvoiceInfo_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="DeleteLineItemModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-trash mr-2" style="color: #ff00bb"></span>
+                            Delete Line Item
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-12 mx-2 border-danger border-left">
+                                <span class="fas fa-arrow-alt-circle-right text-danger mr-2"></span>
+                                <span class="small text-gray-500">Are You Sure to Delete the Items?</span>
+                                <br />
+                                <span class="fas fa-arrow-alt-circle-right text-danger mr-2"></span>
+                                <span class="small text-danger" id="selectedItem" runat="server"></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:LinkButton ID="btnDeleteLineItem" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnDeleteLineItem_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="DeletInvoiceModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-trash mr-2" style="color: #ff00bb"></span>
+                            Delete Invoice
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-12 mx-2 border-danger border-left">
+                                <span class="fas fa-arrow-alt-circle-right text-danger mr-2"></span>
+                                <span class="small text-gray-500">Are You Sure to Delete the Invoice?</span>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:LinkButton ID="btnDeleteBill" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnDeleteBill_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+        function myFunctionSnackDelete() {
+            // Get the snackbar DIV
+            var x = document.getElementById("snackbar2");
+
+            // Add the "show" class to DIV
+            x.className = "show";
+
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 6000);
+        }
+        function myFunctionSnackUpdate() {
+            // Get the snackbar DIV
+            var x = document.getElementById("snackbar3");
+
+            // Add the "show" class to DIV
+            x.className = "show";
+
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 6000);
+        }
+        function myFunctionSnack() {
+            // Get the snackbar DIV
+            var x = document.getElementById("snackbar1");
+
+            // Add the "show" class to DIV
+            x.className = "show";
+
+            // After 3 seconds, remove the show class from DIV
+            setTimeout(function () { x.className = x.className.replace("show", ""); }, 6000);
+        }
+        function BindOrderData() {
+
+            PageMethods.BindOrderItems(document.getElementById("<%=ddlOrderNumber.ClientID%>").value, OnOrderItemDataBinded, OnOrderItemDataBindedError);
+            PageMethods.BindOrderVendor(document.getElementById("<%=ddlOrderNumber.ClientID%>").value, OnOrderCustDataBinded, OnOrderCustDataBindedError);
+                    PageMethods.BindOrderSubtotals(document.getElementById("<%=ddlOrderNumber.ClientID%>").value, OnOrderSubTotalDataBinded, OnOrderCustDataBinded);
+                }
+                function OnOrderSubTotalDataBinded(result) {
+                    var subTotal = document.getElementById("<%=VatFree.ClientID %>");
+                    var Vat = document.getElementById("<%=VAT.ClientID %>");
+                    var totalAmount = document.getElementById("<%=GrandTotal.ClientID %>");
+            subTotal.innerHTML = Number(result[1]).toFixed(2);
+            Vat.innerHTML = Number(result[2]).toFixed(2);
+            totalAmount.innerHTML = Number(result[0]).toFixed(2);
+
+            $("[id*=txtGrandTotal]").val(Number(result[0]).toFixed(2));
+        }
+        function OnOrderSubTotalDataBindedError(error) {
+            alert("Error Bind");
+        }
+        function OnOrderCustDataBinded(result) {
+            $("[id*=txtTINNumber]").val(result[2]);
+            $("[id*=txtAddress]").val(result[1]);
+            $("[id*=txtVendorName]").val(result[0]);
+        }
+        function OnOrderCustDataBindedError(error) {
+            alert("Error Bind");
+        }
+        function OnOrderItemDataBinded(result) {
+            myFunctionSnack();
+            var table = document.getElementById("myTable");
+            if (table.rows.length == 1) {
+                // Add some text to the new cells:
+                var rowCount = result.length;
+
+                for (var i = 0; i < rowCount; i++) {
+                    var row = table.insertRow(i + 1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    cell1.innerHTML = result[i][0];
+                    cell2.innerHTML = result[i][1];
+                    cell3.innerHTML = result[i][2];
+                    cell4.innerHTML = result[i][3];
+                    cell4.className = "text-right";
+                }
+
+                cell4.className = "text-right";
+
+            }
+        }
+
+        function OnOrderItemDataBindedError(error) {
+            alert("Error Bind");
+        }
+        $('#ddlOrderNumber').change(function () {
+            BindOrderData();
+            $("#itemInfoDiv").toggle(true);
+        });
+    </script>
     <script type="text/javascript">
         $('#paid').click(function () {
             $("#txtCreditAmount").toggle(false);
@@ -770,9 +1017,28 @@
     </script>
     <script type="text/javascript">
         function CreatePurchasesClient() {
-            PageMethods.CreatePurchases($("[id*=txtVendorName]").val(), $("#ddlItemName option:selected").text(), $("[id*=txtReferenceNumber]").val(), $("[id*=txtDate]").val(),
-                $("[id*=txtUnitPrice]").val(), $("[id*=txtDescription]").val(), $("[id*=txtQuantity]").val(), (Number($("[id*=txtUnitPrice]").val())) * Number($("[id*=txtQuantity]").val()),
-                document.getElementById("<%=billSpan.ClientID %>").innerHTML, $("[id*=txtExpiredDate]").val(), $("[id*=txtManufacturingDate]").val());
+
+            var table = document.getElementById("myTable");
+            var rowCount = table.rows.length;
+            for (var i = 1; i < rowCount; i++) {
+
+                var description = table.rows[i].cells[0].innerText;
+                var indexOfNewLine = description.indexOf("\n");
+                description = description.substring(indexOfNewLine, description.length);
+                var itemName = table.rows[i].cells[0].innerText;
+                var unitPrice = Number(table.rows[i].cells[2].innerText);
+                var quantity = Number(table.rows[i].cells[1].innerText);
+                var totalPrice = unitPrice * quantity;
+                PageMethods.CreatePurchases($("[id*=txtVendorName]").val(), itemName, $("[id*=txtReferenceNumber]").val(), $("[id*=txtDate]").val(),
+                    unitPrice, description,  quantity, totalPrice,
+                    document.getElementById("<%=billSpan.ClientID %>").innerHTML, $("[id*=txtExpiredDate]").val(), $("[id*=txtManufacturingDate]").val(), OnSuccess, OnError);
+            }
+        }
+        function OnSuccess(result) {
+            alert("Success");
+        }
+        function OnError(error) {
+            alert("Couldn't Save");
         }
     </script>
 </asp:Content>

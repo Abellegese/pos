@@ -1785,6 +1785,7 @@
     <Content Include="asset\css\fontawesome-free\webfonts\fa-regular-400.svg" />
     <Content Include="asset\css\fontawesome-free\webfonts\fa-solid-900.svg" />
     <Content Include="asset\css\sb-admin-2.css" />
+    <Content Include="asset\css\snackbar.css" />
     <Content Include="asset\css\timeline\timeline.css" />
     <Content Include="asset\css\timeline\timeline.js" />
     <Content Include="asset\icons\dashbordicon\activity.svg" />
@@ -2119,6 +2120,7 @@
     <Content Include="asset\login\asset\css\nucleo-svg.css" />
     <Content Include="asset\login\asset\fonts\nucleo-icons.svg" />
     <Content Include="asset\login\asset\img\apple-icon.png" />
+    <Content Include="asset\login\asset\img\artificial-intelligence-AI.jpg" />
     <Content Include="asset\login\asset\img\bg-profile.jpg" />
     <Content Include="asset\login\asset\img\bg1.jpg" />
     <Content Include="asset\login\asset\img\bruce-mars.jpg" />
@@ -2388,6 +2390,7 @@
     <Compile Include="app\vendors.aspx.designer.cs">
       <DependentUpon>vendors.aspx</DependentUpon>
     </Compile>
+    <Content Include="asset\css\jquery.dataTables.min.css" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

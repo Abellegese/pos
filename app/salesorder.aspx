@@ -63,57 +63,41 @@
                         <div class="row">
                             <div
                                 class="col-md-4 text-left">
-                                <a class="btn btn-circle btn-sm text-white btn-light mr-2" id="buttonback" href="sales.aspx" visible="false" runat="server" data-toggle="tooltip" data-placement="bottom" title="Back to Invoice">
+                                <a class="btn btn-circle btn-sm text-white btn-light mr-2" id="buttonback" href="salesorder.aspx" visible="false" runat="server" data-toggle="tooltip" data-placement="bottom" title="Back to Invoice">
 
                                     <span class="fa fa-arrow-left text-gray-600"></span>
 
                                 </a>
-                                <span class="badge mr-2 text-white badge-light text-gray-600 font-weight-bold" visible="false" id="invoiceDetailSpan" runat="server"></span>
+                                <span class="badge mr-2 text-white badge-light text-gray-600 font-weight-bold" visible="false" id="orderDetailSpan" runat="server"></span>
                                 <span class="fas fa-cart-plus mr-2" style="color: #d46fe8" id="salesIconSpan" runat="server"></span><span id="salesSpan" class="small text-gray-900 font-weight-bold text-uppercase" runat="server">Sales Order</span>
 
                             </div>
                             <div class="col-md-8 text-right">
                                 <div class="dropdown no-arrow">
-                                    <span class="badge text-white" style="background-color: #d46fe8" visible="false" id="selectSpan" runat="server">ITEM#<span id="itemNumber" runat="server"></span> SELECTED</span>
-                                    <button type="button" runat="server" id="btnEditLine" visible="false" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditLineModal">
+                                    <span class="badge text-white mr-2" style="background-color: #d46fe8" visible="false" id="selectSpan" runat="server">ITEM#<span id="itemNumber" runat="server"></span> SELECTED</span>
+                                    <button type="button" runat="server" id="btnEditLine" visible="false" class="mr-2 btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#EditLineModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Edit Line Item" class="fas fa-pencil-alt text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Edit Line Item" class="fas fa-pencil-alt text-white font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnCustomize" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#CustomizeInvoiceModal">
+                                    <button type="button" runat="server" id="btnDeleteLine" visible="false" class="mr-2 btn btn-circle btn-danger btn-sm" data-toggle="modal" data-target="#DeleteLineItemModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Customize Template" class="fas fa-cog text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Delete Line Item" class="fas fa-trash-restore text-white  font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnSendEmail" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
+                                    
+                                    <button type="button" visible="false" runat="server" id="btnDelete" class="mr-2 btn btn-circle btn-secondary btn-sm" data-toggle="modal" data-target="#DeletOrderModal">
                                         <div>
-                                            <i data-toggle="tooltip" title="Send Email" class="fas fa-envelope text-gray-600 font-weight-bold"></i>
+                                            <i data-toggle="tooltip" title="Delete Order" class="fas fa-trash text-white font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
-                                    <button type="button" visible="false" runat="server" id="btnDelete" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#DeletInvoiceModal">
+ 
+                                    <button name="b_print" onclick="printdiv('div_print');" class="mr-2 btn btn-circle btn-secondary btn-sm">
                                         <div>
-                                            <i data-toggle="tooltip" title="Delete Invoice" class="fas fa-trash text-gray-600 font-weight-bold"></i>
-                                            <span></span>
-                                        </div>
-                                    </button>
-                                    <button type="button" visible="false" runat="server" id="btnDuplicate" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#ModalCreateInvoice">
-                                        <div>
-                                            <i data-toggle="tooltip" title="Duplicate" class="fas fa-copy text-gray-600 font-weight-bold"></i>
-                                            <span></span>
-                                        </div>
-                                    </button>
-                                    <button type="button" visible="false" runat="server" id="btnEdit" class="mr-1 btn btn-light btn-sm" data-toggle="modal" data-target="#EditInvoiceModal">
-                                        <div>
-                                            <i data-toggle="tooltip" title="Edit Info" class="fas fa-edit text-gray-600 font-weight-bold"></i>
-                                            <span></span>
-                                        </div>
-                                    </button>
-                                    <button name="b_print" onclick="printdiv('div_print');" class="mr-1 btn btn-light btn-sm">
-                                        <div>
-                                            <i class="fas fa-print text-gray-600 font-weight-bold"></i>
+                                            <i class="fas fa-print text-white font-weight-bold"></i>
                                             <span></span>
                                         </div>
                                     </button>
@@ -142,10 +126,9 @@
 
                                     <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                                         <div class="dropdown-header text-gray-900">Option:</div>
-                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#DiscountModal" id="A2" runat="server"><span class="fas fa-cog mr-2 " style="color: #d46fe8"></span>Manage Discount</a>
-                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#createNewBankModal" id="LR" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Bank Account</a>
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#filterByCustomerModal" id="A1" runat="server"><span class="fas fa-search-dollar mr-2 " style="color: #d46fe8"></span>Search By Customer</a>
+                                        <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#filterByDateModal" id="A2" runat="server"><span class="fas fa-filter mr-2 " style="color: #d46fe8"></span>Search By Date Range</a>
 
-                                        <a href="#" class="dropdown-item border-top  text-gray-900  text-danger" data-toggle="modal" visible="false" data-target="#CreditModal" id="creditLink" runat="server"><span class="fas fa-plus mr-2" style="color: #d46fe8"></span>Add Credit</a>
                                     </div>
                                 </div>
 
@@ -154,7 +137,7 @@
 
                     </div>
                     <div class="card-body small text-gray-900" id="SorderDiv" style="margin-top: -21px" runat="server">
-                        <asp:Repeater ID="rptrSalesOrder" runat="server">
+                        <asp:Repeater ID="rptrSalesOrder" runat="server" OnItemDataBound="rptrSalesOrder_ItemDataBound">
 
                             <HeaderTemplate>
                                 <table class="table align-items-center table-hover table-sm ">
@@ -165,8 +148,7 @@
                                             <th scope="col" class="text-warning text-uppercase ">Sales Order#</th>
                                             <th scope="col" class="text-gray-900 text-uppercase ">Customer </th>
                                             <th scope="col" class="text-gray-900 text-uppercase ">Invoiced</th>
-                                            <th scope="col" class="text-gray-900 text-uppercase  text-right">Shipment</th>  
-                                            <th scope="col" class="text-gray-900 text-uppercase ">Amount</th>
+                                            <th scope="col" class="text-gray-900 text-uppercase text-right">Amount</th>
 
 
 
@@ -189,13 +171,10 @@
                                     </td>
 
                                     <td class="text-gray-900">
-                                        <asp:Label ID="Label4" runat="server" Text='<%# Eval("invoice_status")%>'></asp:Label>
+                                        <asp:Label ID="lblStatus" runat="server" Text='<%# Eval("invoice_status")%>'></asp:Label>
 
                                     </td>
-                                    <td class="text-gray-900">
-                                        <asp:Label ID="Label5" runat="server" Text='<%# Eval("shipment_status")%>'></asp:Label>
 
-                                    </td>
                                     <td class="text-gray-900 text-right">
                                         <asp:Label ID="Label2" runat="server" Text='<%# Eval("amount")%>'></asp:Label>
 
@@ -236,7 +215,7 @@
                     <div class="card-body text-gray-900" visible="false" id="SODetailDiv" runat="server">
                         <div class="row">
                             <div class="col-4 border-right" style="margin-top: -21px">
-                                <asp:Repeater ID="rptSOShort" runat="server">
+                                <asp:Repeater ID="rptSOShort" runat="server" OnItemDataBound="rptSOShort_ItemDataBound">
 
                                     <HeaderTemplate>
                                         <table class="table align-items-center table-hover table-sm ">
@@ -247,15 +226,16 @@
                                         <tr class="border-bottom">
 
                                             <td>
-                                                <asp:Label ID="Label3" class="text-gray-900" runat="server" Text='<%# Eval("customer_name")%>'></asp:Label>
-                                                <a class=" text-primary  " href="salesorder.aspx?sono=<%# Eval("order_number")%>"><span>SO#-00000<%# Eval("order_number")%></span></a>
-                                                <h6>| <span class=" text-gray-600"><%# Eval("date")%></span> </h6>
+                                                <asp:Label ID="Label3" class="text-gray-900 small" runat="server" Text='<%# Eval("customer_name")%>'></asp:Label>
+                                                <br />
+                                                <a class=" text-primary  " href="salesorder.aspx?sono=<%# Eval("order_number")%>"><span>SO#-<%# Convert.ToInt64(Eval("order_number")).ToString("D8")%></span></a>
+                                                | <span class=" text-gray-600 small"><%# Eval("date","{0:MM/dd/yyyy}")%></span>
                                             </td>
 
                                             <td class="text-gray-900 text-right">
                                                 <h6><span class="small text-gray-400 font-weight-bold text-uppercase">Due</h6>
                                                 <asp:Label ID="Label6" runat="server" class="badge badge-warning" Text='<%# Eval("amount" , "{0:N2}")%>'></asp:Label>
-                                                <asp:Label ID="Label8" runat="server" class="badge badge-warning" Text='<%# Eval("invoice_status")%>'></asp:Label>
+                                                <asp:Label ID="lblStatus" runat="server" class="badge badge-warning" Text='<%# Eval("invoice_status")%>'></asp:Label>
 
                                             </td>
 
@@ -274,9 +254,9 @@
                                     <div class="row" style="margin-left: -60px; margin-right: -60px">
                                         <div class="col-1">
                                         </div>
-                                        <div id="colTen" class="col-10 shadow-sm">
+                                        <div id="colTen" class="col-10 shadow-sm" style="height:1000px">
                                             <div class="card-body border-none">
-                                                <div class="row">
+                                                <div class="row mt-5">
                                                     <div class="col-md-6  text-left" style="color: black">
                                                         <div class="row">
                                                             <div class="col-md-12">
@@ -300,6 +280,8 @@
                                                     <div class="col-md-6 text-right">
 
                                                         <span style="color: black" contenteditable="true" class="h3 text-uppercase font-weight-bold " id="HeaderInv" runat="server">SALES ORDER</span>
+                                                        <br />
+                                                        <br />
                                                         <br />
                                                         <span id="invocenumber" class="h6 text-gray-800 mt-2" runat="server">Sales Order# SO-<span id="salesOrderNumberSpan" runat="server"></span></span>
                                                         <div id="Body2" runat="server">
@@ -338,7 +320,7 @@
                                                         <ItemTemplate>
                                                             <tr>
                                                                 <td class="text-left" >
-                                                                    <a class="  " href="sales.aspx?sono_d=<%# Eval("id")%>&&edit=true"><span><%# Eval("id")%></span></a>
+                                                                    <a class=" text-warning  " href="salesorder.aspx?sono=<%# Eval("order_number")%>&&item_id=<%# Eval("id")%>&&item_name=<%# Eval("item_name") %>"><span><%# Eval("id")%></span></a>
                                                                 </td>
                                                                 <td class="text-left" >
                                                                     <span><%# Eval("item_name")%></span><br />
@@ -445,7 +427,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h6 class="modal-title font-weight-bold text-gray-900" id="exampleModalLabelG"><span class="fas fa-cart-plus mr-2" style="color: #c24599"></span>
-                                    Create Sales Order [SO-00000<span id="orderSpan" runat="server"></span>]
+                                    Create Sales Order [SO-<span id="orderSpan" runat="server"></span>]
                             
                             <button class="btn btn-circle btn-sm ml-2" type="button" data-toggle="modal" data-target="#ExistingCustomerModal"><span class="fas fa-user-check " data-toggle="tooltip" title="Select existing customer" style="color: #d46fe8"></span></button>
                                 </h6>
@@ -587,6 +569,183 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-sm text-white" style="background-color: #d46fe8" onclick="bindCustomer();"><span class="fas fa-plus mr-2"></span>Bind</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade " id="EditLineModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel">
+                                    <span class="fas fa-pencil-alt mr-2" style="color: #d46fe8"></span>Edit Line Item</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="form-group mb-0">
+                                            <div class="input-group input-group-alternative input-group-sm">
+                                                <div class="input-group-prepend ">
+                                                    <span class="input-group-text">QTY</span>
+                                                </div>
+                                                <asp:TextBox ID="txtEditQuantity" ClientIDMode="Static" data-toggle="tooltip" title="Quantity" placeholder="quantity eg. 3" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <div class="form-group mb-0">
+                                            <div class="input-group input-group-alternative input-group-sm">
+                                                <div class="input-group-prepend ">
+                                                    <span class="input-group-text">UNP</span>
+                                                </div>
+                                                <asp:TextBox ID="txtEditUnitPrice" data-toggle="tooltip" title="Unit Price" ClientIDMode="Static" placeholder="unit price" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+
+
+                                <div class="row mb-3">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-8">
+                                        <center>
+                                            <div class="input-group">
+                                                <asp:LinkButton ID="btnSaveLineItem" class="btn btn-sm text-white w-100" Style="background-color: #d46fe8" runat="server" OnClick="btnSaveLineItem_Click"><span class="fas fa-save text-white mr-2"></span>Save Edit</asp:LinkButton>
+                                            </div>
+                                        </center>
+
+                                    </div>
+                                    <div class="col-2">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="DeletOrderModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-trash mr-2" style="color: #ff00bb"></span>
+                                    Delete Order
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-12 mx-2 border-danger border-left">
+                                        <span class="fas fa-arrow-alt-circle-right text-danger mr-2"></span>
+                                        <span class="small text-gray-500">Are You Sure to Delete the Sales Order?</span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:LinkButton ID="btnDeleteOrder" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnDeleteOrder_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="DeleteLineItemModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel"><span class="fas fa-trash mr-2" style="color: #ff00bb"></span>
+                                    Delete Line Item
+                                </h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-12 mx-2 border-danger border-left">
+                                        <span class="fas fa-arrow-alt-circle-right text-danger mr-2"></span>
+                                        <span class="small text-gray-500">Are You Sure to Delete the Items?</span>
+                                        <br />
+                                        <span class="fas fa-arrow-alt-circle-right text-danger mr-2"></span>
+                                        <span class="small text-danger" id="selectedItem" runat="server"></span>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:LinkButton ID="btnDeleteLineItem" class="btn btn-sm text-white" Style="background-color: #d46fe8" OnClick="btnDeleteLineItem_Click" runat="server" Text="Button"><span class="fas fa-arrow-right mr-2"></span>Proceed</asp:LinkButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="filterByCustomerModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel">
+                                    <span class="fas fa-filter mr-2" style="color: #d46fe8"></span>Filter Record By Customer</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="col-12">
+                                        <div class="row mb-3">
+                                            <div class="col-12">
+                                                <asp:TextBox ID="txtSearchCustomerName" ClientIDMode="Static" placeholder="Customer Name. eg Abel" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                            </div>
+            
+                                        </div>
+                                    </div>
+
+                                <div class="modal-footer">
+                                    <asp:LinkButton ID="btnSearchByCustomer" class="btn btn-sm text-white" Style="background-color: #d46fe8" runat="server" OnClick="btnSearchByCustomer_Click"><span class="fas fa-search text-white mr-2"></span>Search</asp:LinkButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade " id="filterByDateModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title text-gray-900 h6 font-weight-bold" id="exampleModalLabel">
+                                    <span class="fas fa-filter mr-2" style="color: #d46fe8"></span>Filter Record By Date</h5>
+                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <div class="form-group mb-0">
+                                            <div class="input-group input-group-alternative input-group-sm">
+                                                <div class="input-group-prepend ">
+                                                    <span class="input-group-text">FRM</span>
+                                                </div>
+                                                <asp:TextBox ID="txtDateFrom" ClientIDMode="Static" TextMode="Date" data-toggle="tooltip" title="From Date" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group mb-0">
+                                            <div class="input-group input-group-alternative input-group-sm">
+                                                <div class="input-group-prepend ">
+                                                    <span class="input-group-text">TOD</span>
+                                                </div>
+                                                <asp:TextBox ID="txtDateTo" ClientIDMode="Static" TextMode="Date" data-toggle="tooltip" title="To Date" class="form-control form-control-sm" runat="server"></asp:TextBox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <asp:LinkButton ID="btnFilterRecordByDate" class="btn btn-sm text-white" Style="background-color: #d46fe8" runat="server" OnClick="btnFilterRecordByDate_Click"><span class="fas fa-search text-white mr-2"></span>Search</asp:LinkButton>
                                 </div>
                             </div>
                         </div>

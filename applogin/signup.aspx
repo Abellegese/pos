@@ -16,10 +16,32 @@
     <link href="../asset/login/asset/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../asset/login/asset/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <style>
+        /* width */
+        ::-webkit-scrollbar {
+            width: 5px;
+
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #ffffff;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #e8e8e8;
+        }
+
+            /* Handle on hover */
+            ::-webkit-scrollbar-thumb:hover {
+                background: #ad9e9e;
+            }
+    </style>
 </head>
 <body>
     <form id="form1" runat="server">
-        <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3 navbar-transparent mt-4">
+        <nav class="navbar navbar-expand-lg position-absolute  z-index-3 w-100 shadow-none my-3 navbar-transparent">
             <div class="container">
                 <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 text-white" href="../pages/dashboard.html">QemerPOS
       </a>
@@ -48,7 +70,7 @@
                     </ul>
                     <ul class="navbar-nav d-lg-block d-none">
                         <li class="nav-item">
-                            <a href="https://www.creative-tim.com/product/argon-dashboard" class="btn btn-sm mb-0 me-1 bg-gradient-light">Free Download</a>
+                            <a href="#" class="btn btn-sm mb-0 me-1 bg-gradient-light">Legendary</a>
                         </li>
                     </ul>
                 </div>
@@ -56,13 +78,13 @@
         </nav>
         <!-- End Navbar -->
         <main class="main-content  mt-0">
-            <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
-                <span class="mask bg-gradient-dark opacity-6"></span>
+            <div class="page-header align-items-start min-vh-50 pt-5 pb-11" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signup-cover.jpg'); background-position: top;">
+                <span class="mask bg-gradient-dark"></span>
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-5 text-center mx-auto">
                             <h1 class="text-white mb-2 mt-5">Welcome!</h1>
-                            <p class="text-lead text-white">Use these awesome forms to login or create new account in your project for free.</p>
+                            <p class="text-lead text-white">Use these forms to login or create new account in your software for free.</p>
                         </div>
                     </div>
                 </div>
@@ -122,13 +144,16 @@
                             <div class="card-body">
                                 <form role="form">
                                     <div class="mb-3">
-                                        <input type="text" class="form-control" placeholder="Name" aria-label="Name">
+                                        <asp:TextBox ID="txtxName" class="form-control" placeholder="Name" aria-label="Name" runat="server"></asp:TextBox>
+                         
                                     </div>
                                     <div class="mb-3">
-                                        <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                                        <asp:TextBox ID="txtEmail" class="form-control" placeholder="Email" aria-label="Email" runat="server"></asp:TextBox>
+
                                     </div>
                                     <div class="mb-3">
-                                        <input type="password" class="form-control" placeholder="Password" aria-label="Password">
+                                        <asp:TextBox ID="txtPassword" class="form-control" placeholder="Password" aria-label="Password" runat="server"></asp:TextBox>
+
                                     </div>
                                     <div class="form-check form-check-info text-start">
                                         <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" checked>
@@ -137,9 +162,9 @@
                                         </label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="button" class="btn bg-gradient-dark w-100 my-4 mb-2">Sign up</button>
+                                        <asp:Button ID="btnSignUp" OnClick="btnSignUp_Click" class="btn bg-gradient-dark w-100 my-4 mb-2" runat="server" Text="Button" />
                                     </div>
-                                    <p class="text-sm mt-3 mb-0">Already have an account? <a href="javascript:;" class="text-dark font-weight-bolder">Sign in</a></p>
+                                    <p class="text-sm mt-3 mb-0">Already have an account? <a href="login.aspx" class="text-dark font-weight-bolder">Sign in</a></p>
                                 </form>
                             </div>
                         </div>

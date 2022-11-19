@@ -21,6 +21,7 @@ namespace pos.app
                 GetTotals();
                 BindCompanyInfo();
                 BindCustomerInfo();
+                EditLineItem();
             }
         }
         private void BindCustomerInfo()
@@ -127,7 +128,15 @@ namespace pos.app
                 SorderDiv.Visible = false;
                 PODetailDiv.Visible = true;
                 buttondiv.Visible = false;
-                salesOrderNumberSpan.InnerText = Request.QueryString["pono"].ToString();
+
+                orderDetailSpan.Visible = true;
+                purchasesIconSpan.Visible = false;
+                buttonback.Visible = true;
+                purchasesSpan.Visible = false;
+                //Buttons
+                btnDelete.Visible = true;
+                pucrhaseOrderNumberSpan.InnerText = Convert.ToInt64(Request.QueryString["pono"].ToString()).ToString("D8");
+                orderDetailSpan.InnerText = "PO#-" + Convert.ToInt64(Request.QueryString["pono"].ToString()).ToString("D8");
                 SQLOperation sqlop = new SQLOperation("select * from tblpurchase_order where order_number = '" + Request.QueryString["pono"].ToString() + "'");
                 if (sqlop.ReadTable().Rows.Count != 0)
                 {
@@ -140,6 +149,28 @@ namespace pos.app
                 {
                     rptPOShort.DataSource = sqlop.ReadTable();
                     rptPOShort.DataBind();
+                }
+            }
+        }
+        private void EditLineItem()
+        {
+            if (Request.QueryString["item_id"] != null)
+            {
+                string itemId = Request.QueryString["item_id"].ToString();
+
+                selectSpan.Visible = true;
+                itemNumber.InnerText = itemId;
+                btnDeleteLine.Visible = true;
+                btnEditLine.Visible = true;
+                selectedItem.InnerText = Request.QueryString["item"].ToString();
+                //Get item unit price and quantity
+                SQLOperation so = new SQLOperation();
+                so.cmdText = "select * from tblpurchase_order where id = '" + itemId + "'";
+                DataTable dt = so.ReadTable();
+                if (dt.Rows.Count != 0)
+                {
+                    txtEditUnitPrice.Text = Convert.ToDouble(dt.Rows[0]["unit_price"].ToString()).ToString("#,##0.00");
+                    txtEditQuantity.Text = Convert.ToDouble(dt.Rows[0]["quantity"].ToString()).ToString("#,##0.00");
                 }
             }
         }
@@ -175,7 +206,56 @@ namespace pos.app
         {
 
         }
+        protected void btnSaveLineItem_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["item_id"] != null)
+            {
+                string itemId = Request.QueryString["item_id"].ToString();
+                SQLOperation so = new SQLOperation();
+                double totalAmount = Convert.ToDouble(txtEditQuantity.Text) * Convert.ToDouble(txtEditUnitPrice.Text);
+                so.cmdText = "update tblpurchase_order set unit_price = '" + txtEditUnitPrice.Text + "', quantity = '" + txtEditQuantity.Text + "',total_amount='" + totalAmount + "'  where id = '" + itemId + "'";
+                so.MakeCUD();
+                //Updating the total from the main sales order table
+                so.cmdText = "select sum(total_amount) from tblpurchase_order where order_number='" + Request.QueryString["pono"].ToString() + "'";
 
+                double vatFree = double.Parse(so.ReadTable().Rows[0][0].ToString());
+
+                double total = vatFree + vatFree * 0.15;
+                so.cmdText = "update tblpurchase_order_main set amount='" + total + "' where order_number='" + Request.QueryString["pono"].ToString() + "'";
+                so.MakeCUD();
+                Response.Redirect(Request.RawUrl);
+            }
+        }
+
+        protected void btnDeleteOrder_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["pono"] != null)
+            {
+                string pono = Request.QueryString["pono"].ToString();
+                SQLOperation so = new SQLOperation();
+                so.cmdText = "delete from tblpurchase_order where order_number = '" + pono + "'";
+                so.MakeCUD();
+                so.cmdText = "delete from tblpurchase_order_main where order_number = '" + pono + "'";
+                so.MakeCUD();
+                Response.Redirect("purchaseorder.aspx");
+            }
+        }
+
+        protected void btnDeleteLineItem_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["item_id"] != null)
+            {
+                string itemId = Request.QueryString["item_id"].ToString();
+                string pono = Request.QueryString["pono"].ToString();
+                if (Request.QueryString["pono"] != null)
+                {
+                    SQLOperation so = new SQLOperation();
+                    so.cmdText = "delete from tblpurchase_order where order_number = '" + pono + "'";
+                    so.MakeCUD();
+                    Response.Redirect("purchaseorder.aspx?pono=" + pono);
+                }
+            }
+        }
         protected void btnCreatePurchaseOrder_Click(object sender, EventArgs e)
         {
             PurchaseOperation so = new PurchaseOperation();
@@ -187,6 +267,38 @@ namespace pos.app
             so.Date = txtDate.Text;
             so.CreatePurchaseOrder();
             Response.Redirect("purchaseorder.aspx?pono=" + orderSpan.InnerText);
+        }
+
+        protected void rptrPurchaseOrder_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            foreach (RepeaterItem item in rptrPurchaseOrder.Items)
+            {
+                Label lblStatus = item.FindControl("lblStatus") as Label;
+                if (lblStatus.Text == "Unconfirmed")
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-danger");
+                }
+                else
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-success");
+                }
+            }
+        }
+
+        protected void rptPOShort_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            foreach (RepeaterItem item in rptPOShort.Items)
+            {
+                Label lblStatus = item.FindControl("lblStatus") as Label;
+                if (lblStatus.Text == "Unconfirmed")
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-danger");
+                }
+                else
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-success");
+                }
+            }
         }
     }
 }

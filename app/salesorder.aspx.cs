@@ -21,6 +21,7 @@ namespace pos.app
                 GetTotals();
                 BindCompanyInfo();
                 BindCustomerInfo();
+                EditLineItem();
             }
         }
         private void BindCustomerInfo()
@@ -78,7 +79,7 @@ namespace pos.app
         private void BindSalesOrderNumber()
         {
             SalesOperation slo = new SalesOperation();
-            orderSpan.InnerText = slo.SalesOrderNumberCounter().ToString();
+            orderSpan.InnerText = Convert.ToInt64(slo.SalesOrderNumberCounter().ToString()).ToString("D8");
         }
         [WebMethod]
         public static List<string> GetItemRate(string itemName)
@@ -127,7 +128,14 @@ namespace pos.app
                 SorderDiv.Visible = false;
                 SODetailDiv.Visible = true;
                 buttondiv.Visible = false;
-                salesOrderNumberSpan.InnerText = Request.QueryString["sono"].ToString();
+                orderDetailSpan.Visible = true;
+                salesIconSpan.Visible = false;
+                buttonback.Visible = true;
+                salesSpan.Visible = false;
+                //Buttons
+                btnDelete.Visible = true;
+                salesOrderNumberSpan.InnerText = Convert.ToInt64(Request.QueryString["sono"].ToString()).ToString("D8");
+                orderDetailSpan.InnerText = "SO#-" + Convert.ToInt64(Request.QueryString["sono"].ToString()).ToString("D8");
                 SQLOperation sqlop = new SQLOperation("select * from tblsales_order where order_number = '" + Request.QueryString["sono"].ToString() + "'");
                 if (sqlop.ReadTable().Rows.Count != 0)
                 {
@@ -168,7 +176,7 @@ namespace pos.app
         }
         protected void btnPrevious_Click(object sender, EventArgs e)
         {
-
+   
         }
         protected void btnNext_Click(object sender, EventArgs e)
         {
@@ -185,6 +193,139 @@ namespace pos.app
             so.Date = txtDate.Text;
             so.CreateSalesOrder();
             Response.Redirect("salesorder.aspx?sono=" + orderSpan.InnerText);
+        }
+        private void EditLineItem()
+        {
+            if (Request.QueryString["item_id"] != null)
+            {
+                string itemId = Request.QueryString["item_id"].ToString();
+
+                selectSpan.Visible = true;
+                itemNumber.InnerText = itemId;
+                btnDeleteLine.Visible = true;
+                btnEditLine.Visible = true;
+                selectedItem.InnerText = Request.QueryString["item_name"].ToString();
+                //Get item unit price and quantity
+                SQLOperation so = new SQLOperation();
+                so.cmdText = "select * from tblsales_order where id = '" + itemId + "'";
+                DataTable dt = so.ReadTable();
+                if(dt.Rows.Count != 0)
+                {
+                    txtEditUnitPrice.Text = Convert.ToDouble(dt.Rows[0]["unit_price"].ToString()).ToString("#,##0.00");
+                    txtEditQuantity.Text = Convert.ToDouble(dt.Rows[0]["quantity"].ToString()).ToString("#,##0.00");
+                }
+            }
+        }
+        protected void btnSaveLineItem_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["item_id"] != null)
+            {
+                string itemId = Request.QueryString["item_id"].ToString();
+                SQLOperation so = new SQLOperation();
+                double totalAmount = Convert.ToDouble(txtEditQuantity.Text) * Convert.ToDouble(txtEditUnitPrice.Text);
+                so.cmdText = "update tblsales_order set unit_price = '" + txtEditUnitPrice.Text + "', quantity = '" + txtEditQuantity.Text + "',total_amount='" + totalAmount + "'  where id = '" + itemId + "'";
+                so.MakeCUD();
+                //Updating the total from the main sales order table
+                so.cmdText = "select sum(total_amount) from tblsales_order where order_number='" + Request.QueryString["sono"].ToString() + "'";
+
+                double vatFree = double.Parse(so.ReadTable().Rows[0][0].ToString());
+
+                double total = vatFree + vatFree * 0.15;
+                so.cmdText = "update tblsales_order_main set amount='" + total + "' where order_number='" + Request.QueryString["sono"].ToString() + "'";
+                so.MakeCUD();
+                Response.Redirect(Request.RawUrl);
+            }
+        }
+
+        protected void btnDeleteOrder_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["sono"] != null)
+            {
+                string sono = Request.QueryString["sono"].ToString();
+                SQLOperation so = new SQLOperation();
+                so.cmdText = "delete from tblsales_order where order_number = '" + sono + "'";
+                so.MakeCUD();
+                so.cmdText = "delete from tblsales_order_main where order_number = '" + sono + "'";
+                so.MakeCUD();
+                Response.Redirect("salesorder.aspx");
+            }
+        }
+
+        protected void btnDeleteLineItem_Click(object sender, EventArgs e)
+        {
+            if (Request.QueryString["item_id"] != null)
+            {
+                string itemId = Request.QueryString["item_id"].ToString();
+                string sono = Request.QueryString["sono"].ToString();
+                if (Request.QueryString["sono"] != null)
+                {
+                    SQLOperation so = new SQLOperation();
+                    so.cmdText = "delete from tblsales_order where order_number = '" + sono + "'";
+                    so.MakeCUD();
+                    Response.Redirect("salesorder.aspx?sono=" + sono);
+                }
+            }
+        }
+
+        protected void btnSearchByCustomer_Click(object sender, EventArgs e)
+        {
+            SQLOperation so = new SQLOperation();
+            so.cmdText = "select * from tblsales_order_main where customer_name like '%" + txtSearchCustomerName.Text + "%'";
+            DataTable dt = so.ReadTable();
+            rptrSalesOrder.DataSource = dt;
+            rptrSalesOrder.DataBind();
+            rptSOShort.DataSource = dt;
+            rptSOShort.DataBind();
+        }
+        protected void btnFilterRecordByDate_Click(object sender, EventArgs e)
+        {
+            string dateFrom = string.Empty;
+
+            if (txtDateFrom.Text != "" || txtDateFrom.Text != null)
+                dateFrom += Convert.ToDateTime(txtDateFrom.Text).ToString("yyyy-MM-dd").Substring(0, 10);
+
+            string dateTo = string.Empty;
+
+            if (txtDateTo.Text != "" || txtDateTo.Text != null)
+                dateTo += Convert.ToDateTime(txtDateTo.Text).ToString("yyyy-MM-dd").Substring(0, 10);
+            SQLOperation so = new SQLOperation();
+            so.cmdText = "select * from tblsales_order_main where date between '" + txtDateFrom.Text + "' and '" + txtDateTo.Text + "'";
+            DataTable dt = so.ReadTable();
+            rptrSalesOrder.DataSource = dt;
+            rptrSalesOrder.DataBind();
+            rptSOShort.DataSource = dt;
+            rptSOShort.DataBind();
+        }
+
+        protected void rptSOShort_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            foreach (RepeaterItem item in rptSOShort.Items)
+            {
+                Label lblStatus = item.FindControl("lblStatus") as Label;
+                if (lblStatus.Text == "Unconfirmed")
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-danger");
+                }
+                else
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-success");
+                }
+            }
+        }
+        protected void rptrSalesOrder_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            foreach (RepeaterItem item in rptrSalesOrder.Items)
+            {
+                Label lblStatus = item.FindControl("lblStatus") as Label;
+                if (lblStatus.Text == "Unconfirmed")
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-danger");
+                }
+                else
+                {
+                    lblStatus.Attributes.Add("class", "badge badge badge-success");
+                }
+            }
         }
     }
 }

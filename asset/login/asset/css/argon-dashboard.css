@@ -21687,7 +21687,7 @@ label,
 }
 
 .bg-gradient-dark {
-  background-image: linear-gradient(310deg, #212229 0%, #212529 100%);
+  background-color: #313131;
 }
 
 .bg-gradient-faded-primary {
