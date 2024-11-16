@@ -13,7 +13,7 @@
 
 **Professional Summary:**
 
-Result-oriented and highly skilled Software Developer with [X years] of experience specializing in the development of cloud-scalable applications. Adept at leveraging cutting-edge technologies to design and implement robust solutions that seamlessly integrate with cloud platforms. Proven expertise in [specific technologies, programming languages, or frameworks you specialize in], coupled with a strong understanding of scalable architecture and best practices.
+Result-oriented and highly skilled Software Developer with [5 years] of experience specializing in the development of cloud-scalable applications. Adept at leveraging cutting-edge technologies to design and implement robust solutions that seamlessly integrate with cloud platforms. Proven expertise in [specific technologies, programming languages, or frameworks you specialize in], coupled with a strong understanding of scalable architecture and best practices.
 
 **Key Competencies:**
 
