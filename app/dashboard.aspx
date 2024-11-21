@@ -3,474 +3,339 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Dashboard</title>
     <script src="../asset/js/chart.min.js"></script>
-
-    <script type="text/javascript">
-        function save() {
-            var itemName = $("[id*=txtItemName]").val();
-            PageMethods.AddItem(itemName);
-            //, shelfNo, barcode, description, purchasePrice
-            //, salePrice, unit, sku, amountPerSKU
-            //, manufacturer, reorderPoint, tax);
-        }
-    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <div class="container-fluid pl-3 pr-2" style="position: relative;">
+    <div class="container-fluid pl-3 pr-2">    
         <asp:ScriptManager ID='ScriptManager1' runat='server' EnablePageMethods='true' />
+        <div class="bg-white shadow-none rounded-lg h-100">
+            <div class="row">
+                <div class="col-xl-12 col-xl-12">
 
+                    <asp:Label ID="Label1" runat="server" Visible="false"></asp:Label>
+                    <div class="card-body border-bottom">
 
-        <div class="bg-white rounded-lg" id="div_print">
-            <div class="row mx-2 border-bottom">
-
-
-                <div class="col-xl-3 mb-2 mt-2 border-right ">
-                    <div class="row">
-                        <div class="col-8 text-left">
-                            <span class="small font-weight-bold text-gray-900 mx-1 mt-2"><button class="btn btn-sm btn-circle mr-2" style="background-color: #c24599"><span class="fas fa-cart-plus text-white"></span></button>Sales Summay</span>
-                        </div>
-
-
-                        <div class="col-4  text-right ">
-                            <div class="dropdown no-arrow">
-                                <button type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn mt-1 mb-1 btn-circle btn-sm btn-light">
-                                    <span data-toggle="tooltip" title="Action" class="fas fa-caret-down" style="color:#ff6a00"></span>
-
-
-                                </button>
-
-
-                                <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header text-gray-900">Option:</div>
-                                   
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row border-top">
-                        <div class="col-xl-10 mx-2">
-
-                            <canvas id="myCharta" class="mt-3"></canvas>
-
-                        </div>
-
-                    </div>
-                    <div class="card-bod mt-5">
                         <div class="row">
-                            <div class="col-6">
-                                <span class="fas fa-hand-holding-usd text-left mr-2" style="color:#a323de"></span><span class=" dropdown-toggle btn-sm  small" href="#" role="button" id="drpReceivable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Receivable</span>
+                            <div class="col-xl-3 col-md-6 mb-2">
 
-                                <div class="dropdown-menu  dropdown-menu-left shadow animated--fade-in text-center" aria-labelledby="drpReceivable">
+                                <div class="bg-white rounded-lg shadow-none border-left-warning border-top border-warning  border-right-warning  h-100 ">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bolder text-primary text-uppercase mb-2">Receivable</div>
+                                                <div class="row align-content-center">
+                                                    <div class="col-8">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-900"><a href="agedreceivable.aspx" class="text-gray-800"><span id="totalReceivable" runat="server">0.00</span></a></div>
+                                                    </div>
+                                                    <div class="col-1 text-left">
+                                                        <a class="dropdown-toggle btn-sm text-warning font-weight-bolder" onclick="BindReceivables()" href="#" role="button" id="dropdownReceivable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                                        <div class="dropdown-menu  dropdown-menu-left shadow animated--fade-in" style="width: 300px" aria-labelledby="dropdownReceivable">
+                                                            <center>
+                                                                <a class="dropdown-item text-primary" style="font-style: normal" href="#"><span>Aged Receivable Summary</span></a>
+                                                            </center>
+                                                            <div class="dropdown-divider"></div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-8 text-left"><span class="text-left dropdown-item">AGED 1-30 DAYS</span></div>
+                                                                <div class="col-sm-4 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="receivableAgedOne" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-8 text-left"><span class="text-left dropdown-item">AGED 31-60 DAYS</span></div>
+                                                                <div class="col-sm-4 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="receivableAgedTwo" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-8 text-left"><span class="text-left dropdown-item">AGED  61-90 DAYS</span></div>
+                                                                <div class="col-sm-4 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="receivableAgedThree" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-8 text-left"><span class="text-left dropdown-item">AGED  61-90 DAYS</span></div>
+                                                                <div class="col-sm-4 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="receivableAgedFour" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <center>
+                                                                <a class="dropdown-item text-primary" href="creditnote.aspx"><i class="invisible"></i>See Report <span class="fas fa-arrow-right ml-2 text-primary"></span></a>
+
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item text-primary" href="creditnote.aspx"><i class="invisible"></i>See Analytics <span class="fas fa-arrow-right ml-2 text-primary"></span></a>
+
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-dollar-sign text-gray-500 fa-2x "></i>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                </div>
-                            <div class="col-6 text-right">
-                                <span class="text-gray-900 font-weight-bold  small">156,200</span>
                             </div>
+                            <div class="col-xl-3 col-md-6 mb-2">
+
+                                <div class="bg-white rounded-lg shadow-none border-left-warning border-right-primary border-top border-right border-warning  h-100 ">
+                                    <div class="card-body">
+
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bolder text-primary text-uppercase mb-2">Sales<span class="mx-2 text-xs text-gray-300">Balance</span></div>
+
+                                                <div class="row align-items-center">
+                                                    <div class="col-8">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-900"><a class="text-gray-800" href="#"><span id="totalSales" runat="server">0.00</span></a></div>
+                                                    </div>
+                                                    <div class="col-1 text-left">
+                                                        <a class="dropdown-toggle btn-sm text-warning font-weight-bolder" href="#" role="button" id="dropdowSales" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                                        <div class="dropdown-menu  dropdown-menu-left shadow animated--fade-in" style="width: 350px" aria-labelledby="dropdowSales">
+                                                            <center>
+                                                                <a class="dropdown-item text-primary" style="font-style: normal" href="#"><span>Sales Summary</span></a>
+                                                            </center>
+                                                            <div class="dropdown-divider"></div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">CASH SALE</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanCashSale" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">CREDIT SALE</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanCreditSale" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">REFUND</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanRefund" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">SALES ORDER</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanSalesOrder" runat="server">0</span></div>
+                                                            </div>
+                                                            <div class="dropdown-divider"></div>
+
+                                                            <center>
+                                                                <a class="dropdown-item text-primary" href="creditnote.aspx"><i class="invisible"></i>See Credit List <span class="fas fa-arrow-right ml-2 text-primary"></span></a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item text-primary" href="creditnote.aspx"><i class="invisible"></i>See Analytics <span class="fas fa-arrow-right ml-2 text-primary"></span></a>
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-hand-holding-usd text-gray-500 fa-2x"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-2">
+                                <div class="bg-white rounded-lg shadow-none border-left-warning border-top border-warning border-right-danger  h-100 ">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bolder text-danger text-uppercase mb-2">Purchase</div>
+                                                <div class="row align-content-center">
+                                                    <div class="col-8">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-900"><a href="#" class="text-gray-800"><span id="totalPurchases" runat="server">0.00</span></a></div>
+                                                    </div>
+
+                                                    <div class="col-1 text-left">
+                                                        <a class="dropdown-toggle btn-sm text-warning font-weight-bolder" href="#" role="button" id="drpDownPurchase" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                                        <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" style="width: 350px" aria-labelledby="drpDownPurchase">
+                                                            <center>
+                                                                <a class="dropdown-item text-danger" style="font-style: normal" href="#"><span>Purchase & Inventory Summary</span></a>
+                                                            </center>
+                                                            <div class="dropdown-divider"></div>
+
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">CASH BILL</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanCashBill" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">CREDIT BILL</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanCreditBill" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">PURCHASE ORDER</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanPurchaseOrder" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <center>
+                                                                <a class="dropdown-item text-primary" href="creditnote.aspx"><i class="invisible"></i>See Credit List <span class="fas fa-arrow-right ml-2 text-primary"></span></a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item text-primary" href="creditnote.aspx"><i class="invisible"></i>See Analytics <span class="fas fa-arrow-right ml-2 text-primary"></span></a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a class="dropdown-item text-danger" href="creditnote.aspx"><i class="invisible"></i>See Inventory Status <span class="fas fa-arrow-right ml-2 text-danger"></span></a>
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-chart-pie text-gray-500 fa-2x "></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6 mb-2">
+                                <div class="bg-white rounded-lg shadow-none border-left-warning border-right-warning border-top border-right border-warning  h-100 ">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col">
+                                                <div class="text-xs font-weight-bolder text-success text-uppercase text- mb-2">Net Profit</div>
+                                                <div class="row align-items-center">
+                                                    <div class="col-8">
+                                                        <div class="h6 mb-0 font-weight-bold text-gray-900"><a class="text-gray-800"><span id="netProfit" runat="server">0.00</span></a></div>
+                                                    </div>
+                                                    <div class="col-1 text-left">
+                                                        <a class="dropdown-toggle btn-sm text-warning font-weight-bolder" href="#" role="button" id="drpDownProfit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                                        <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" style="width: 400px" aria-labelledby="drpDownProfit">
+                                                            <center>
+                                                                <a class="dropdown-item text-danger" style="font-style: normal" href="#"><i>From 02-11-2022 to 03-11-2022</i></a>
+                                                            </center>
+                                                            <div class="dropdown-divider"></div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">TOTAL SALES</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanTotalSales" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">TOTAL PURCHASES</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanTotalPurchase" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <div class="dropdown-divider"></div>
+
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-6 text-left"><span class="text-left dropdown-item">GROSS PROFIT</span></div>
+                                                                <div class="col-sm-6 text-right"><span class="text-uppercase dropdown-item font-weight-bolder text-black text-right" id="spanGrossProfit" runat="server">0.00</span></div>
+                                                            </div>
+                                                            <center>
+                                                                <a class="dropdown-item text-primary" href="creditnote.aspx"><i class="invisible"></i>Calculate Profit <span class="fas fa-arrow-right ml-2 text-primary"></span></a>
+
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-chart-line text-gray-500 fa-2x "></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+
                     </div>
                 </div>
-                <div class="col-xl-3 mb-2 mt-2 border-right ">
-                    <div class="row">
-                        <div class="col-8 text-left">
-                            <span class="small font-weight-bold text-gray-900 mx-1 mt-2">
-                                <button class="btn btn-sm btn-circle mr-2" style="background-color: #c24599"><span class="fas fa-ambulance text-white"></span></button>
-                                Purchase Summay</span>
-                        </div>
-
-
-                        <div class="col-4  text-right ">
-                            <div class="dropdown no-arrow">
-                                <button type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn mt-1 mb-1 btn-circle btn-sm btn-light">
-                                    <span data-toggle="tooltip" title="Action" class="fas fa-caret-down" style="color: #ff6a00"></span>
-
-
-                                </button>
-
-
-                                <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header text-gray-900">Option:</div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row border-top">
-                        <div class="col-xl-10 mx-2">
-
-                            <canvas id="myChartd" class="mt-3"></canvas>
-
-                        </div>
-
-                    </div>
-                    <div class="card-bod mt-5">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="fas fa-donate text-left mr-2" style="color: rgba(255, 26, 104, 1)"></span><span class=" dropdown-toggle btn-sm  small" href="#" role="button" id="drpReceivable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Payable</span>
-
-                                <div class="dropdown-menu  dropdown-menu-left shadow animated--fade-in text-center" aria-labelledby="drpReceivable">
-                                </div>
-                            </div>
-                            <div class="col-6 text-right">
-                                <span class="text-gray-900 font-weight-bold  small">152,200</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 mb-2 mt-2 border-right ">
-                    <div class="row">
-                        <div class="col-8 text-left">
-                            <span class="small font-weight-bold text-gray-900 mx-1 mt-2">
-                                <button class="btn btn-sm btn-circle mr-2" style="background-color: #c24599"><span class="fas fa-chart-line text-white"></span></button>
-                                Business Status</span>
-                        </div>
-
-
-                        <div class="col-4  text-right ">
-                            <div class="dropdown no-arrow">
-                                <button type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn mt-1 mb-1 btn-circle btn-sm btn-light">
-                                    <span data-toggle="tooltip" title="Action" class="fas fa-caret-down" style="color: #ff6a00"></span>
-
-
-                                </button>
-
-
-                                <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header text-gray-900">Option:</div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row border-top border-bottom">
-                        <div class="col-xl-10 mx-2">
-
-                            <canvas id="myChartc" class="mt-3"></canvas>
-
-                        </div>
-
-                    </div>
-                    <div class="card-bod mt-5">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="fas fa-chart-bar text-left mr-2" style="color: rgba(255, 26, 104, 1)"></span><span class=" dropdown-toggle btn-sm  small" href="#" role="button" id="drpReceivable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profit</span>
-
-                                <div class="dropdown-menu  dropdown-menu-left shadow animated--fade-in text-center" aria-labelledby="drpReceivable">
-                                </div>
-                            </div>
-                            <div class="col-6 text-right">
-                                <span class="text-gray-900 font-weight-bold  small">152,200</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 mb-2 mt-2 border-right ">
-                    <div class="row">
-                        <div class="col-8 text-left">
-                            <span class="small font-weight-bold text-gray-900 mx-1 mt-2">
-                                <button class="btn btn-sm btn-circle mr-2" style="background-color: #c24599"><span class="fas fa-tablets text-white"></span></button>
-                                Stocks</span>
-                        </div>
-
-
-                        <div class="col-4  text-right ">
-                            <div class="dropdown no-arrow">
-                                <button type="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn mt-1 mb-1 btn-circle btn-sm btn-light">
-                                    <span data-toggle="tooltip" title="Action" class="fas fa-caret-down" style="color: #ff6a00"></span>
-
-
-                                </button>
-
-
-                                <div class="dropdown-menu  dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                    <div class="dropdown-header text-gray-900">Option:</div>
-                                    <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#createNewIteModal" id="A2" runat="server"><span class="fas fa-plus mr-2 " style="color: #d46fe8"></span>Create New Item</a>
-                                    <a href="#" class="dropdown-item  text-gray-900  text-danger" data-toggle="modal" data-target="#ModalReference" id="LR" runat="server"><span class="fas fa-filter mr-2 " style="color: #d46fe8"></span>Filter Letter Record</a>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row border-top">
-                        <div class="col-xl-10 mx-2">
-
-                            <canvas id="myChartb" class="mt-3"></canvas>
-
-                        </div>
-
-                    </div>
-                    <div class="card-bod mt-5">
-                        <div class="row">
-                            <div class="col-6">
-                                <span class="fas fa-cart-plus text-left mr-2" style="color: rgba(255, 26, 104, 1)"></span><span class=" dropdown-toggle btn-sm  small" href="#" role="button" id="drpReceivable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Balance</span>
-
-                                <div class="dropdown-menu  dropdown-menu-left shadow animated--fade-in text-center" aria-labelledby="drpReceivable">
-                                </div>
-                            </div>
-                            <div class="col-6 text-right">
-                                <span class="text-gray-900 font-weight-bold  small">200</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-
             </div>
-            <asp:Label ID="Label1" runat="server" Visible="false"></asp:Label>
 
-
-            <div class="row ">
+            <div class="row">
                 <div class="col-12">
 
-                    <div class="row">
-                        <div class="col-lg-4 mx-0 border-right">
+                    <div class="row" style="height: 370px">
+                        <div class="col-lg-8 mx-0 mb-2 border-right">
+                            <div class="card-header bg-white ">
+                                <div class="row ">
+                                    <div class="col-12">
 
-
+                                        <h6 class="text-xs font-weight-bolder text-primary text-uppercase mb-1">Revenues<span class="mx-2 text-xs text-gray-300 text-uppercase">This Fiscal</span></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body mt-5 mb-2">
+                                <main role="main" id="main" runat="server">
+                                    <div class="starter-template">
+                                        <center>
+                                            <p class="lead text-primary">
+                                                <span class="fas fa-chart-bar text-gray-300 fa-4x"></span>
+                                            </p>
+                                            <h6 class="text-gray-300 text-xs" style="font-weight: bold">No Data.</h6>
+                                        </center>
+                                    </div>
+                                </main>
+                                <div class="chart">
+                                    <asp:Literal ID="ltChart" runat="server"></asp:Literal>
+                                </div>
+                                <hr />
+                                <div>
+                                    <span class=" text-gray-500 fas fa-1x fa-info-circle mr-2"></span><span id="info" runat="server" class="small text-gray-500  mb-1">Values are in Thousands</span>
+                                </div>
+                            </div>
                         </div>
+                        <div class="col-lg-4 mb-2">
+                            <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
+                                <div class="row align-items-center">
+                                    <div class="col-12">
 
-                        <div class="col-lg-8 mb-2 ">
+                                        <h6 class="text-xs font-weight-bolder text-primary text-uppercase mb-1">Top 5 Sold Items<span class="mx-2 text-xs text-gray-300 text-uppercase">balance</span></h6>
+                                    </div>
+                                    <div class="col">
+                                        <ul class="nav nav-pills justify-content-end">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body mt-5 mb-2">
 
+                                <main role="main" id="main1" runat="server">
 
+                                    <div class="starter-template">
+                                        <center>
+                                            <p class="lead text-primary">
+                                                <span class="fas fa-chart-pie text-gray-300 fa-4x"></span>
+                                            </p>
+                                            <h6 class="text-gray-300 text-xs" style="font-weight: bold">No Data.</h6>
+                                        </center>
+                                    </div>
+                                </main>
+                                <div class="chart">
+                                    <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+                                </div>
+                                <hr />
+                                <div>
+                                    <span class=" text-gray-500 fas fa-1x fa-info-circle mr-2"></span><span id="Span4" runat="server" class="small text-gray-500  mb-1">Values are in Thousands</span>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-
-
                 </div>
-
             </div>
-
         </div>
-        
+        <script type="text/javascript">
+            //Retrieving dashboard datas using jquery and js
+            $(document).ready(function () {
+                BindTotals();
+            });
+            function BindReceivables() {
+                PageMethods.BindReceivables(OnReceivableBinded);
+            }
+            function OnTotalReceivableBinded(result) {
+                document.getElementById("<%=totalReceivable.ClientID%>").innerHTML = result[0];
+            }
+            function OnReceivableBinded(result) {
+                let agedTypeOne, agedTypeTwo, agedTypeThree, agedTypeFour;
+                agedTypeOne = result[1];
+                agedTypeTwo = result[2];
+                agedTypeThree = result[3];
+                agedTypeFour = result[4];
+                document.getElementById("<%=receivableAgedOne.ClientID%>").innerHTML = agedTypeOne;
+                document.getElementById("<%=receivableAgedTwo.ClientID%>").innerHTML = agedTypeTwo;
+                document.getElementById("<%=receivableAgedThree.ClientID%>").innerHTML = agedTypeThree;
+                document.getElementById("<%=receivableAgedFour.ClientID%>").innerHTML = agedTypeFour;
+            }
+            function BindTotals() {
+                PageMethods.GetTotals("2022-10-03", "2022-11-03", OnTotalBined, OnError);
+                PageMethods.BindReceivables(OnTotalReceivableBinded);
+            }
+            function OnError(error) {
+                alert('Error when binded!');
+            }
+            function OnTotalBined(result) {
+                let totalSales, totalPurcahses, netProfit;
+                totalSales = result[0];
+                totalPurcahses = result[1];
+                netProfit = result[2];
+                document.getElementById("<%=totalSales.ClientID%>").innerHTML = totalSales;
+            document.getElementById("<%=totalPurchases.ClientID%>").innerHTML = totalPurcahses;
+            document.getElementById("<%=netProfit.ClientID%>").innerHTML = netProfit;
+        }
+        </script>
     </div>
-
-    <script>
-        // setup 
-        var data = {
-            labels: ['Total Sales', 'Unpaid'],
-            datasets: [{
-                label: 'Weekly Sales',
-                data: [18, 12],
-
-                borderWidth: 1
-            }]
-        };
-
-        const centerText = {
-            id: 'centerText',
-            afterDatasetsDraw(chart, args, options) {
-                const { ctx, chartArea: { left, right, top, bottom, width, height } } =
-                    chart;
-                ctx.save();
-                console.log(top);
-                ctx.font = "normal 25px Corbel Light";
-                ctx.fillStyle = 'rgba(170, 178, 190)';
-                ctx.textAlign = 'center';
-                ctx.fillText('sales', width / 2, height / 2 + 13);
-            }
-        }
-
-        // config 
-        const config = {
-            type: 'doughnut',
-            data,
-            options: {
-                circumference: 180,
-                aspectRatio: 2,
-                rotation: 270,
-                cutout: '85%',
-                borderRadius:0,
-                backgroundColor: [
-                    'rgb(0, 200, 42)',
-                    '#9017c1'
-                ],
-                plugins: {
-                    legend: { display: false }
-                }
-            },
-            plugins: [centerText]
-        };
-
-        // render init block
-        const myChart = new Chart(
-            document.getElementById('myCharta'),
-            config
-        );
-    </script>
-    <script>
-        // setup 
-
-
-        const gaugeNeedle = {
-            id: 'gaugeNeedle',
-            afterDatasetsDraw(chart, args, options) {
-                const { ctx, chartArea: { left, right, top, bottom, width, height } } =
-                    chart;
-                ctx.save();
-                console.log(data)
-                const needleValue = data.datasets[0].needleValue;
-                const dataTotal = data.datasets[0].data.reduce((a, b) => a + b, 0);
-                const angle = Math.PI + (1 / dataTotal * needleValue * Math.PI);
-
-                const cx = width / 2;
-                const cy = chart._metasets[0].data[0].y;
-                console.log(chart._metasets[0].data[0].y);
-
-                //needle
-                ctx.translate(cx, cy);
-                ctx.rotate(angle);
-                ctx.beginPath();
-                ctx.moveTo(0, -2);
-                ctx.lineTo(20, -110);
-                ctx.lineTo(0, 2);
-                ctx.fillStyle = 'rgb(212, 196, 44)';
-                ctx.fill();
-                //needle dot
-                ctx.translate(-cx, -cy);
-                ctx.beginPath();
-                ctx.arc(cx, cy, 5, 0, 10);
-                ctx.fill();
-                ctx.restore();
-            }
-        }
-
-        // config 
-        const configb = {
-            type: 'doughnut',
-            data,
-            options: {
-                circumference: 180,
-                aspectRatio: 2,
-                rotation: 270,
-                cutout: '85%',
-                borderRadius: 5,
-                backgroundColor: [
-                    'rgb(212, 196, 44)',
-                    'rgb(212, 196, 44)',
-                    'rgb(212, 196, 44)',
-                    'rgb(212, 196, 44)'
-                ],
-                plugins: {
-                    legend: { display: false }
-                }
-            },
-            plugins: [gaugeNeedle]
-        };
-
-        // render init block
-        const myChartb = new Chart(
-            document.getElementById('myChartb'),
-            configb
-        );
-    </script>
-    <script>
-        // setup 
-        var datac = {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu'],
-            datasets: [{
-                label: 'Weekly Sales',
-                data: [300, 12, 6, 9],
-                borderWidth: 1
-            }]
-        };
-
-        const centerTextc = {
-            id: 'centerText',
-            afterDatasetsDraw(chart, args, options) {
-                const { ctx, chartArea: { left, right, top, bottom, width, height } } =
-                    chart;
-                ctx.save();
-                console.log(top);
-                ctx.font = "normal 25px Corbel Light";
-                ctx.fillStyle = 'rgba(170, 178, 190)';
-                ctx.textAlign = 'center';
-                ctx.fillText('Profit', width / 2, height / 2 + 13);
-            }
-        }
-
-        // config 
-        const configc = {
-            type: 'doughnut',
-            data: datac,
-            options: {
-                circumference: 180,
-                aspectRatio: 2,
-                rotation: 270,
-                cutout: '85%',
-                borderRadius: 5,
-                backgroundColor: [
-                    'rgb(241, 65, 34)',
-                    'rgb(241, 65, 34)',
-                    'rgb(241, 65, 34)',
-                    'rgb(241, 65, 34)'
-                ],
-                plugins: {
-                    legend: { display: false }
-                }
-            },
-            plugins: [centerTextc]
-        };
-
-        // render init block
-        const myChartc = new Chart(
-            document.getElementById('myChartc'),
-            configc
-        );
-    </script>
-    <script>
-        // setup 
-        const datad = {
-            labels: ['Total Purchases', 'Paid'],
-            datasets: [{
-                label: 'Weekly Sales',
-                data: [18, 12],
-
-                borderWidth: 1
-            }]
-        };
-
-        const centerTextd = {
-            id: 'centerText',
-            afterDatasetsDraw(chart, args, options) {
-                const { ctx, chartArea: { left, right, top, bottom, width, height } } =
-                    chart;
-                ctx.save();
-                console.log(top);
-                ctx.font = "normal 25px Corbel Light";
-                ctx.fillStyle = 'rgba(170, 178, 190)';
-                ctx.textAlign = 'center';
-                ctx.fillText('Purchases', width / 2, height / 2 + 13);
-            }
-        }
-
-        // config 
-        const configd = {
-            type: 'doughnut',
-            data: datad,
-            options: {
-                circumference: 180,
-                aspectRatio: 2,
-                rotation: 270,
-                cutout: '85%',
-                borderRadius: 5,
-                backgroundColor: [
-                    '#c24599',
-                    '#c7c866'
-                ],
-                plugins: {
-                    legend: { display: false }
-                }
-            },
-            plugins: [centerTextd]
-        };
-
-        // render init block
-        const myChartd = new Chart(
-            document.getElementById('myChartd'),
-            configd
-        );
-    </script>
+    
 </asp:Content>
