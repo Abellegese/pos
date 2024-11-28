@@ -5,22 +5,25 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Sign In</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
     <!-- Nucleo Icons -->
     <link href="../asset/login/asset/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../asset/login/asset/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="../asset/login/asset/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../asset/login/asset/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <script type="text/javascript">
+        window.addEventListener('load', (event) => {
+            var loginLoader = document.getElementById("loginLoader");
+            loginLoader.style.display = "none";
+        });
+    </script>
     <style>
         /* width */
         ::-webkit-scrollbar {
             width: 5px;
-
         }
 
         /* Track */
@@ -45,7 +48,7 @@
             <div class="row">
                 <div class="col-12">
                     <!-- Navbar -->
-                    
+
                     <!-- End Navbar -->
                 </div>
             </div>
@@ -62,21 +65,28 @@
                                         <p class="mb-0">Enter your Username and password to sign in</p>
                                     </div>
                                     <div class="card-body">
-                                        <form role="form">
-                                            <div class="mb-3">
-                                                <input type="email" class="form-control form-control-lg" placeholder="Email" aria-label="Email">
-                                            </div>
-                                            <div class="mb-3">
-                                                <input type="email" class="form-control form-control-lg" placeholder="Password" aria-label="Password">
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" id="rememberMe">
-                                                <label class="form-check-label" for="rememberMe">Remember me</label>
-                                            </div>
-                                            <div class="text-center">
-                                                <button type="button" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0">Sign in</button>
-                                            </div>
-                                        </form>
+                                        <div class="mb-3">
+                                            <asp:TextBox ID="txtUsername" class="form-control form-control-lg" placeholder="Username" runat="server"></asp:TextBox>
+                                        </div>
+                                        <div class="mb-3">
+                                            <asp:TextBox ID="txtPassword" TextMode="Password" class="form-control form-control-lg" placeholder="Username" runat="server"></asp:TextBox>
+
+                                        </div>
+                                        <div class="mb-3">
+                                            <asp:Label ID="lblMsg" class="text-danger" runat="server"></asp:Label>
+
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="rememberMe" />
+                                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                                        </div>
+                                        <div class="text-center">
+                                            <button class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0 text-white" type="button" disabled id="loginLoader" style="display: none;">
+                                                <span class="spinner-grow spinner-grow-sm text-white" role="status" aria-hidden="true"></span>
+                                                Signing in...
+                                            </button>
+                                            <asp:LinkButton ID="btnLogin" OnClientClick="ShowLoginLoader();" class="btn btn-lg btn-primary btn-lg w-100 text-white mt-4 mb-0" runat="server" OnClick="btnLogin_Click"><span class="fas fa-arrow-right text-white mr-2"></span>Sign in</asp:LinkButton>
+                                        </div>
                                     </div>
                                     <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                         <p class="mb-4 text-sm mx-auto">
@@ -88,10 +98,10 @@
                                 </div>
                             </div>
                             <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-                                <div class="position-relative bg-gradient-dark h-100 px-7 d-flex flex-column justify-content-center overflow-hidden" style="background-size: cover;background-image:src('')">
+                                <div class="position-relative bg-gradient-dark h-100 px-7 d-flex flex-column justify-content-center overflow-hidden" style="background-size: cover; background-image: src('')">
                                     <span class="mask bg-gradient-dark opacity-6"></span>
                                     <h4 class="mt-5 text-white font-weight-bolder position-relative">"Welcome to QemerPOS Platform"</h4>
-                                    <p class="text-white position-relative">The more effortless the writing looks, the more effort the writer actually put into the process.</p>
+                                    <p class="text-white position-relative">The most advanced and efficient POS software. In the platform creating sales, purcahses and handling credit is alot easier than you think. You can manage inventory items, warehoues and more.</p>
                                 </div>
                             </div>
                         </div>
@@ -105,10 +115,10 @@
                 <div class="row">
                     <div class="col-8 mx-auto text-center mt-1">
                         <p class="mb-0 text-secondary">
-                            Copyright ©
+                            Copyright ©yo
                             <script>
                                 document.write(new Date().getFullYear())
-            </script>
+                            </script>
                             QemerPOS.
          
                         </p>
@@ -121,18 +131,21 @@
     <script src="../asset/login/asset/js/core/bootstrap.min.js"></script>
     <script src="../asset/login/asset/js/plugins/perfect-scrollbar.min.js"></script>
     <script src="../asset/login/asset/js/plugins/smooth-scrollbar.min.js"></script>
-    <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+
     <script src="../asset/login/asset/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script>
+        function ShowLoginLoader() {
+            var loginLoader = document.getElementById("loginLoader");
+            var loginButton = document.getElementById("<%=btnLogin.ClientID %>");
+            if (loginButton.style.display === "none")
+                loginButton.style.display = "block";
+            else
+                loginButton.style.display = "none";
+            if (loginLoader.style.display === "none")
+                loginLoader.style.display = "block";
+            else
+                loginLoader.style.display = "none";
+        }
+    </script>
 </body>
 </html>
